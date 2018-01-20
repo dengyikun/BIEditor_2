@@ -1,36 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from 'dva';
-import {DropTarget} from 'react-dnd'
 import styles from './Items.less';
 import Item from '../Item/Item'
 
 function mapStateToProps(state) {
-  const {list, isResizing, activeId} = state.items;
+  const {list, activeId, drag} = state.items;
   return {
     loading: state.loading.models.items,
     list,
-    isResizing,
     activeId,
+    drag,
   };
 }
 
-const boxTarget = {
-  drop(props, monitor) {
-    const delta = monitor.getDifferenceFromInitialOffset()
-    if (delta) {
-      const item = monitor.getItem().item
-      const isOver = item.parentId !== ''
-      const left = isOver ? 0 : Math.round(item.left + delta.x)
-      const top = isOver ? 0 : Math.round(item.top + delta.y)
-      props.dispatch({
-        type: 'items/update',
-        payload: {...item, left, top, parentId: ''}
-      })
-    }
-  },
-}
-
-const Items = ({dispatch, loading, list, isResizing, activeId, connectDropTarget}) => {
+const Items = ({dispatch, loading, list, activeId, drag}) => {
 
   function getItems(items, parentId) {
 
@@ -40,9 +23,10 @@ const Items = ({dispatch, loading, list, isResizing, activeId, connectDropTarget
         return <Item
           key={item.id}
           item={item}
+          items={items}
           dispatch={dispatch}
-          isResizing={isResizing}
           activeId={activeId}
+          drag={drag}
         >
           {
             getItems(items, item.id)
@@ -53,28 +37,37 @@ const Items = ({dispatch, loading, list, isResizing, activeId, connectDropTarget
   }
 
   const changeActiveId = () => {
-    if (!isResizing) {
-      dispatch({
-        type: 'items/changeActiveId',
-        payload: null
-      })
-    }
+    dispatch({
+      type: 'items/changeActiveId',
+      payload: null
+    })
   }
 
-  return connectDropTarget(
-    <div className={styles.content}
-         onMouseLeave={changeActiveId}
-         onMouseOver={changeActiveId}>
+  return <div className={styles.body}>
+    <Item item={{
+      id: '',
+      parentId: null,
+      y: 0,
+      x: 0,
+      width: '100%',
+      height: '100%',
+      background: 'transparent'
+    }}
+          className={styles.content}
+          items={list}
+          dispatch={dispatch}
+          drag={drag}
+          extendsProps={{
+            disableDragging: true,
+            enableResizing: false,
+          }}
+    >
       {
         getItems(list, '')
       }
-    </div>
-  )
+    </Item>
+  </div>
 }
 
 
-export default connect(mapStateToProps)(
-  DropTarget('box', boxTarget, connect => ({
-    connectDropTarget: connect.dropTarget(),
-  }))(Items)
-)
+export default connect(mapStateToProps)(Items)

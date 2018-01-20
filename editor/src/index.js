@@ -2,12 +2,8 @@ import dva, {connect} from 'dva';
 import React from 'react';
 import createHistory from 'history/createBrowserHistory';
 import styles from './index.less';
-import Users from './components/Users/Users';
-import Container from './Naive/Container';
 import Items from './components/Items/Items';
 import createLoading from 'dva-loading';
-import HTML5Backend from 'react-dnd-html5-backend';
-import {DragDropContextProvider} from 'react-dnd';
 
 // 1. Initialize
 const app = dva({
@@ -28,15 +24,13 @@ app.router(() => <div className={styles.body}>
   </header>
   <aside className={styles.left}>
   </aside>
-  <DragDropContextProvider backend={HTML5Backend}>
-    <main>
-      <Items/>
-    </main>
-  </DragDropContextProvider>
+  <main>
+    <Items/>
+    <footer>
+    </footer>
+  </main>
   <aside className={styles.right}>
   </aside>
-  <footer>
-  </footer>
 </div>);
 
 // 5. Start

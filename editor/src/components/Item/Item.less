@@ -1,21 +1,27 @@
 .resizable {
-  position: absolute!important;
 
   .content {
     width: 100%;
     height: 100%;
-    border: 1px dashed gray;
-    background: #ffffff;
     cursor: move;
+
+    > div > div {
+      display: none;
+    }
   }
 
   &.active {
     > .content {
-      background: #f1f1f1;
+      border: 1px dashed gray;
     }
 
-    > span > div {
-      background: #cccccc;
+    > .resizeHandle > div:nth-child(+n+5) {
+      background: #f1f1f1;
+      border: 1px solid #cccccc;
     }
+  }
+
+  &.drag {
+    pointer-events: none;
   }
 }

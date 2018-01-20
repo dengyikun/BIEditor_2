@@ -2,8 +2,13 @@ export default {
   namespace: 'items',
   state: {
     list: [],
-    isResizing: false,
     activeId: null,
+    drag: {
+      id: null,
+      parentId: null,
+      x: 0,
+      y: 0,
+    },
   },
   reducers: {
     save(state, {payload}) {
@@ -25,6 +30,9 @@ export default {
     changeActiveId(state, {payload}) {
       return {...state, activeId: payload};
     },
+    changeDrag(state, {payload}) {
+      return {...state, drag: {...state.drag, ...payload}};
+    },
   },
   effects: {},
   subscriptions: {
@@ -35,10 +43,10 @@ export default {
             type: 'save',
             payload: {
               list: [
-                {id: '1', parentId: '', top: 20, left: 20, width: 100, height: 100},
-                {id: '2', parentId: '', top: 180, left: 20, width: 300, height: 300},
-                {id: '3', parentId: '2', top: 20, left: 20, width: 200, height: 200},
-                {id: '4', parentId: '1', top: 20, left: 20, width: 50, height: 50},
+                {id: '1', parentId: '', y: 20, x: 20, width: 100, height: 100, background: '#'+(~~(Math.random()*(1<<24))).toString(16)},
+                {id: '2', parentId: '', y: 180, x: 20, width: 300, height: 300, background: '#'+(~~(Math.random()*(1<<24))).toString(16)},
+                {id: '3', parentId: '2', y: 20, x: 20, width: 200, height: 200, background: '#'+(~~(Math.random()*(1<<24))).toString(16)},
+                {id: '4', parentId: '1', y: 20, x: 20, width: 50, height: 50, background: '#'+(~~(Math.random()*(1<<24))).toString(16)},
               ]
             }
           });
