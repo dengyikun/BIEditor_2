@@ -1,14 +1,11 @@
 import dva, {connect} from 'dva';
 import React from 'react';
-import createHistory from 'history/createBrowserHistory';
 import styles from './index.less';
 import Items from './components/Items/Items';
 import createLoading from 'dva-loading';
 
 // 1. Initialize
-const app = dva({
-  history: createHistory(),
-});
+const app = dva();
 
 // 2. Plugins
 app.use(createLoading());
