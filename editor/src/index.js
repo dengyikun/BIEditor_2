@@ -1,6 +1,7 @@
 import dva, {connect} from 'dva';
 import React from 'react';
 import styles from './index.less';
+import LeftAside from './components/LeftAside/LeftAside';
 import Items from './components/Items/Items';
 import createLoading from 'dva-loading';
 
@@ -20,6 +21,7 @@ app.router(() => <div className={styles.body}>
   <header>
   </header>
   <aside className={styles.left}>
+    <LeftAside/>
   </aside>
   <main>
     <Items/>

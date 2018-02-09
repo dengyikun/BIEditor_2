@@ -4,16 +4,16 @@ import styles from './Items.less';
 import Item from '../Item/Item'
 
 function mapStateToProps(state) {
-  const {list, activeId, drag} = state.items;
+  const {list, activeItem, dragItem} = state.items;
   return {
     loading: state.loading.models.items,
     list,
-    activeId,
-    drag,
+    activeItem,
+    dragItem,
   };
 }
 
-const Items = ({dispatch, loading, list, activeId, drag}) => {
+const Items = ({dispatch, loading, list, activeItem, dragItem}) => {
 
   function getItems(items, parentId) {
 
@@ -25,8 +25,8 @@ const Items = ({dispatch, loading, list, activeId, drag}) => {
           item={item}
           items={items}
           dispatch={dispatch}
-          activeId={activeId}
-          drag={drag}
+          activeItem={activeItem}
+          dragItem={dragItem}
         >
           {
             getItems(items, item.id)
@@ -34,13 +34,6 @@ const Items = ({dispatch, loading, list, activeId, drag}) => {
         </Item>
       }
     )
-  }
-
-  const changeActiveId = () => {
-    dispatch({
-      type: 'items/changeActiveId',
-      payload: null
-    })
   }
 
   return <div className={styles.body}>
@@ -51,12 +44,17 @@ const Items = ({dispatch, loading, list, activeId, drag}) => {
       x: 0,
       width: '100%',
       height: '100%',
-      background: 'transparent'
+      type: 'container',
+      style: {
+        background: 'transparent',
+        border: 0,
+      }
     }}
           className={styles.content}
           items={list}
           dispatch={dispatch}
-          drag={drag}
+          activeItem={activeItem}
+          dragItem={dragItem}
           extendsProps={{
             disableDragging: true,
             enableResizing: false,
@@ -68,6 +66,5 @@ const Items = ({dispatch, loading, list, activeId, drag}) => {
     </Item>
   </div>
 }
-
 
 export default connect(mapStateToProps)(Items)

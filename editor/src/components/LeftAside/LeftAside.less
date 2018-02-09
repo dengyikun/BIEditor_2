@@ -1,0 +1,44 @@
+
+.body {
+  width: 100%;
+  height: 100%;
+
+  .title {
+    padding: 9px 20px;
+    font-size: 15px;
+    background: #dde0e0;
+    color: #666666;
+  }
+
+  .baseTitle {
+    padding: 9px 20px;
+    font-size: 15px;
+    color: #666666;
+  }
+
+  .base {
+    margin: 0 12px;
+    background: #e5eaeb;
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+
+    .item {
+      width: 56px;
+      height: 56px;
+      border-radius: 5px;
+      user-select: none;
+      z-index: 9999;
+
+      &:hover {
+        background: #eff4f5;
+      }
+
+      &.drag {
+        background: #eff4f5;
+        pointer-events: none;
+      }
+    }
+  }
+}

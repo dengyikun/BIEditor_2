@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import Resizable from 'react-rnd'
+import RnD from 'react-rnd'
 import Scrollbar from 'react-custom-scrollbars'
 import classNames from 'classnames'
 import styles from './Item.less'
@@ -13,11 +13,12 @@ const Item = props => {
       y,
       width,
       height,
-      background,
+      type,
+      style,
     },
     items,
-    activeId,
-    drag,
+    activeItem,
+    dragItem,
     extendsProps,
     dispatch,
     children,
@@ -27,78 +28,76 @@ const Item = props => {
   const onDragStart = (e) => {
     e.stopPropagation()
     dispatch({
-      type: 'items/changeDrag',
+      type: 'items/changeDragItem',
       payload: {
-        id,
-        parentId,
+        ...props.item,
       }
     })
   }
 
   const onDragStop = (e, d) => {
     dispatch({
-      type: 'items/changeDrag',
+      type: 'items/changeDragItem',
       payload: {
-        id,
-        parentId,
+        ...props.item,
         x: d.x,
         y: d.y,
       }
     })
     setTimeout(() => {
       dispatch({
-        type: 'items/changeDrag',
-        payload: {
-          id: null,
-          parentId: null,
-          x: 0,
-          y: 0,
-        }
+        type: 'items/changeDragItem',
+        payload: {}
       })
     }, 300)
   }
 
   const onMouseUp = e => {
-    if (drag.id && drag.id !== id && drag.x !== 0 && drag.y !== 0) {
+    if (dragItem.id && dragItem.id !== id && type === 'container') {
       e.stopPropagation()
-      const isOver = drag.parentId !== id
-      const x = isOver ? getOverX(drag.parentId, id, drag.x) : drag.x
-      const y = isOver ? getOverY(drag.parentId, id, drag.y) : drag.y
+      let x = 0, y = 0;
+      switch (dragItem.parentId) {
+        case id:
+          x = dragItem.x
+          y = dragItem.y
+          break
+        case 'base':
+          x = e.nativeEvent.offsetX + 20
+          y = e.nativeEvent.offsetY + 20
+          break
+        default:
+          x = getOverX(dragItem.parentId, id, dragItem.x)
+          y = getOverY(dragItem.parentId, id, dragItem.y)
+      }
+      dispatch({
+        type: 'items/changeDragItem',
+        payload: {}
+      })
       dispatch({
         type: 'items/update',
-        payload: {id: drag.id, x, y, parentId: id}
-      })
-      console.log(drag)
-      dispatch({
-        type: 'items/changeDrag',
-        payload: {
-          id: null,
-          parentId: null,
-          x: 0,
-          y: 0,
-        }
+        payload: {...dragItem, x, y, parentId: id}
       })
     }
   }
 
-  const getOverX = (formId, toId, dragX) => {
+  const getOverX = (formId, toId, dragItemX) => {
     const getX = id => {
       const item = items.find(item => item.id === id)
       return item ? (item.parentId ? item.x + getX(item.parentId) : item.x) : 0
     }
     const formX = getX(formId)
     const toX = getX(toId)
-    return formX - toX + dragX
+    return formX - toX + dragItemX
   }
 
-  const getOverY = (formId, toId, dragY) => {
+  const getOverY = (formId, toId, dragItemY) => {
     const getY = id => {
       const item = items.find(item => item.id === id)
       return item ? (item.parentId ? item.y + getY(item.parentId) : item.y) : 0
     }
     const formY = getY(formId)
     const toY = getY(toId)
-    return formY - toY + dragY
+    return formY - toY + dragItemY
   }
 
   const onResize = (e, direction, ref, d, position) => {
@@ -124,25 +123,27 @@ const Item = props => {
   }
 
   const onMouseOver = e => {
-    e.stopPropagation()
-    dispatch({
-      type: 'items/changeActiveId',
-      payload: id
-    })
+    if (!dragItem.id || (dragItem.id && type === 'container')) {
+      e.stopPropagation()
+      dispatch({
+        type: 'items/changeActiveItem',
+        payload: props.item
+      })
+    }
   }
 
-  return <Resizable
+  return <RnD
     className={classNames(
-      styles.resizable,
+      styles.rnd,
       {
-        [styles.active]: activeId === id,
-        [styles.drag]: drag.id === id,
+        [styles.active]: activeItem.id === id,
+        [styles.drag]: dragItem.id === id,
       },
       className
     )}
     position={{x, y}}
     size={{width, height}}
-    z={drag.id === id ? 9999 : ''}
+    z={dragItem.id === id ? 9999 : ''}
     onDragStart={onDragStart}
     onDragStop={onDragStop}
     onResize={onResize}
@@ -157,10 +158,10 @@ const Item = props => {
     <Scrollbar className={styles.content}
                onMouseUp={onMouseUp}
       //autoHide
-               style={{background}}>
+               style={style}>
       {children}
     </Scrollbar>
-  </Resizable>
+  </RnD>
 }
 
 // Export the wrapped version
