@@ -2,7 +2,7 @@ import dva, {connect} from 'dva';
 import React from 'react';
 import styles from './index.less';
 import LeftAside from './components/LeftAside/LeftAside';
-import Items from './components/Items/Items';
+import ItemList from './components/ItemList/ItemList';
 import createLoading from 'dva-loading';
 
 // 1. Initialize
@@ -14,7 +14,7 @@ app.use(createLoading());
 // 3. Model
 // app.model(require('./models/example'));
 // app.model(require("./models/users"));
-app.model(require("./models/items"));
+app.model(require("./models/item"));
 
 // // 4. Router
 app.router(() => <div className={styles.body}>
@@ -24,7 +24,7 @@ app.router(() => <div className={styles.body}>
     <LeftAside/>
   </aside>
   <main>
-    <Items/>
+    <ItemList/>
     <footer>
     </footer>
   </main>

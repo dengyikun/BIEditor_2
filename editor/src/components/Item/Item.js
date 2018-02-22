@@ -2,22 +2,21 @@ import React, {Component, PropTypes} from 'react'
 import RnD from 'react-rnd'
 import Scrollbar from 'react-custom-scrollbars'
 import classNames from 'classnames'
+import LineChart from '../Charts/Line/LineChart'
 import styles from './Item.less'
 
 const Item = props => {
+
+  let chart = null
+
   const {
     item:{
-      id,
-      parentId,
-      x,
-      y,
-      width,
-      height,
-      type,
-      style,
+      id, parentId, x, y, width, height, type, style, // 基础属性
+      dimensions, values, sourceId, sql, conditionList, // 数据获取属性
     },
-    items,
+    list,
     activeItem,
+    hoverItem,
     dragItem,
     extendsProps,
     dispatch,
@@ -28,7 +27,13 @@ const Item = props => {
   const onDragStart = (e) => {
     e.stopPropagation()
     dispatch({
-      type: 'items/changeDragItem',
+      type: 'item/changeDragItem',
+      payload: {
+        ...props.item,
+      }
+    })
+    dispatch({
+      type: 'item/changeActiveItem',
       payload: {
         ...props.item,
       }
@@ -37,7 +42,7 @@ const Item = props => {
 
   const onDragStop = (e, d) => {
     dispatch({
-      type: 'items/changeDragItem',
+      type: 'item/changeDragItem',
       payload: {
         ...props.item,
         x: d.x,
@@ -46,7 +51,7 @@ const Item = props => {
     })
     setTimeout(() => {
       dispatch({
-        type: 'items/changeDragItem',
+        type: 'item/changeDragItem',
         payload: {}
       })
     }, 300)
@@ -54,7 +59,6 @@ const Item = props => {
 
   const onMouseUp = e => {
     if (dragItem.id && dragItem.id !== id && type === 'container') {
-      e.stopPropagation()
       let x = 0, y = 0;
       switch (dragItem.parentId) {
         case id:
@@ -62,27 +66,29 @@ const Item = props => {
           y = dragItem.y
           break
         case 'base':
-          x = e.nativeEvent.offsetX + 20
-          y = e.nativeEvent.offsetY + 20
+        case 'chart':
+          x = e.nativeEvent.offsetX - dragItem.width / 2
+          y = e.nativeEvent.offsetY - dragItem.height / 2
           break
         default:
           x = getOverX(dragItem.parentId, id, dragItem.x)
           y = getOverY(dragItem.parentId, id, dragItem.y)
       }
       dispatch({
-        type: 'items/changeDragItem',
+        type: 'item/changeDragItem',
         payload: {}
       })
       dispatch({
-        type: 'items/update',
+        type: 'item/update',
         payload: {...dragItem, x, y, parentId: id}
       })
+      e.stopPropagation()
     }
   }
 
   const getOverX = (formId, toId, dragItemX) => {
     const getX = id => {
-      const item = items.find(item => item.id === id)
+      const item = list.find(item => item.id === id)
       return item ? (item.parentId ? item.x + getX(item.parentId) : item.x) : 0
     }
     const formX = getX(formId)
@@ -92,7 +98,7 @@ const Item = props => {
 
   const getOverY = (formId, toId, dragItemY) => {
     const getY = id => {
-      const item = items.find(item => item.id === id)
+      const item = list.find(item => item.id === id)
       return item ? (item.parentId ? item.y + getY(item.parentId) : item.y) : 0
     }
     const formY = getY(formId)
@@ -100,9 +106,18 @@ const Item = props => {
     return formY - toY + dragItemY
   }
 
+  const onResizeStart = () => {
+    dispatch({
+      type: 'item/changeActiveItem',
+      payload: {
+        ...props.item,
+      }
+    })
+  }
+
   const onResize = (e, direction, ref, d, position) => {
     dispatch({
-      type: 'items/update',
+      type: 'item/update',
       payload: {
         id,
         x: position.x,
@@ -113,22 +128,38 @@ const Item = props => {
 
   const onResizeStop = (e, direction, ref, d) => {
     dispatch({
-      type: 'items/update',
+      type: 'item/update',
       payload: {
         id,
         width: width + d.width,
         height: height + d.height,
       }
     })
+    dispatch({
+      type: 'item/changeActiveItem',
+      payload: {
+        ...props.item,
+      }
+    })
+    chart && chart.resize()
   }
 
   const onMouseOver = e => {
     if (!dragItem.id || (dragItem.id && type === 'container')) {
       e.stopPropagation()
       dispatch({
-        type: 'items/changeActiveItem',
+        type: 'item/changeHoverItem',
         payload: props.item
       })
+    }
+  }
+
+  const getContent = (type) => {
+    switch (type) {
+      case 'chartLine':
+        return <LineChart item={{...props.item}} dispatch={dispatch} ref={instance => {
+          if (!chart) chart = instance
+        }}/>
     }
   }
 
@@ -136,16 +167,17 @@ const Item = props => {
     className={classNames(
       styles.rnd,
       {
-        [styles.active]: activeItem.id === id,
-        [styles.drag]: dragItem.id === id,
+        [styles.active]: (activeItem.id === id) || (hoverItem.id === id),
+        [styles.noneEvents]: (dragItem.id === id) || (dragItem.id && type !== 'container'),
       },
       className
     )}
     position={{x, y}}
     size={{width, height}}
-    z={dragItem.id === id ? 9999 : ''}
+    z={((dragItem.id === id) || (activeItem.id === id)) ? 9999 : ''}
     onDragStart={onDragStart}
     onDragStop={onDragStop}
+    onResizeStart={onResizeStart}
     onResize={onResize}
     onResizeStop={onResizeStop}
     resizeHandleWrapperClass={styles.resizeHandle}
@@ -159,6 +191,7 @@ const Item = props => {
                onMouseUp={onMouseUp}
       //autoHide
                style={style}>
+      {getContent(type)}
       {children}
     </Scrollbar>
   </RnD>
