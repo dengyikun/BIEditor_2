@@ -36,6 +36,7 @@ function LeftAside({dispatch, dragItem}) {
     {
       item: {
         id: TOOL.getGUID(),
+        name: '折线图',
         parentId: 'chart',
         width: 100,
         height: 100,
@@ -43,7 +44,28 @@ function LeftAside({dispatch, dragItem}) {
         style: {background: '#' + (~~(Math.random() * (1 << 24))).toString(16)},
         sourceId: '2573632338734d5cb24489b06de09659',
         sql: `SELECT SUBSTRING(addTime,1,10) as addTime, COUNT(cuId) as total from comment_user where nickname != '匿名用户' and country = '中国' GROUP BY SUBSTRING(addTime,1,10) ORDER BY addTime asc`,
-        conditionList: [],
+        conditionList: [
+          {
+            name: 'nickname',
+            value: '匿名用户'
+          },
+          {
+            name: 'country',
+            value: '中国'
+          },
+        ],
+        dimensionList: [
+          {
+            name: 'addTime',
+            displayName: '日期',
+          }
+        ],
+        valueList: [
+          {
+            name: 'total',
+            displayName: '每天新增人数',
+          }
+        ],
       },
       node: <div className={styles.widget}>
         <Icon className={styles.icon} type="line-chart"/>
