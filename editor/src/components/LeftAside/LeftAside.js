@@ -19,6 +19,7 @@ function LeftAside({dispatch, dragItem}) {
     {
       item: {
         id: TOOL.getGUID(),
+        name: '容器',
         parentId: 'base',
         width: 100,
         height: 100,

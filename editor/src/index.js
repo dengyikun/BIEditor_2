@@ -2,6 +2,7 @@ import dva, {connect} from 'dva';
 import React from 'react';
 import styles from './index.less';
 import LeftAside from './components/LeftAside/LeftAside';
+import RightAside from './components/RightAside/RightAside';
 import ItemList from './components/ItemList/ItemList';
 import createLoading from 'dva-loading';
 
@@ -29,6 +30,7 @@ app.router(() => <div className={styles.body}>
     </footer>
   </main>
   <aside className={styles.right}>
+    <RightAside/>
   </aside>
 </div>);
 

@@ -1,0 +1,35 @@
+
+.body {
+  width: 100%;
+  height: 100%;
+  background: #f0f0f0;
+
+  .title {
+    padding: 9px 20px;
+    font-size: 15px;
+    background: #dde0e0;
+    color: #666666;
+
+    &::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      margin: 8px 10px 0 0;
+      display: inline-block;
+      background: #666666;
+      border-radius: 50%;
+      vertical-align: text-top;
+    }
+  }
+
+  .tree {
+    padding: 0 20px;
+
+    :global {
+      .ant-tree-switcher {
+        width: 12px;
+        background: transparent!important;
+      }
+    }
+  }
+}

@@ -28,7 +28,7 @@ const ItemList = ({dispatch, loading, list, activeItem, hoverItem, dragItem}) =>
 
     const filterItemList = list.filter(item => item.parentId === parentId)
 
-    return filterItemList.map(item => <Item
+    return filterItemList.length ? filterItemList.map(item => <Item
         key={item.id}
         item={item}
         list={list}
@@ -41,7 +41,7 @@ const ItemList = ({dispatch, loading, list, activeItem, hoverItem, dragItem}) =>
           getItemList(list, item.id)
         }
       </Item>
-    )
+    ) : undefined
   }
 
   return <div className={styles.body} onMouseDown={onMouseDown}>
