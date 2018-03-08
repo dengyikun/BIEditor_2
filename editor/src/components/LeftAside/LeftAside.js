@@ -44,7 +44,7 @@ function LeftAside({dispatch, dragItem}) {
         type: 'chartLine',
         style: {background: '#' + (~~(Math.random() * (1 << 24))).toString(16)},
         sourceId: '2573632338734d5cb24489b06de09659',
-        sql: `SELECT SUBSTRING(addTime,1,10) as addTime, COUNT(cuId) as total from comment_user where nickname != '匿名用户' and country = '中国' GROUP BY SUBSTRING(addTime,1,10) ORDER BY addTime asc`,
+        sql: 'SELECT SUBSTRING(addTime,1,10) as addTime, COUNT(cuId) as total from comment_user where nickname != "${nickname}" and country = "${country}" GROUP BY SUBSTRING(addTime,1,10) ORDER BY addTime asc',
         conditionList: [
           {
             name: 'nickname',

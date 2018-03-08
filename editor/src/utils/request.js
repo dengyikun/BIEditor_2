@@ -1,6 +1,10 @@
 import fetch from 'dva/fetch';
 
-function checkStatus(response) {
+const parseJSON = (response) => {
+  return response.json();
+}
+
+const checkStatus = (response) => {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
@@ -10,28 +14,46 @@ function checkStatus(response) {
   throw error;
 }
 
-/**
- * Requests a URL, returning a promise.
- *
- * @param  {string} url       The URL we want to request
- * @param  {object} [options] The options we want to pass to "fetch"
- * @return {object}           An object containing either "data" or "err"
- */
-export default async function request(url, options) {
-  const response = await fetch(url, options);
-
-  checkStatus(response);
-
-  const data = await response.json();
-
-  const ret = {
-    data,
-    headers: {},
-  };
-
-  if (response.headers.get('x-total-count')) {
-    ret.headers['x-total-count'] = response.headers.get('x-total-count');
+const request = (type, url, data, urlParams, headers, options) => {
+  let fetchOpt = {
+    method: type,
+    headers: {
+      'Accept': 'application/json',
+      ...headers
+    },
+    ...options,
   }
 
-  return ret;
+  if (data instanceof FormData) {
+    fetchOpt['body'] = data
+  } else if (data instanceof Object){
+    fetchOpt['body'] = JSON.stringify(data)
+    fetchOpt.headers['Content-Type'] = 'application/json'
+  }
+
+  if (urlParams instanceof Object) {
+    url += url.includes('?') ? '' : '?'
+    for (let key in urlParams) {
+      let value = urlParams[key]
+      if (value || value === false) {
+        value = typeof value === 'string' ? value : JSON.stringify(value)
+        url += '&' + key + '=' + encodeURIComponent(value)
+      }
+    }
+  }
+
+  return fetch(url, fetchOpt)
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(data => ({ data }))
+    .catch(err => ({ err }));
+}
+
+
+export default {
+  get: (url, urlParams, headers, options) => request('GET', url, null, urlParams, headers, options),
+  post: (url, data, urlParams, headers, options) => request('POST', url, data, urlParams, headers, options),
+  put: (url, data, urlParams, headers, options) => request('PUT', url, data, urlParams, headers, options),
+  delete: (url, urlParams, headers, options) => request('DELETE', url, null, urlParams, headers, options),
+  patch: (url, data, urlParams, headers, options) => request('PATCH', url, data, urlParams, headers, options),
 }

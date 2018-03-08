@@ -113,10 +113,7 @@ function RightAside({dispatch, list, activeItem}) {
         </Button>
         <DataSetModal/>
         <Button className={styles.setButton} size={'small'}>
-          CSS设置
-        </Button>
-        <Button className={styles.setButton} size={'small'}>
-          JS设置
+          图表设置
         </Button>
       </div>
       <div className={styles.title}>

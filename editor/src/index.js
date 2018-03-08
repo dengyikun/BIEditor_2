@@ -1,5 +1,7 @@
 import dva, {connect} from 'dva';
 import React from 'react';
+import {LocaleProvider} from 'antd';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
 import styles from './index.less';
 import LeftAside from './components/LeftAside/LeftAside';
 import RightAside from './components/RightAside/RightAside';
@@ -18,21 +20,23 @@ app.use(createLoading());
 app.model(require("./models/item"));
 
 // // 4. Router
-app.router(() => <div className={styles.body}>
-  <header>
-  </header>
-  <aside className={styles.left}>
-    <LeftAside/>
-  </aside>
-  <main>
-    <ItemList/>
-    <footer>
-    </footer>
-  </main>
-  <aside className={styles.right}>
-    <RightAside/>
-  </aside>
-</div>);
+app.router(() => <LocaleProvider locale={zhCN}>
+  <div className={styles.body}>
+    <header>
+    </header>
+    <aside className={styles.left}>
+      <LeftAside/>
+    </aside>
+    <main>
+      <ItemList/>
+      <footer>
+      </footer>
+    </main>
+    <aside className={styles.right}>
+      <RightAside/>
+    </aside>
+  </div>
+</LocaleProvider>);
 
 // 5. Start
 app.start('#root');

@@ -63,7 +63,7 @@ class LineChart extends React.Component {
           }
         ],
       },
-      option: {},
+      option: null,
       chart: null,
     }
   }//初始化 state
@@ -105,7 +105,7 @@ class LineChart extends React.Component {
           },
           data: Array.from(dataList, data => data[value.name])
         }))
-        let option = JSON.parse(JSON.stringify({...this.state.defaultOption, ...this.state.option}))
+        let option = this.state.option || this.state.defaultOption
         option.title.text = option.title.text || name
         option.legend.data = option.legend.data || legendData
         option.xAxis = option.xAxis || xAxis
@@ -124,7 +124,7 @@ class LineChart extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (JSON.stringify(prevProps.item) != JSON.stringify(this.props.item)) {
+    if (JSON.stringify(prevProps.item) !== JSON.stringify(this.props.item)) {
       this.timer && clearTimeout(this.timer)
       this.timer = setTimeout(this.refresh, 300)
     }
