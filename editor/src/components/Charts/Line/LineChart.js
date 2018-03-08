@@ -123,6 +123,13 @@ class LineChart extends React.Component {
     </div>
   }
 
+  componentDidUpdate(prevProps) {
+    if (JSON.stringify(prevProps.item) != JSON.stringify(this.props.item)) {
+      this.timer && clearTimeout(this.timer)
+      this.timer = setTimeout(this.refresh, 300)
+    }
+  }
+
   componentDidMount() {
     this.setState({chart: ECharts.init(this.refs.chart)}, this.refresh)
   }

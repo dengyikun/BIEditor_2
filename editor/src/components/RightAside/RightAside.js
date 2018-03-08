@@ -1,9 +1,8 @@
 import React from 'react';
-import {Icon, Tree} from 'antd';
+import {message, Button, Tree} from 'antd';
 import {connect} from 'dva';
-import classNames from 'classnames'
 import Copy from 'react-copy-to-clipboard'
-import {TOOL} from '../../utils'
+import DataSetModal from '../DataSetModal/DataSetModal'
 import styles from './RightAside.less';
 
 const TreeNode = Tree.TreeNode;
@@ -11,7 +10,36 @@ const TreeNode = Tree.TreeNode;
 function RightAside({dispatch, list, activeItem}) {
 
   const onCopy = (text, result) => {
-    alert(text + ' || ' +result)
+    if (text && result) {
+      message.success(text + '成功复制到剪切板')
+    }
+  }
+
+  const onNameChange = e => {
+    if (activeItem.id) {
+      const newActiveItem = {...activeItem, name: e.target.value}
+      dispatch({
+        type: 'item/updateItem',
+        payload: {
+          ...newActiveItem
+        }
+      })
+      dispatch({
+        type: 'item/changeActiveItem',
+        payload: {
+          ...newActiveItem
+        }
+      })
+    }
+  }
+
+  const onDataSetClick = () => {
+    if (activeItem.id) {
+      dispatch({
+        type: 'item/changeDataSetModalVisible',
+        payload: true
+      })
+    }
   }
 
   const getItemNodeList = () => {
@@ -71,11 +99,25 @@ function RightAside({dispatch, list, activeItem}) {
       <div className={styles.name}>
         <label>
           组件名称<br/>
-          <input placeholder="&#xE692;" value={activeItem.name || ''}/>
+          <input placeholder="&#xE692;" value={activeItem.name || ''}
+                 onChange={onNameChange}/>
         </label>
       </div>
       <div className={styles.title}>
-        组建设置
+        组件设置
+      </div>
+      <div className={styles.set}>
+        <Button className={styles.setButton}
+                size={'small'} onClick={onDataSetClick}>
+          数据设置
+        </Button>
+        <DataSetModal/>
+        <Button className={styles.setButton} size={'small'}>
+          CSS设置
+        </Button>
+        <Button className={styles.setButton} size={'small'}>
+          JS设置
+        </Button>
       </div>
       <div className={styles.title}>
         事件设置

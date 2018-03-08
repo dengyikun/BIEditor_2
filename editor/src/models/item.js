@@ -5,26 +5,24 @@ export default {
     activeItem: {},
     hoverItem: {},
     dragItem: {},
+    dataSetModalVisible: false,
   },
   reducers: {
-    save(state, {payload}) {
-      return {...state, ...payload};
-    },
-    update(state, {payload}) {
+    updateItem(state, {payload}) {
       let newList = state.list.slice()
       let item = newList.find((item, index) => {
         if (item.id === payload.id) {
           newList[index] = {...item, ...payload}
           return true
-        }
+        } else return false
       })
       if (!item) {
         newList.push({...payload})
       }
       return {...state, list: newList};
     },
-    changeResize(state, {payload}) {
-      return {...state, isResizing: payload};
+    changeList(state, {payload}) {
+      return {...state, list: payload};
     },
     changeActiveItem(state, {payload}) {
       return {...state, activeItem: payload};
@@ -35,6 +33,9 @@ export default {
     changeDragItem(state, {payload}) {
       return {...state, dragItem: payload};
     },
+    changeDataSetModalVisible(state, {payload}) {
+      return {...state, dataSetModalVisible: payload};
+    },
   },
   effects: {},
   subscriptions: {
@@ -42,10 +43,8 @@ export default {
       return history.listen(({pathname}) => {
         if (pathname === '/') {
           dispatch({
-            type: 'save',
-            payload: {
-              list: []
-            }
+            type: 'changeList',
+            payload: []
           });
         }
       });

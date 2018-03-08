@@ -79,7 +79,11 @@ const Item = props => {
         payload: {}
       })
       dispatch({
-        type: 'item/update',
+        type: 'item/changeActiveItem',
+        payload: {...dragItem, x, y, parentId: id}
+      })
+      dispatch({
+        type: 'item/updateItem',
         payload: {...dragItem, x, y, parentId: id}
       })
       e.stopPropagation()
@@ -117,7 +121,7 @@ const Item = props => {
 
   const onResize = (e, direction, ref, d, position) => {
     dispatch({
-      type: 'item/update',
+      type: 'item/updateItem',
       payload: {
         id,
         x: position.x,
@@ -128,7 +132,7 @@ const Item = props => {
 
   const onResizeStop = (e, direction, ref, d) => {
     dispatch({
-      type: 'item/update',
+      type: 'item/updateItem',
       payload: {
         id,
         width: width + d.width,
