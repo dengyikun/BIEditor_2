@@ -11,7 +11,7 @@ function RightAside({dispatch, list, activeItem}) {
 
   const onCopy = (text, result) => {
     if (text && result) {
-      message.success(text + '成功复制到剪切板')
+      message.success(text + ' 成功复制到剪切板')
     }
   }
 

@@ -13,7 +13,7 @@ class LineChart extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      defaultOption: {
+      option: {
         backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
@@ -63,7 +63,6 @@ class LineChart extends React.Component {
           }
         ],
       },
-      option: null,
       chart: null,
     }
   }//初始化 state
@@ -105,7 +104,7 @@ class LineChart extends React.Component {
           },
           data: Array.from(dataList, data => data[value.name])
         }))
-        let option = this.state.option || this.state.defaultOption
+        let option = JSON.parse(JSON.stringify(this.state.option))
         option.title.text = option.title.text || name
         option.legend.data = option.legend.data || legendData
         option.xAxis = option.xAxis || xAxis

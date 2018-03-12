@@ -1,9 +1,23 @@
 
 .body {
 
+  .dimensionRow {
+    border-bottom: 1px #eeeeee solid;
+  }
+
+  .dimensionLabel, .valueLabel {
+    height: 40px;
+    line-height: 40px;
+  }
+
   .dimensionList, .valueList {
     width: 100%;
-    border: 0;
+    margin: 4px 0;
+
+    * {
+      border: none;
+      outline: none;
+    }
 
     li:not(:last-child) {
       border: 0;
