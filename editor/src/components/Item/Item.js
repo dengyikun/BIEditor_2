@@ -27,13 +27,13 @@ const Item = props => {
   const onDragStart = (e) => {
     e.stopPropagation()
     dispatch({
-      type: 'item/changeDragItem',
+      type: 'item/setDragItem',
       payload: {
         ...props.item,
       }
     })
     dispatch({
-      type: 'item/changeActiveItem',
+      type: 'item/setActiveItem',
       payload: {
         ...props.item,
       }
@@ -42,7 +42,7 @@ const Item = props => {
 
   const onDragStop = (e, d) => {
     dispatch({
-      type: 'item/changeDragItem',
+      type: 'item/setDragItem',
       payload: {
         ...props.item,
         x: d.x,
@@ -51,7 +51,7 @@ const Item = props => {
     })
     setTimeout(() => {
       dispatch({
-        type: 'item/changeDragItem',
+        type: 'item/setDragItem',
         payload: {}
       })
     }, 300)
@@ -75,15 +75,15 @@ const Item = props => {
           y = getOverY(dragItem.parentId, id, dragItem.y)
       }
       dispatch({
-        type: 'item/changeDragItem',
+        type: 'item/setDragItem',
         payload: {}
       })
       dispatch({
-        type: 'item/changeActiveItem',
+        type: 'item/setActiveItem',
         payload: {...dragItem, x, y, parentId: id}
       })
       dispatch({
-        type: 'item/updateItem',
+        type: 'item/setItem',
         payload: {...dragItem, x, y, parentId: id}
       })
       e.stopPropagation()
@@ -112,7 +112,7 @@ const Item = props => {
 
   const onResizeStart = () => {
     dispatch({
-      type: 'item/changeActiveItem',
+      type: 'item/setActiveItem',
       payload: {
         ...props.item,
       }
@@ -121,7 +121,7 @@ const Item = props => {
 
   const onResize = (e, direction, ref, d, position) => {
     dispatch({
-      type: 'item/updateItem',
+      type: 'item/setItem',
       payload: {
         id,
         x: position.x,
@@ -132,7 +132,7 @@ const Item = props => {
 
   const onResizeStop = (e, direction, ref, d) => {
     dispatch({
-      type: 'item/updateItem',
+      type: 'item/setItem',
       payload: {
         id,
         width: width + d.width,
@@ -140,7 +140,7 @@ const Item = props => {
       }
     })
     dispatch({
-      type: 'item/changeActiveItem',
+      type: 'item/setActiveItem',
       payload: {
         ...props.item,
       }
@@ -152,7 +152,7 @@ const Item = props => {
     if (!dragItem.id || (dragItem.id && type === 'container')) {
       e.stopPropagation()
       dispatch({
-        type: 'item/changeHoverItem',
+        type: 'item/setHoverItem',
         payload: props.item
       })
     }

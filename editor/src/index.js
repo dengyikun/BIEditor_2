@@ -15,9 +15,8 @@ const app = dva();
 app.use(createLoading());
 
 // 3. Model
-// app.model(require('./models/example'));
-// app.model(require("./models/users"));
-app.model(require("./models/item"));
+const models = require.context('./models', true, /^\.\/.*\.js$/);
+models.keys().map((key) => { app.model(models(key)) });
 
 // // 4. Router
 app.router(() => <LocaleProvider locale={zhCN}>

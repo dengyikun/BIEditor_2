@@ -1,11 +1,22 @@
 
 .body {
 
-  .dimensionList, .conditionList {
+  .dimensionList, .valueList {
     width: 100%;
+    border: 0;
+
+    li:not(:last-child) {
+      border: 0;
+      color: #ffffff;
+      background: linear-gradient(-45deg, transparent 5px, #528FDF 0);
+
+      span {
+        color: #ffffff;
+      }
+    }
   }
 }
 
-.dimensionListDropdown, .conditionListDropdown {
+.dimensionListDropdown, .valueListDropdown {
   display: none;
 }

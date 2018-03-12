@@ -1,3 +1,5 @@
+import itemService from '../services/item'
+
 export default {
   namespace: 'item',
   state: {
@@ -8,7 +10,7 @@ export default {
     dataSetModalVisible: false,
   },
   reducers: {
-    updateItem(state, {payload}) {
+    setItem(state, {payload}) {
       let newList = state.list.slice()
       let item = newList.find((item, index) => {
         if (item.id === payload.id) {
@@ -21,19 +23,19 @@ export default {
       }
       return {...state, list: newList};
     },
-    changeList(state, {payload}) {
+    setList(state, {payload}) {
       return {...state, list: payload};
     },
-    changeActiveItem(state, {payload}) {
+    setActiveItem(state, {payload}) {
       return {...state, activeItem: payload};
     },
-    changeHoverItem(state, {payload}) {
+    setHoverItem(state, {payload}) {
       return {...state, hoverItem: payload};
     },
-    changeDragItem(state, {payload}) {
+    setDragItem(state, {payload}) {
       return {...state, dragItem: payload};
     },
-    changeDataSetModalVisible(state, {payload}) {
+    setDataSetModalVisible(state, {payload}) {
       return {...state, dataSetModalVisible: payload};
     },
   },
@@ -43,7 +45,7 @@ export default {
       return history.listen(({pathname}) => {
         if (pathname === '/') {
           dispatch({
-            type: 'changeList',
+            type: 'setList',
             payload: []
           });
         }

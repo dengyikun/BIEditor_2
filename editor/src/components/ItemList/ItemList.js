@@ -19,7 +19,7 @@ const ItemList = ({dispatch, loading, list, activeItem, hoverItem, dragItem}) =>
   const onMouseDown = (e) => {
     e.stopPropagation()
     dispatch({
-      type: 'item/changeActiveItem',
+      type: 'item/setActiveItem',
       payload: {}
     })
   }

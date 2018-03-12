@@ -19,13 +19,13 @@ function RightAside({dispatch, list, activeItem}) {
     if (activeItem.id) {
       const newActiveItem = {...activeItem, name: e.target.value}
       dispatch({
-        type: 'item/updateItem',
+        type: 'item/setItem',
         payload: {
           ...newActiveItem
         }
       })
       dispatch({
-        type: 'item/changeActiveItem',
+        type: 'item/setActiveItem',
         payload: {
           ...newActiveItem
         }
@@ -36,7 +36,7 @@ function RightAside({dispatch, list, activeItem}) {
   const onDataSetClick = () => {
     if (activeItem.id) {
       dispatch({
-        type: 'item/changeDataSetModalVisible',
+        type: 'item/setDataSetModalVisible',
         payload: true
       })
     }
@@ -75,7 +75,7 @@ function RightAside({dispatch, list, activeItem}) {
   const onSelect = keys => {
     const filterItemList = list.filter(item => item.id === keys[0])
     dispatch({
-      type: 'item/changeActiveItem',
+      type: 'item/setActiveItem',
       payload: {
         ...filterItemList[0],
       }

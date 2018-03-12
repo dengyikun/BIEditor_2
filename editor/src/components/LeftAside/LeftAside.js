@@ -78,7 +78,7 @@ function LeftAside({dispatch, dragItem}) {
   const onDragStart = (item) => (e) => {
     e.stopPropagation()
     dispatch({
-      type: 'item/changeDragItem',
+      type: 'item/setDragItem',
       payload: {...item}
     })
   }
@@ -86,7 +86,7 @@ function LeftAside({dispatch, dragItem}) {
   const onDragStop = () => {
     setTimeout(() => {
       dispatch({
-        type: 'item/changeDragItem',
+        type: 'item/setDragItem',
         payload: {}
       })
     }, 300)
