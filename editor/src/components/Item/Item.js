@@ -16,7 +16,7 @@ const Item = props => {
     },
     list,
     activeItemId,
-    hoverItem,
+    hoverItemId,
     dragItem,
     extendsProps,
     dispatch,
@@ -157,7 +157,7 @@ const Item = props => {
     className={classNames(
       styles.rnd,
       {
-        [styles.active]: (activeItemId === id) || (hoverItem.id === id),
+        [styles.active]: (activeItemId === id) || (hoverItemId === id),
         [styles.noneEvents]: (dragItem.id === id) || (dragItem.id && type !== 'container'),
       },
       className

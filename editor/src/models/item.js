@@ -5,7 +5,7 @@ export default {
   state: {
     list: [],
     activeItemId: '',
-    hoverItem: {},
+    hoverItemId: '',
     dragItem: {},
     dataSetModalVisible: false,
   },
@@ -29,8 +29,8 @@ export default {
     setActiveItemId(state, {payload}) {
       return {...state, activeItemId: payload};
     },
-    setHoverItem(state, {payload}) {
-      return {...state, hoverItem: payload};
+    setHoverItemId(state, {payload}) {
+      return {...state, hoverItemId: payload};
     },
     setDragItem(state, {payload}) {
       return {...state, dragItem: payload};
