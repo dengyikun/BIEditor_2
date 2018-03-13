@@ -15,7 +15,7 @@ const Item = props => {
       dimensions, values, sourceId, sql, conditionList, // 数据获取属性
     },
     list,
-    activeItem,
+    activeItemId,
     hoverItem,
     dragItem,
     extendsProps,
@@ -33,10 +33,8 @@ const Item = props => {
       }
     })
     dispatch({
-      type: 'item/setActiveItem',
-      payload: {
-        ...props.item,
-      }
+      type: 'item/setActiveItemId',
+      payload: props.item.id,
     })
   }
 
@@ -79,10 +77,6 @@ const Item = props => {
         payload: {}
       })
       dispatch({
-        type: 'item/setActiveItem',
-        payload: {...dragItem, x, y, parentId: id}
-      })
-      dispatch({
         type: 'item/setItem',
         payload: {...dragItem, x, y, parentId: id}
       })
@@ -112,10 +106,8 @@ const Item = props => {
 
   const onResizeStart = () => {
     dispatch({
-      type: 'item/setActiveItem',
-      payload: {
-        ...props.item,
-      }
+      type: 'item/setActiveItemId',
+      payload: props.item.id,
     })
   }
 
@@ -137,12 +129,6 @@ const Item = props => {
         id,
         width: width + d.width,
         height: height + d.height,
-      }
-    })
-    dispatch({
-      type: 'item/setActiveItem',
-      payload: {
-        ...props.item,
       }
     })
     chart && chart.resize()
@@ -171,14 +157,14 @@ const Item = props => {
     className={classNames(
       styles.rnd,
       {
-        [styles.active]: (activeItem.id === id) || (hoverItem.id === id),
+        [styles.active]: (activeItemId === id) || (hoverItem.id === id),
         [styles.noneEvents]: (dragItem.id === id) || (dragItem.id && type !== 'container'),
       },
       className
     )}
     position={{x, y}}
     size={{width, height}}
-    z={((dragItem.id === id) || (activeItem.id === id)) ? 9999 : ''}
+    z={((dragItem.id === id) || (activeItemId === id)) ? 9999 : ''}
     onDragStart={onDragStart}
     onDragStop={onDragStop}
     onResizeStart={onResizeStart}

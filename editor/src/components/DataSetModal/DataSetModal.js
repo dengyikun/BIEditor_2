@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {connect} from 'dva';
 import {message, Modal, Tabs, Row, Col, Tree, Icon, Select, Input} from 'antd';
 import Copy from 'react-copy-to-clipboard'
+import ScrollBar from 'react-custom-scrollbars';
 import AceEditor from 'react-ace';
 import 'brace/ext/language_tools';
 import 'brace/mode/mysql';
@@ -11,13 +12,12 @@ import styles from './DataSetModal.less';
 const TabPane = Tabs.TabPane;
 const TreeNode = Tree.TreeNode;
 const Option = Select.Option;
-const {TextArea} = Input;
 
 class DataSetModal extends React.Component {
 
   static propTypes = {
     dataSetModalVisible: PropTypes.bool.isRequired,
-    activeItem: PropTypes.object.isRequired,
+    activeItemId: PropTypes.string,
   }//props 类型检查
 
   constructor(props) {
@@ -104,16 +104,22 @@ class DataSetModal extends React.Component {
   }
 
   onSqlChange = value => {
-    this.setState({sql: value})
+    if (this.timer) {
+      clearTimeout(this.timer)
+    }
+    this.timer = setTimeout(() => {
+      this.setState({sql: value})
+    }, 300)
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dataSetModalVisible &&
       nextProps.dataSetModalVisible !== this.props.dataSetModalVisible) {
-      this.setState({...nextProps.activeItem})
+      const activeItem = nextProps.list.find(item => item.id === nextProps.activeItemId)
+      this.setState({...activeItem})
       nextProps.dispatch({
         type: 'source/getTableList',
-        payload: nextProps.activeItem.sourceId
+        payload: activeItem.sourceId
       })
     }
   }
@@ -195,6 +201,11 @@ class DataSetModal extends React.Component {
                 <AceEditor width="100%" height="200px" mode="mysql" theme="tomorrow"
                            onChange={this.onSqlChange} value={sql}
                            enableLiveAutocompletion={dataSetModalVisible}/>
+                <ScrollBar >
+                  <Row gutter={20}>
+
+                  </Row>
+                </ScrollBar>
               </Col>
             </Row>
           </TabPane>
@@ -205,10 +216,10 @@ class DataSetModal extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {dataSetModalVisible, activeItem} = state.item;
+  const {dataSetModalVisible, activeItemId, list} = state.item;
   const {list: sourceList} = state.source;
   return {
-    dataSetModalVisible, activeItem, sourceList
+    dataSetModalVisible, activeItemId, sourceList, list
   };
 }
 

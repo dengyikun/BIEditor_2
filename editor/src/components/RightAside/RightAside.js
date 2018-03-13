@@ -7,7 +7,8 @@ import styles from './RightAside.less';
 
 const TreeNode = Tree.TreeNode;
 
-function RightAside({dispatch, list, activeItem}) {
+function RightAside({dispatch, list, activeItemId}) {
+  const activeItem = list.find(item => item.id === activeItemId)
 
   const onCopy = (text, result) => {
     if (text && result) {
@@ -16,25 +17,19 @@ function RightAside({dispatch, list, activeItem}) {
   }
 
   const onNameChange = e => {
-    if (activeItem.id) {
-      const newActiveItem = {...activeItem, name: e.target.value}
+    if (activeItemId) {
       dispatch({
         type: 'item/setItem',
         payload: {
-          ...newActiveItem
-        }
-      })
-      dispatch({
-        type: 'item/setActiveItem',
-        payload: {
-          ...newActiveItem
+          id: activeItemId,
+          name: e.target.value
         }
       })
     }
   }
 
   const onDataSetClick = () => {
-    if (activeItem.id) {
+    if (activeItemId) {
       dispatch({
         type: 'item/setDataSetModalVisible',
         payload: true
@@ -73,12 +68,9 @@ function RightAside({dispatch, list, activeItem}) {
   }
 
   const onSelect = keys => {
-    const filterItemList = list.filter(item => item.id === keys[0])
     dispatch({
-      type: 'item/setActiveItem',
-      payload: {
-        ...filterItemList[0],
-      }
+      type: 'item/setActiveItemId',
+      payload: keys[0]
     })
   }
 
@@ -87,19 +79,19 @@ function RightAside({dispatch, list, activeItem}) {
       <div className={styles.title}>
         基础信息
       </div>
-      <Copy text={activeItem.id} onCopy={onCopy}>
+      <Copy text={activeItemId} onCopy={onCopy}>
         <div className={styles.id}>
           <label>
             组件ID<br/>
             <input placeholder="&#xE648;" disabled
-                   value={activeItem.id || ''}/>
+                   value={activeItemId || ''}/>
           </label>
         </div>
       </Copy>
       <div className={styles.name}>
         <label>
           组件名称<br/>
-          <input placeholder="&#xE692;" value={activeItem.name || ''}
+          <input placeholder="&#xE692;" value={activeItem ? activeItem.name : ''}
                  onChange={onNameChange}/>
         </label>
       </div>
@@ -124,7 +116,7 @@ function RightAside({dispatch, list, activeItem}) {
       </div>
       <Tree className={styles.tree} showIcon
             defaultExpandAll
-            selectedKeys={[activeItem.id]}
+            selectedKeys={[activeItemId]}
             onSelect={onSelect}>
         {
           getItemNodeList()
@@ -135,9 +127,9 @@ function RightAside({dispatch, list, activeItem}) {
 }
 
 function mapStateToProps(state) {
-  const {list, activeItem} = state.item;
+  const {list, activeItemId} = state.item;
   return {
-    list, activeItem,
+    list, activeItemId,
   };
 }
 

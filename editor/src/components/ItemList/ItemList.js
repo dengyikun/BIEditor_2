@@ -4,23 +4,23 @@ import styles from './ItemList.less';
 import Item from '../Item/Item'
 
 function mapStateToProps(state) {
-  const {list, activeItem, hoverItem, dragItem} = state.item;
+  const {list, activeItemId, hoverItem, dragItem} = state.item;
   return {
     loading: state.loading.models.item,
     list,
-    activeItem,
+    activeItemId,
     hoverItem,
     dragItem,
   };
 }
 
-const ItemList = ({dispatch, loading, list, activeItem, hoverItem, dragItem}) => {
+const ItemList = ({dispatch, loading, list, activeItemId, hoverItem, dragItem}) => {
 
   const onMouseDown = (e) => {
     e.stopPropagation()
     dispatch({
-      type: 'item/setActiveItem',
-      payload: {}
+      type: 'item/setActiveItemId',
+      payload: ''
     })
   }
 
@@ -33,7 +33,7 @@ const ItemList = ({dispatch, loading, list, activeItem, hoverItem, dragItem}) =>
         item={item}
         list={list}
         dispatch={dispatch}
-        activeItem={activeItem}
+        activeItemId={activeItemId}
         hoverItem={hoverItem}
         dragItem={dragItem}
       >
@@ -61,7 +61,7 @@ const ItemList = ({dispatch, loading, list, activeItem, hoverItem, dragItem}) =>
           className={styles.content}
           list={list}
           dispatch={dispatch}
-          activeItem={activeItem}
+          activeItemId={activeItemId}
           hoverItem={hoverItem}
           dragItem={dragItem}
           extendsProps={{
