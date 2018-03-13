@@ -47,6 +47,10 @@ const Item = props => {
         y: d.y,
       }
     })
+    dispatch({
+      type: 'item/setActiveItemId',
+      payload: props.item.id,
+    })
     setTimeout(() => {
       dispatch({
         type: 'item/setDragItem',
@@ -75,6 +79,10 @@ const Item = props => {
       dispatch({
         type: 'item/setDragItem',
         payload: {}
+      })
+      dispatch({
+        type: 'item/setActiveItemId',
+        payload: dragItem.id,
       })
       dispatch({
         type: 'item/setItem',

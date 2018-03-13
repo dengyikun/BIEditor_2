@@ -2,7 +2,7 @@
 .body {
 
   .dimensionRow {
-    border-bottom: 1px #eeeeee solid;
+    border-bottom: 1px #dddddd solid;
   }
 
   .dimensionLabel, .valueLabel {
@@ -17,6 +17,7 @@
     * {
       border: none;
       outline: none;
+      box-shadow: none;
     }
 
     li:not(:last-child) {
@@ -26,6 +27,29 @@
 
       span {
         color: #ffffff;
+      }
+    }
+  }
+
+  .conditionList {
+    width: 100%;
+    height: 200px;
+    margin-top: 20px;
+
+    .condition {
+      height: 32px;
+      line-height: 32px;
+      text-align: right;
+      position: relative;
+      padding: 0 10px;
+
+      input {
+        text-align: left;
+        border: none;
+        outline: none;
+        background: transparent;
+        box-shadow: none;
+        border-bottom: 1px #dddddd solid;
       }
     }
   }

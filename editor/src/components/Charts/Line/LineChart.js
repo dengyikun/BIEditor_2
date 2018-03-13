@@ -69,6 +69,7 @@ class LineChart extends React.Component {
 
   refresh = () => {
     const {sourceId, sql, conditionList, name, dimensionList, valueList} = this.props.item
+    console.log(conditionList)
     itemService.getChartData(sourceId, sql, conditionList)
       .then(data => {
         const dataList = data.data.data

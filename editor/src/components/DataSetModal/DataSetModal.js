@@ -108,15 +108,38 @@ class DataSetModal extends React.Component {
       clearTimeout(this.timer)
     }
     this.timer = setTimeout(() => {
-      this.setState({sql: value})
+      let conditionList = []
+      value.replace(/\$\{(.*?)\}/g, (string, match) => {
+        if (match && conditionList.find(item => item.name === match)) {
+          message.error('存在相同的 SQL 数值：' + match)
+        } else if (match) {
+          const condition = this.state.conditionList.find(condition => condition.name === match)
+          conditionList.push({
+            name: match,
+            value: condition ? condition.value : ''
+          })
+        }
+      })
+      this.setState({sql: value, conditionList})
     }, 300)
+  }
+
+  onConditionChange = name => e => {
+    let conditionList = [...this.state.conditionList]
+    conditionList.find(condition => {
+      if (condition.name === name) {
+        condition.value = e.target.value
+        return true
+      }
+    })
+    this.setState({conditionList})
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dataSetModalVisible &&
       nextProps.dataSetModalVisible !== this.props.dataSetModalVisible) {
       const activeItem = nextProps.list.find(item => item.id === nextProps.activeItemId)
-      this.setState({...activeItem})
+      this.setState({...JSON.parse(JSON.stringify(activeItem))})
       nextProps.dispatch({
         type: 'source/getTableList',
         payload: activeItem.sourceId
@@ -201,11 +224,23 @@ class DataSetModal extends React.Component {
                 <AceEditor width="100%" height="200px" mode="mysql" theme="tomorrow"
                            onChange={this.onSqlChange} value={sql}
                            enableLiveAutocompletion={dataSetModalVisible}/>
-                <ScrollBar >
-                  <Row gutter={20}>
-
-                  </Row>
-                </ScrollBar>
+                <div className={styles.conditionList}>
+                  <ScrollBar>
+                    <Row>
+                      {
+                        conditionList.map(condition => [
+                          (<Col span={5} className={styles.condition}>
+                            {condition.name}
+                          </Col>),
+                          (<Col span={6} className={styles.condition}>
+                            <Input value={condition.value}
+                                   onChange={this.onConditionChange(condition.name)}/>
+                          </Col>)
+                        ])
+                      }
+                    </Row>
+                  </ScrollBar>
+                </div>
               </Col>
             </Row>
           </TabPane>
