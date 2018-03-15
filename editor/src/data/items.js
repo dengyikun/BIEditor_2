@@ -3,7 +3,7 @@ import Container from '../components/Bases/Container/Container'
 import LineChart from '../components/Charts/LineChart/LineChart'
 import styles from '../components/LeftAside/LeftAside.less';
 
-export default {  // 基础控件
+export default {
   container: {
     instance: Container,
     item: {
