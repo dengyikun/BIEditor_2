@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import RnD from 'react-rnd'
 import Scrollbar from 'react-custom-scrollbars'
 import classNames from 'classnames'
-import LineChart from '../Charts/Line/LineChart'
+import items from '../../data/items'
 import styles from './Item.less'
 
 const Item = props => {
@@ -11,10 +11,8 @@ const Item = props => {
 
   const {
     item:{
-      id, parentId, x, y, width, height, type, style, // 基础属性
-      dimensions, values, sourceId, sql, conditionList, // 数据获取属性
+      id, x, y, width, height, type, style, // 基础属性
     },
-    list,
     activeItemId,
     hoverItemId,
     dragItem,
@@ -59,59 +57,6 @@ const Item = props => {
     }, 300)
   }
 
-  const onMouseUp = e => {
-    if (dragItem.id && dragItem.id !== id && type === 'container') {
-      let x = 0, y = 0;
-      switch (dragItem.parentId) {
-        case id:
-          x = dragItem.x
-          y = dragItem.y
-          break
-        case 'base':
-        case 'chart':
-          x = e.nativeEvent.offsetX - dragItem.width / 2
-          y = e.nativeEvent.offsetY - dragItem.height / 2
-          break
-        default:
-          x = getOverX(dragItem.parentId, id, dragItem.x)
-          y = getOverY(dragItem.parentId, id, dragItem.y)
-      }
-      dispatch({
-        type: 'item/setDragItem',
-        payload: {}
-      })
-      dispatch({
-        type: 'item/setActiveItemId',
-        payload: dragItem.id,
-      })
-      dispatch({
-        type: 'item/setItem',
-        payload: {...dragItem, x, y, parentId: id}
-      })
-      e.stopPropagation()
-    }
-  }
-
-  const getOverX = (formId, toId, dragItemX) => {
-    const getX = id => {
-      const item = list.find(item => item.id === id)
-      return item ? (item.parentId ? item.x + getX(item.parentId) : item.x) : 0
-    }
-    const formX = getX(formId)
-    const toX = getX(toId)
-    return formX - toX + dragItemX
-  }
-
-  const getOverY = (formId, toId, dragItemY) => {
-    const getY = id => {
-      const item = list.find(item => item.id === id)
-      return item ? (item.parentId ? item.y + getY(item.parentId) : item.y) : 0
-    }
-    const formY = getY(formId)
-    const toY = getY(toId)
-    return formY - toY + dragItemY
-  }
-
   const onResizeStart = () => {
     dispatch({
       type: 'item/setActiveItemId',
@@ -153,12 +98,10 @@ const Item = props => {
   }
 
   const getContent = (type) => {
-    switch (type) {
-      case 'chartLine':
-        return <LineChart item={{...props.item}} dispatch={dispatch} ref={instance => {
-          if (!chart) chart = instance
-        }}/>
-    }
+    const Content = items[type].instance
+    return <Content {...props} ref={instance => {
+      if (!chart) chart = instance
+    }}>{children}</Content>
   }
 
   return <RnD
@@ -186,11 +129,9 @@ const Item = props => {
       ...extendsProps
     }>
     <Scrollbar className={styles.content}
-               onMouseUp={onMouseUp}
       //autoHide
                style={style}>
       {getContent(type)}
-      {children}
     </Scrollbar>
   </RnD>
 }

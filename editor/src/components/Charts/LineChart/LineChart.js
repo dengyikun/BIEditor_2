@@ -20,8 +20,7 @@ class LineChart extends React.Component {
   }//初始化 state
 
   refresh = () => {
-    const {sourceId, sql, conditionList, name, dimensionList, valueList, option, id} = this.props.item
-    console.log(conditionList)
+    const {sourceId, sql, conditionList, name, dimensionList, valueList, option} = this.props.item
     itemService.getChartData(sourceId, sql, conditionList)
       .then(data => {
         const dataList = data.data.data

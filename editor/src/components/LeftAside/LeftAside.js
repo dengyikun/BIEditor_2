@@ -4,11 +4,10 @@ import {connect} from 'dva';
 import RnD from 'react-rnd';
 import classNames from 'classnames'
 import {TOOL} from '../../utils'
-import baseList from './baseList'
-import chartList from './chartList'
+import items from '../../data/items'
 import styles from './LeftAside.less';
 
-  function mapStateToProps(state) {
+function mapStateToProps(state) {
   const {dragItem} = state.item;
   return {
     dragItem,
@@ -16,6 +15,27 @@ import styles from './LeftAside.less';
 }
 
 function LeftAside({dispatch, dragItem}) {
+
+  const getItems = (parentId, items) => {
+    return Object.keys(items).map((type, index) => parentId === items[type].item.parentId ?
+      <div className={styles.item} key={index}>
+        {items[type].node}
+        <RnD className={classNames(
+          styles.item,
+          {
+            [styles.drag]: dragItem.parentId === parentId,
+          }
+        )}
+             onDragStart={onDragStart(items[type].item)}
+             onDragStop={onDragStop}
+             position={{x: 0, y: 0}}
+             size={{width: '100%', height: '100%'}}
+             enableResizing="false">
+          {items[type].node}
+        </RnD>
+      </div> : null
+    )
+  }
 
   const onDragStart = (item) => (e) => {
     e.stopPropagation()
@@ -44,22 +64,7 @@ function LeftAside({dispatch, dragItem}) {
       </div>
       <div className={styles.list}>
         {
-          baseList.map((base, index) => <div className={styles.item} key={index}>
-            {base.node}
-            <RnD className={classNames(
-              styles.item,
-              {
-                [styles.drag]: dragItem.parentId === 'base',
-              }
-            )}
-                 onDragStart={onDragStart(base.item)}
-                 onDragStop={onDragStop}
-                 position={{x: 0, y: 0}}
-                 size={{width: '100%', height: '100%'}}
-                 enableResizing="false">
-              {base.node}
-            </RnD>
-          </div>)
+          getItems('base', items)
         }
       </div>
       <div className={styles.subTitle}>
@@ -67,22 +72,7 @@ function LeftAside({dispatch, dragItem}) {
       </div>
       <div className={styles.list}>
         {
-          chartList.map((chart, index) => <div className={styles.item} key={index}>
-            {chart.node}
-            <RnD className={classNames(
-              styles.item,
-              {
-                [styles.drag]: dragItem.parentId === 'chart',
-              }
-            )}
-                 onDragStart={onDragStart(chart.item)}
-                 onDragStop={onDragStop}
-                 position={{x: 0, y: 0}}
-                 size={{width: '100%', height: '100%'}}
-                 enableResizing="false">
-              {chart.node}
-            </RnD>
-          </div>)
+          getItems('chart', items)
         }
       </div>
     </div>
