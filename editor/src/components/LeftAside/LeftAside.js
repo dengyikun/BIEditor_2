@@ -4,9 +4,11 @@ import {connect} from 'dva';
 import RnD from 'react-rnd';
 import classNames from 'classnames'
 import {TOOL} from '../../utils'
+import baseList from './baseList'
+import chartList from './chartList'
 import styles from './LeftAside.less';
 
-function mapStateToProps(state) {
+  function mapStateToProps(state) {
   const {dragItem} = state.item;
   return {
     dragItem,
@@ -15,71 +17,11 @@ function mapStateToProps(state) {
 
 function LeftAside({dispatch, dragItem}) {
 
-  const bases = [  // 基础控件
-    {
-      item: {
-        id: TOOL.getGUID(),
-        name: '容器',
-        parentId: 'base',
-        width: 100,
-        height: 100,
-        type: 'container',
-        style: {background: '#' + (~~(Math.random() * (1 << 24))).toString(16)}
-      },
-      node: <div className={styles.widget}>
-        <Icon className={styles.icon} type="layout"/>
-        容器组件
-      </div>
-    },
-  ]
-
-  const charts = [  // 图表控件
-    {
-      item: {
-        id: TOOL.getGUID(),
-        name: '折线图',
-        parentId: 'chart',
-        width: 100,
-        height: 100,
-        type: 'chartLine',
-        style: {background: '#' + (~~(Math.random() * (1 << 24))).toString(16)},
-        sourceId: '2573632338734d5cb24489b06de09659',
-        sql: 'SELECT SUBSTRING(addTime,1,10) as addTime, COUNT(cuId) as total from comment_user where nickname != "${nickname}" and country = "${country}" GROUP BY SUBSTRING(addTime,1,10) ORDER BY addTime asc',
-        conditionList: [
-          {
-            name: 'nickname',
-            value: '匿名用户'
-          },
-          {
-            name: 'country',
-            value: '中国'
-          },
-        ],
-        dimensionList: [
-          {
-            name: 'addTime',
-            displayName: '日期',
-          }
-        ],
-        valueList: [
-          {
-            name: 'total',
-            displayName: '每天新增人数',
-          }
-        ],
-      },
-      node: <div className={styles.widget}>
-        <Icon className={styles.icon} type="line-chart"/>
-        折线图
-      </div>
-    },
-  ]
-
   const onDragStart = (item) => (e) => {
     e.stopPropagation()
     dispatch({
       type: 'item/setDragItem',
-      payload: {...item}
+      payload: {...item, id: TOOL.getGUID(),}
     })
   }
 
@@ -102,7 +44,7 @@ function LeftAside({dispatch, dragItem}) {
       </div>
       <div className={styles.list}>
         {
-          bases.map((base, index) => <div className={styles.item} key={index}>
+          baseList.map((base, index) => <div className={styles.item} key={index}>
             {base.node}
             <RnD className={classNames(
               styles.item,
@@ -125,7 +67,7 @@ function LeftAside({dispatch, dragItem}) {
       </div>
       <div className={styles.list}>
         {
-          charts.map((chart, index) => <div className={styles.item} key={index}>
+          chartList.map((chart, index) => <div className={styles.item} key={index}>
             {chart.node}
             <RnD className={classNames(
               styles.item,

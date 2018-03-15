@@ -82,4 +82,11 @@ export default {
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   },
+  getChartOption: (optionString) => {
+    return new Promise(resolve => {
+      let option = {}
+      eval(optionString)
+      resolve(option)
+    })
+  }
 }

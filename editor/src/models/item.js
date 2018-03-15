@@ -8,6 +8,7 @@ export default {
     hoverItemId: '',
     dragItem: {},
     dataSetModalVisible: false,
+    chartSetModalVisible: false,
   },
   reducers: {
     setItem(state, {payload}) {
@@ -37,6 +38,9 @@ export default {
     },
     setDataSetModalVisible(state, {payload}) {
       return {...state, dataSetModalVisible: payload};
+    },
+    setChartSetModalVisible(state, {payload}) {
+      return {...state, chartSetModalVisible: payload};
     },
   },
   effects: {},

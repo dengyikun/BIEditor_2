@@ -1,0 +1,110 @@
+import React, {PropTypes} from 'react';
+import {connect} from 'dva';
+import {message, Modal, Row, Col} from 'antd';
+import AceEditor from 'react-ace';
+import 'brace/ext/language_tools';
+import 'brace/mode/javascript';
+import 'brace/theme/tomorrow';
+import Item from '../Item/Item';
+import styles from './ChartSetModal.less';
+
+class ChartSetModal extends React.Component {
+
+  static propTypes = {
+    chartSetModalVisible: PropTypes.bool.isRequired,
+  }//props 类型检查
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      sourceId: '',
+      dimensionList: [],
+      valueList: [],
+      sql: '',
+      conditionList: [],
+    }
+  }
+
+  onCancel = () => {
+    this.props.dispatch({
+      type: 'item/setChartSetModalVisible',
+      payload: false
+    })
+  }
+
+  onOk = () => {
+    this.props.dispatch({
+      type: 'item/setItem',
+      payload: {
+        ...this.state
+      }
+    })
+    this.onCancel()
+  }
+
+  onOptionChange = value => {
+    if (this.timer) {
+      clearTimeout(this.timer)
+    }
+    this.timer = setTimeout(() => {
+      this.setState({option: value})
+    }, 300)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.chartSetModalVisible &&
+      nextProps.chartSetModalVisible !== this.props.chartSetModalVisible) {
+      const activeItem = nextProps.list.find(item => item.id === nextProps.activeItemId)
+      this.setState({...JSON.parse(JSON.stringify(activeItem))})
+    }
+  }
+
+  render() {
+
+    const {chartSetModalVisible, list, dispatch} = this.props
+    const {option} = this.state
+
+    return (
+      <Modal className={styles.body} title={'数据设置'} maskClosable={false}
+             visible={chartSetModalVisible} width={1000}
+             onCancel={this.onCancel} onOk={this.onOk}>
+        <Row gutter={20}>
+          <Col span={12}>
+            <AceEditor width="100%" height="400px" mode="javascript" theme="tomorrow"
+                       onChange={this.onOptionChange} value={option}
+                       enableLiveAutocompletion={chartSetModalVisible}/>
+          </Col>
+          <Col span={12}>
+            <div className={styles.chart}>
+              <Item item={{
+                ...this.state,
+                id: 'chartExample',
+                y: 0,
+                x: 0,
+                width: '100%',
+                height: '100%',
+              }}
+                    dispatch={dispatch}
+                    dragItem={{}}
+                    className={styles.content}
+                    list={list}
+                    extendsProps={{
+                      disableDragging: true,
+                      enableResizing: false,
+                    }}/>
+            </div>
+          </Col>
+        </Row>
+      </Modal>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  const {chartSetModalVisible, activeItemId, list} = state.item;
+  return {
+    chartSetModalVisible, activeItemId, list
+  };
+}
+
+export default connect(mapStateToProps)(ChartSetModal)

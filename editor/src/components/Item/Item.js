@@ -34,7 +34,7 @@ const Item = props => {
     })
     dispatch({
       type: 'item/setActiveItemId',
-      payload: props.item.id,
+      payload: id,
     })
   }
 
@@ -49,7 +49,7 @@ const Item = props => {
     })
     dispatch({
       type: 'item/setActiveItemId',
-      payload: props.item.id,
+      payload: id,
     })
     setTimeout(() => {
       dispatch({
@@ -115,7 +115,7 @@ const Item = props => {
   const onResizeStart = () => {
     dispatch({
       type: 'item/setActiveItemId',
-      payload: props.item.id,
+      payload: id,
     })
   }
 

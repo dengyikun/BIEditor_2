@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react';
+import {message} from 'antd'
 import ECharts from 'echarts'
+import {TOOL} from '../../../utils'
 import styles from './LineChart.css';
 import * as itemService from '../../../services/item';
 
@@ -13,62 +15,12 @@ class LineChart extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      option: {
-        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
-        title: {
-          show: true,//显示隐藏
-          x: 'left', // 'center' | 'left' | {number},标题左右位置
-          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
-          textStyle: {color: 'black', fontSize: '18'}//字体颜色
-        },
-        grid: {
-          borderWidth: 0//设置边框大小
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          orient: 'horizontal', // 'vertical'标题横向或纵向排列
-          x: 'right', // 'center' | 'left' | {number},标题左右位置
-          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
-          textStyle: {color: 'black', fontSize: '14'},//字体颜色
-        },
-        toolbox: {
-          show: false,
-          feature: {
-            mark: {show: true},
-            dataView: {show: true, readOnly: false},
-            restore: {show: true},
-            saveAsImage: {show: true}
-          }
-        },
-        calculable: true,
-        yAxis: [
-          {
-            show: true,//显示或隐藏Y轴
-            axisLine: {
-              lineStyle: {
-                color: '#008ACD'//坐标线颜色
-              }
-            },
-            axisLabel: {
-              show: true,
-              textStyle: {
-                color: 'black',
-                fontSize: '14'
-              }
-            },//设置字体颜色和大小
-            splitLine: {show: false},//隐藏或显示网格线
-            type: 'value'
-          }
-        ],
-      },
       chart: null,
     }
   }//初始化 state
 
   refresh = () => {
-    const {sourceId, sql, conditionList, name, dimensionList, valueList} = this.props.item
+    const {sourceId, sql, conditionList, name, dimensionList, valueList, option, id} = this.props.item
     console.log(conditionList)
     itemService.getChartData(sourceId, sql, conditionList)
       .then(data => {
@@ -105,12 +57,17 @@ class LineChart extends React.Component {
           },
           data: Array.from(dataList, data => data[value.name])
         }))
-        let option = JSON.parse(JSON.stringify(this.state.option))
-        option.title.text = option.title.text || name
-        option.legend.data = option.legend.data || legendData
-        option.xAxis = option.xAxis || xAxis
-        option.series = option.series || series
-        this.state.chart.setOption(option)
+        TOOL.getChartOption(option)
+          .then(option => {
+            option.title.text = option.title.text || name
+            option.legend.data = option.legend.data || legendData
+            option.xAxis = option.xAxis || xAxis
+            option.series = option.series || series
+            this.state.chart.setOption(option)
+          })
+          .catch(error => {
+            message.error(`折线图：${name} 的 option 有误，请仔细检查！`)
+          })
       })
   }
 

@@ -3,6 +3,7 @@ import {message, Button, Tree} from 'antd';
 import {connect} from 'dva';
 import Copy from 'react-copy-to-clipboard'
 import DataSetModal from '../DataSetModal/DataSetModal'
+import ChartSetModal from '../ChartSetModal/ChartSetModal'
 import styles from './RightAside.less';
 
 const TreeNode = Tree.TreeNode;
@@ -32,6 +33,15 @@ function RightAside({dispatch, list, activeItemId}) {
     if (activeItemId) {
       dispatch({
         type: 'item/setDataSetModalVisible',
+        payload: true
+      })
+    }
+  }
+
+  const onChartSetClick = () => {
+    if (activeItemId) {
+      dispatch({
+        type: 'item/setChartSetModalVisible',
         payload: true
       })
     }
@@ -99,14 +109,16 @@ function RightAside({dispatch, list, activeItemId}) {
         组件设置
       </div>
       <div className={styles.set}>
-        <Button className={styles.setButton}
-                size={'small'} onClick={onDataSetClick}>
+        <Button className={styles.setButton} size={'small'}
+                onClick={onDataSetClick}>
           数据设置
         </Button>
         <DataSetModal/>
-        <Button className={styles.setButton} size={'small'}>
+        <Button className={styles.setButton} size={'small'}
+                onClick={onChartSetClick}>
           图表设置
         </Button>
+        <ChartSetModal/>
       </div>
       <div className={styles.title}>
         事件设置
