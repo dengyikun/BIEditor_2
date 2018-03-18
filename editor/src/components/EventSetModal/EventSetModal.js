@@ -1,19 +1,17 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'dva';
-import {message, Modal, Tabs, Row, Col, Tree, Icon, Select, Input} from 'antd';
-import Copy from 'react-copy-to-clipboard'
+import {message, Modal, Tabs, Row, Col, Icon, Select, Input} from 'antd';
 import ScrollBar from 'react-custom-scrollbars';
 import AceEditor from 'react-ace';
 import 'brace/ext/language_tools';
 import 'brace/mode/mysql';
 import 'brace/theme/tomorrow';
-import styles from './DataSetModal.less';
+import styles from './EventSetModal.less';
 
 const TabPane = Tabs.TabPane;
-const TreeNode = Tree.TreeNode;
 const Option = Select.Option;
 
-class DataSetModal extends React.Component {
+class EventSetModal extends React.Component {
 
   static propTypes = {}//props 类型检查
 
@@ -30,7 +28,7 @@ class DataSetModal extends React.Component {
 
   onCancel = () => {
     this.props.dispatch({
-      type: 'item/setDataSetModalVisible',
+      type: 'item/setEventSetModalVisible',
       payload: false
     })
   }
@@ -43,19 +41,6 @@ class DataSetModal extends React.Component {
       }
     })
     this.onCancel()
-  }
-
-  onSourceNodeSelect = (selectedKeys, e) => {
-    const key = e.node.props.eventKey
-    if (this.props.sourceList.findIndex(item => item.sourceId === e.node.props.eventKey) !== -1) {
-      this.setState({sourceId: key})
-    }
-  }
-
-  onCopy = (text, result) => {
-    if (text && result) {
-      message.success(text + ' 成功复制到剪切板')
-    }
   }
 
   onDimensionListSelect = text => {
@@ -133,8 +118,8 @@ class DataSetModal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.dataSetModalVisible &&
-      nextProps.dataSetModalVisible !== this.props.dataSetModalVisible) {
+    if (nextProps.eventSetModalVisible &&
+      nextProps.eventSetModalVisible !== this.props.eventSetModalVisible) {
       const activeItem = nextProps.list.find(item => item.id === nextProps.activeItemId)
       this.setState({...JSON.parse(JSON.stringify(activeItem))})
       nextProps.dispatch({
@@ -146,38 +131,17 @@ class DataSetModal extends React.Component {
 
   render() {
 
-    const {dataSetModalVisible, sourceList} = this.props
+    const {eventSetModalVisible, sourceList} = this.props
     const {sourceId, dimensionList, valueList, sql, conditionList} = this.state
 
     return (
-      <Modal className={styles.body} title={'数据设置'} maskClosable={false}
-             visible={dataSetModalVisible} width={1000}
+      <Modal className={styles.body} title={'事件设置'} maskClosable={false}
+             visible={eventSetModalVisible} width={1000}
              onCancel={this.onCancel} onOk={this.onOk}>
         <Tabs defaultActiveKey="1">
-          <TabPane tab="SQL 模式" key="1">
+          <TabPane tab="单击事件" key="1">
             <Row gutter={20}>
               <Col span={6}>
-                <Tree className={styles.tree}
-                      defaultExpandAll
-                      expandedKeys={[sourceId]}
-                      selectedKeys={[sourceId]}
-                      onSelect={this.onSourceNodeSelect}>
-                  {
-                    sourceList.map(source => <TreeNode
-                      key={source.sourceId}
-                      title={<span><Icon type="database"/> {source.sourceName}</span>}>
-                      {
-                        source.tableList &&
-                        source.tableList.map(table => <TreeNode
-                          key={table}
-                          title={<Copy text={table} onCopy={this.onCopy}>
-                            <span><Icon type="table"/> {table}</span>
-                          </Copy>}>
-                        </TreeNode>)
-                      }
-                    </TreeNode>)
-                  }
-                </Tree>
               </Col>
               <Col span={18}>
                 <Row className={styles.dimensionRow}>
@@ -220,7 +184,7 @@ class DataSetModal extends React.Component {
                 </Row>
                 <AceEditor width="100%" height="200px" mode="mysql" theme="tomorrow"
                            onChange={this.onSqlChange} value={sql}
-                           enableLiveAutocompletion={dataSetModalVisible}/>
+                           enableLiveAutocompletion={eventSetModalVisible}/>
                 <div className={styles.conditionList}>
                   <ScrollBar>
                     <Row>
@@ -248,11 +212,11 @@ class DataSetModal extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {dataSetModalVisible, activeItemId, list} = state.item;
+  const {eventSetModalVisible, activeItemId, list} = state.item;
   const {list: sourceList} = state.source;
   return {
-    dataSetModalVisible, activeItemId, sourceList, list
+    eventSetModalVisible, activeItemId, sourceList, list
   };
 }
 
-export default connect(mapStateToProps)(DataSetModal)
+export default connect(mapStateToProps)(EventSetModal)

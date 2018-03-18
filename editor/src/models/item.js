@@ -9,6 +9,7 @@ export default {
     dragItem: {},
     dataSetModalVisible: false,
     chartSetModalVisible: false,
+    eventSetModalVisible: false,
   },
   reducers: {
     setItem(state, {payload}) {
@@ -41,6 +42,9 @@ export default {
     },
     setChartSetModalVisible(state, {payload}) {
       return {...state, chartSetModalVisible: payload};
+    },
+    setEventSetModalVisible(state, {payload}) {
+      return {...state, eventSetModalVisible: payload};
     },
   },
   effects: {},

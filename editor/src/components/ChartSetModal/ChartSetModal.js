@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'dva';
-import {message, Modal, Row, Col} from 'antd';
+import {Modal, Row, Col} from 'antd';
 import AceEditor from 'react-ace';
 import 'brace/ext/language_tools';
 import 'brace/mode/javascript';
@@ -10,9 +10,7 @@ import styles from './ChartSetModal.less';
 
 class ChartSetModal extends React.Component {
 
-  static propTypes = {
-    chartSetModalVisible: PropTypes.bool.isRequired,
-  }//props 类型检查
+  static propTypes = {}//props 类型检查
 
   constructor(props) {
     super(props)
@@ -65,7 +63,7 @@ class ChartSetModal extends React.Component {
     const {option} = this.state
 
     return (
-      <Modal className={styles.body} title={'数据设置'} maskClosable={false}
+      <Modal className={styles.body} title={'图表设置'} maskClosable={false}
              visible={chartSetModalVisible} width={1000}
              onCancel={this.onCancel} onOk={this.onOk}>
         <Row gutter={20}>
