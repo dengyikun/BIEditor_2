@@ -26,7 +26,7 @@ export default {
       height: 300,
       type: 'lineChart',
       style: {background: '#' + (~~(Math.random() * (1 << 24))).toString(16)},
-      eventList: [],
+      eventList: [{type: 'dblclick'}, {type: 'click'}],
       sourceId: '2573632338734d5cb24489b06de09659',
       sql: 'SELECT SUBSTRING(addTime,1,10) as addTime, COUNT(cuId) as total from comment_user where nickname != "${nickname}" and country = "${country}" GROUP BY SUBSTRING(addTime,1,10) ORDER BY addTime asc',
       conditionList: [

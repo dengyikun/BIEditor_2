@@ -26,22 +26,21 @@ const ItemList = ({dispatch, loading, list, activeItemId, hoverItemId, dragItem}
 
   const getItemList = (list, parentId) => {
 
-    const filterItemList = list.filter(item => item.parentId === parentId)
-
-    return filterItemList.length ? filterItemList.map(item => <Item
-        key={item.id}
-        item={item}
-        list={list}
-        dispatch={dispatch}
-        activeItemId={activeItemId}
-        hoverItemId={hoverItemId}
-        dragItem={dragItem}
-      >
-        {
-          getItemList(list, item.id)
-        }
-      </Item>
-    ) : undefined
+    return list.map(item => item.parentId === parentId ? <Item
+          key={item.id}
+          item={item}
+          isEdit={true}
+          list={list}
+          dispatch={dispatch}
+          activeItemId={activeItemId}
+          hoverItemId={hoverItemId}
+          dragItem={dragItem}
+        >
+          {
+            getItemList(list, item.id)
+          }
+        </Item> : undefined
+    )
   }
 
   return <div className={styles.body} onMouseDown={onMouseDown}>
@@ -56,18 +55,16 @@ const ItemList = ({dispatch, loading, list, activeItemId, hoverItemId, dragItem}
       style: {
         background: 'transparent',
         border: 0,
-      }
+      },
+      eventList: [],
     }}
+          isEdit={false}
           className={styles.content}
           list={list}
           dispatch={dispatch}
           activeItemId={activeItemId}
           hoverItemId={hoverItemId}
           dragItem={dragItem}
-          extendsProps={{
-            disableDragging: true,
-            enableResizing: false,
-          }}
     >
       {
         getItemList(list, '')

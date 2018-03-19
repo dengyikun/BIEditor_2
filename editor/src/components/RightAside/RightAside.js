@@ -5,6 +5,7 @@ import Copy from 'react-copy-to-clipboard'
 import DataSetModal from '../DataSetModal/DataSetModal'
 import ChartSetModal from '../ChartSetModal/ChartSetModal'
 import EventSetModal from '../EventSetModal/EventSetModal'
+import items from '../../data/items'
 import styles from './RightAside.less';
 
 const TreeNode = Tree.TreeNode;
@@ -60,21 +61,16 @@ function RightAside({dispatch, list, activeItemId}) {
 
   const getItemNodeList = () => {
 
-    const itemType = {
-      container: '容器',
-      chartLine: '折线图',
-    }
-
     let nodeList = []
 
-    Object.keys(itemType).map(type => {
+    Object.keys(items).map(type => {
 
       const filterItemList = list.filter(item => item.type === type)
 
       if (filterItemList.length) {
         nodeList.push(<TreeNode
           key={type}
-          title={itemType[type]}>
+          title={`${items[type].item.name}  [${filterItemList.length}]`}>
           {
             filterItemList.map(item => <TreeNode
               key={item.id}

@@ -16,6 +16,7 @@ const Item = props => {
   } = props
 
   const onMouseUp = e => {
+    e.stopPropagation()
     if (dragItem.id && dragItem.id !== id && type === 'container') {
       let x = 0, y = 0;
       switch (dragItem.parentId) {
@@ -44,7 +45,6 @@ const Item = props => {
         type: 'item/setItem',
         payload: {...dragItem, x, y, parentId: id}
       })
-      e.stopPropagation()
     }
   }
 
