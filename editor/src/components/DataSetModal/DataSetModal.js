@@ -157,8 +157,7 @@ class DataSetModal extends React.Component {
           <TabPane tab="SQL 模式" key="1">
             <Row gutter={20}>
               <Col span={6}>
-                <Tree className={styles.tree}
-                      defaultExpandAll
+                <Tree defaultExpandAll
                       expandedKeys={[sourceId]}
                       selectedKeys={[sourceId]}
                       onSelect={this.onSourceNodeSelect}>

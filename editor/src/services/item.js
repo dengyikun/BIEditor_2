@@ -8,4 +8,10 @@ export default {
       conditionList
     });
   },
+  getPage: (pageId) => {
+    return request.get(`/api/pages/${pageId}/content`);
+  },
+  patchPage: ({pageId, data}) => {
+    return request.patch(`/api/pages/${pageId}/content`, data);
+  },
 }

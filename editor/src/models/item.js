@@ -1,4 +1,5 @@
 import itemService from '../services/item'
+import {TOOL} from '../utils'
 
 export default {
   namespace: 'item',
@@ -47,15 +48,26 @@ export default {
       return {...state, eventSetModalVisible: payload};
     },
   },
-  effects: {},
+  effects: {
+    *getPage({payload}, {call, put}) {
+      const {data} = yield call(itemService.getPage, payload);
+      yield put({type: 'setList', payload: data.data.list || []})
+    },
+    *savePage({payload, callback}, {call}) {
+      const {data} = yield call(itemService.patchPage, {pageId: TOOL.getParams('pageId'), data: payload});
+      yield callback && callback(data)
+    },
+  },
   subscriptions: {
     setup({dispatch, history}) {
       return history.listen(({pathname}) => {
         if (pathname === '/') {
-          dispatch({
-            type: 'setList',
-            payload: []
-          });
+          if (TOOL.getParams('pageId')) {
+            dispatch({
+              type: 'getPage',
+              payload: TOOL.getParams('pageId')
+            });
+          }
         }
       });
     },

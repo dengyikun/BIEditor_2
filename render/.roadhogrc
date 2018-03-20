@@ -1,6 +1,7 @@
 {
   "entry": "src/index.js",
-  "outputPath": "render",
+  "publicPath": ".",
+  "outputPath": "../build/render",
   "extraBabelPlugins": [
     [
       "import",

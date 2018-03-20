@@ -1,15 +1,19 @@
 import dva, {connect} from 'dva';
 import React from 'react';
 import {LocaleProvider} from 'antd';
+import createHistory from 'history/createBrowserHistory';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import styles from './index.less';
+import Header from './components/Header/Header';
 import LeftAside from './components/LeftAside/LeftAside';
 import RightAside from './components/RightAside/RightAside';
 import ItemList from './components/ItemList/ItemList';
 import createLoading from 'dva-loading';
 
 // 1. Initialize
-const app = dva();
+const app = dva({
+  history: createHistory(),
+});
 
 // 2. Plugins
 app.use(createLoading());
@@ -22,6 +26,7 @@ models.keys().map((key) => { app.model(models(key)) });
 app.router(() => <LocaleProvider locale={zhCN}>
   <div className={styles.body}>
     <header>
+      <Header/>
     </header>
     <aside className={styles.left}>
       <LeftAside/>

@@ -1,4 +1,5 @@
 import sourceService from '../services/source'
+import {TOOL} from '../utils'
 
 export default {
   namespace: 'source',
@@ -27,12 +28,14 @@ export default {
   },
   subscriptions: {
     setup({dispatch, history}) {
-      return history.listen(({pathname}) => {
+      return history.listen((pathname) => {
         if (pathname === '/') {
-          dispatch({
-            type: 'getList',
-            payload: '3b03699332d648ecbb96adb3a8f06e0f'
-          });
+          if (TOOL.getParams('pageId')) {
+            dispatch({
+              type: 'getList',
+              payload: TOOL.getParams('pageId')
+            });
+          }
         }
       });
     },

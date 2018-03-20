@@ -1,0 +1,30 @@
+.nowrap {
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.clear {
+  &::after {
+    clear: both;
+    display: table;
+    content: " ";
+  }
+}
+
+.button (@text-color: gray, @background-color: white, @border-color: @text-color){
+  padding: 0 0.15rem;
+  color: @text-color;
+  background: @background-color;
+  border-color: @border-color;
+  border-radius: 0.06rem;
+
+  &::after {
+    border-color: @text-color;
+  }
+
+  &:active {
+    color: @background-color;
+    background: @text-color;
+  }
+}
