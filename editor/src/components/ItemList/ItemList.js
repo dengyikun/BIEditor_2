@@ -14,7 +14,7 @@ function mapStateToProps(state) {
   };
 }
 
-const ItemList = ({dispatch, loading, list, activeItemId, hoverItemId, dragItem}) => {
+const ItemList = ({dispatch, loading, list, activeItemId, hoverItemId, dragItem, isEdit}) => {
 
   const onMouseDown = (e) => {
     e.stopPropagation()
@@ -29,7 +29,7 @@ const ItemList = ({dispatch, loading, list, activeItemId, hoverItemId, dragItem}
     return list.map(item => item.parentId === parentId ? <Item
           key={item.id}
           item={item}
-          isEdit={true}
+          isEdit={isEdit}
           list={list}
           dispatch={dispatch}
           activeItemId={activeItemId}

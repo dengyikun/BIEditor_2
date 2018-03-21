@@ -3,10 +3,7 @@ import React from 'react';
 import {LocaleProvider} from 'antd';
 import createHistory from 'history/createBrowserHistory';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
-import styles from './index.less';
-import Header from './components/Header/Header';
-import LeftAside from './components/LeftAside/LeftAside';
-import RightAside from './components/RightAside/RightAside';
+import './render.less';
 import ItemList from './components/ItemList/ItemList';
 import createLoading from 'dva-loading';
 
@@ -24,22 +21,7 @@ models.keys().map((key) => { app.model(models(key)) });
 
 // // 4. Router
 app.router(() => <LocaleProvider locale={zhCN}>
-  <div className={styles.body}>
-    <header>
-      <Header/>
-    </header>
-    <aside className={styles.left}>
-      <LeftAside/>
-    </aside>
-    <main>
-      <ItemList isEdit={false}/>
-      <footer>
-      </footer>
-    </main>
-    <aside className={styles.right}>
-      <RightAside/>
-    </aside>
-  </div>
+  <ItemList isEdit={false}/>
 </LocaleProvider>);
 
 // 5. Start

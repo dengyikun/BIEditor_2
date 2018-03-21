@@ -1,7 +1,5 @@
 {
-  "entry": "src/index.js",
-  "publicPath": ".",
-  "outputPath": "../build/editor",
+  "entry": "src/*.js",
   "extraBabelPlugins": [
     [
       "import",
