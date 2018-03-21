@@ -1,12 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 import styles from './Container.less'
 
-const Item = props => {
+const Container = props => {
 
   let chart = null
 
   const {
-    item:{
+    item: {
       id, type, style, // 基础属性
     },
     list,
@@ -16,8 +16,8 @@ const Item = props => {
   } = props
 
   const onMouseUp = e => {
-    e.stopPropagation()
     if (dragItem.id && dragItem.id !== id && type === 'container') {
+      e.stopPropagation()
       let x = 0, y = 0;
       switch (dragItem.parentId) {
         case id:
@@ -76,4 +76,4 @@ const Item = props => {
 }
 
 // Export the wrapped version
-export default Item;
+export default Container;

@@ -1,5 +1,6 @@
 {
   "entry": "src/*.js",
+  "outputPath": "BIEditor",
   "extraBabelPlugins": [
     [
       "import",

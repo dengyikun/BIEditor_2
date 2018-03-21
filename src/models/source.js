@@ -23,19 +23,17 @@ export default {
     },
     *getTableList({payload}, {call, put}) {
       const {data} = yield call(sourceService.getTableList, payload);
-      yield put({type: 'setTableList', payload: { tableList: data.data, sourceId: payload}})
+      yield put({type: 'setTableList', payload: {tableList: data.data, sourceId: payload}})
     },
   },
   subscriptions: {
     setup({dispatch, history}) {
       return history.listen((pathname) => {
-        if (pathname === '/') {
-          if (TOOL.getParams('pageId')) {
-            dispatch({
-              type: 'getList',
-              payload: TOOL.getParams('pageId')
-            });
-          }
+        if (TOOL.getParams('pageId')) {
+          dispatch({
+            type: 'getList',
+            payload: TOOL.getParams('pageId')
+          });
         }
       });
     },

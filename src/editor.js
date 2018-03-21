@@ -3,7 +3,7 @@ import React from 'react';
 import {LocaleProvider} from 'antd';
 import createHistory from 'history/createBrowserHistory';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
-import styles from './index.less';
+import styles from './editor.less';
 import Header from './components/Header/Header';
 import LeftAside from './components/LeftAside/LeftAside';
 import RightAside from './components/RightAside/RightAside';
@@ -32,7 +32,7 @@ app.router(() => <LocaleProvider locale={zhCN}>
       <LeftAside/>
     </aside>
     <main>
-      <ItemList isEdit={false}/>
+      <ItemList isEdit={true}/>
       <footer>
       </footer>
     </main>

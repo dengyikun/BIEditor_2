@@ -61,13 +61,11 @@ export default {
   subscriptions: {
     setup({dispatch, history}) {
       return history.listen(({pathname}) => {
-        if (pathname === '/') {
-          if (TOOL.getParams('pageId')) {
-            dispatch({
-              type: 'getPage',
-              payload: TOOL.getParams('pageId')
-            });
-          }
+        if (TOOL.getParams('pageId')) {
+          dispatch({
+            type: 'getPage',
+            payload: TOOL.getParams('pageId')
+          });
         }
       });
     },
