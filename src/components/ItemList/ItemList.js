@@ -45,7 +45,7 @@ const ItemList = ({dispatch, loading, list, activeItemId, hoverItemId, dragItem,
 
   return <div className={styles.body} onMouseDown={onMouseDown}>
     <Item item={{
-      id: '',
+      id: 'list',
       parentId: null,
       y: 0,
       x: 0,
@@ -67,7 +67,7 @@ const ItemList = ({dispatch, loading, list, activeItemId, hoverItemId, dragItem,
           dragItem={dragItem}
     >
       {
-        getItemList(list, '')
+        getItemList(list, 'list')
       }
     </Item>
   </div>

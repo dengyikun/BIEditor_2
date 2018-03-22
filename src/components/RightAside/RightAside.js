@@ -1,5 +1,5 @@
 import React from 'react';
-import {message, Button, Tree} from 'antd';
+import {message, Button, Tree, Icon, Modal} from 'antd';
 import {connect} from 'dva';
 import Copy from 'react-copy-to-clipboard'
 import DataSetModal from '../DataSetModal/DataSetModal'
@@ -54,9 +54,28 @@ function RightAside({dispatch, list, activeItemId}) {
       dispatch({
         type: 'item/setEventSetModalVisible',
         payload: true
-
       })
     }
+  }
+
+  const onItemNodeDelete = id => e => {
+    e.stopPropagation()
+    Modal.confirm({
+      title: '确认删除该控件？',
+      content: '删除后该控件将无法找回！',
+      onOk: () => {
+        dispatch({
+          type: 'item/deleteItem',
+          payload: id
+        })
+        if (id === activeItemId) {
+          dispatch({
+            type: 'item/setActiveItemId',
+            payload: ''
+          })
+        }
+      }
+    })
   }
 
   const getItemNodeList = () => {
@@ -70,11 +89,18 @@ function RightAside({dispatch, list, activeItemId}) {
       if (filterItemList.length) {
         nodeList.push(<TreeNode
           key={type}
-          title={`${items[type].item.name}  [${filterItemList.length}]`}>
+          title={<div className={styles.node}>
+            {items[type].icon}&nbsp;&nbsp;
+            {items[type].item.name}&nbsp;[{filterItemList.length}]
+          </div>}>
           {
             filterItemList.map(item => <TreeNode
               key={item.id}
-              title={item.name}/>
+              title={<div className={styles.node}>
+                {item.name}
+                <Icon className={styles.delete} type="delete"
+                onClick={onItemNodeDelete(item.id)}/>
+              </div>}/>
             )
           }
         </TreeNode>)
@@ -85,10 +111,12 @@ function RightAside({dispatch, list, activeItemId}) {
   }
 
   const onSelect = keys => {
-    dispatch({
-      type: 'item/setActiveItemId',
-      payload: keys[0]
-    })
+    if (!items[keys[0]]) {
+      dispatch({
+        type: 'item/setActiveItemId',
+        payload: keys[0]
+      })
+    }
   }
 
   return (
@@ -138,8 +166,8 @@ function RightAside({dispatch, list, activeItemId}) {
       <div className={styles.title}>
         组件列表
       </div>
-      <Tree className={styles.tree} showIcon
-            defaultExpandAll
+      <Tree className={styles.tree}
+            defaultExpandedKeys={Object.keys(items)}
             selectedKeys={[activeItemId]}
             onSelect={onSelect}>
         {

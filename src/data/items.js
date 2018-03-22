@@ -14,7 +14,9 @@ export default {
       type: 'container',
       style: {background: '#' + (~~(Math.random() * (1 << 24))).toString(16)},
       eventList: [],
+      refreshTime: new Date(),
     },
+    icon: <Icon type="layout"/>,
     node: <div className={styles.widget}><Icon className={styles.icon} type="layout"/>容器组件</div>
   },
   lineChart: {
@@ -27,6 +29,7 @@ export default {
       type: 'lineChart',
       style: {background: '#' + (~~(Math.random() * (1 << 24))).toString(16)},
       eventList: [],
+      refreshTime: new Date(),
       sourceId: '2573632338734d5cb24489b06de09659',
       sql: 'SELECT SUBSTRING(addTime,1,10) as addTime, COUNT(cuId) as total from comment_user where nickname != "${nickname}" and country = "${country}" GROUP BY SUBSTRING(addTime,1,10) ORDER BY addTime asc',
       conditionList: [
@@ -89,6 +92,7 @@ export default {
         ],
       };`
     },
+    icon: <Icon type="line-chart"/>,
     node: <div className={styles.widget}><Icon className={styles.icon} type="line-chart"/>折线图</div>,
   },
 }

@@ -89,7 +89,10 @@ class EventSetModal extends React.Component {
       content: '删除后该事件将无法找回！',
       onOk: () => {
         let newEventList = this.state.eventList.slice()
-        newEventList.splice(this.state.eventList.findIndex(event => event.id === id), 1)
+        const index = this.state.eventList.findIndex(event => event.id === id)
+        if (index !== -1) {
+          newEventList.splice(index, 1)
+        }
         if (id === this.state.id) {
           this.setState({eventList: newEventList, id: ''})
         } else {
@@ -115,7 +118,7 @@ class EventSetModal extends React.Component {
     newEventList.find(event => {
       if (event.id === this.state.id) {
         event.targetId = value
-        event.conditionList = option.props.item.conditionList || []
+        event.conditionList = JSON.parse(JSON.stringify(option.props.item.conditionList || []))
         this.setState({eventList: newEventList})
         return true
       }

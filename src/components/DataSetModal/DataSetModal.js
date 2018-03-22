@@ -75,7 +75,10 @@ class DataSetModal extends React.Component {
 
   onDimensionListDeselect = name => {
     let dimensionList = [...this.state.dimensionList]
-    dimensionList.splice(dimensionList.findIndex(item => item.name === name), 1)
+    const index = dimensionList.findIndex(item => item.name === name)
+    if (index !== -1) {
+      dimensionList.splice(index, 1)
+    }
     this.setState({dimensionList})
   }
 
@@ -96,7 +99,10 @@ class DataSetModal extends React.Component {
 
   onValueListDeselect = name => {
     let valueList = [...this.state.valueList]
-    valueList.splice(valueList.findIndex(item => item.name === name), 1)
+    const index = valueList.findIndex(item => item.name === name)
+    if (index !== -1) {
+      valueList.splice(index, 1)
+    }
     this.setState({valueList})
   }
 

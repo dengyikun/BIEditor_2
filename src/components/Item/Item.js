@@ -13,6 +13,7 @@ const Item = props => {
     item:{
       id, x, y, width, height, type, style, eventList, // 基础属性
     },
+    list,
     isEdit,
     activeItemId,
     hoverItemId,
@@ -106,10 +107,30 @@ const Item = props => {
   //控件事件
   const onEvent = e => {
     e.stopPropagation()
-    if (isEdit) {
+    if (!isEdit) {
       eventList.map(event => {
         if (event.type === e.type) {
-          console.log(event.type)
+          let targetItem = list.find(item => item.id === event.targetId)
+          if (targetItem) {
+            switch (event.action) {
+              case 'refresh':
+                targetItem.conditionList = event.conditionList
+                targetItem.refreshTime = new Date()
+                break
+              case 'hide':
+                targetItem.style.visibility = 'hidden'
+                break
+              case 'show':
+                targetItem.style.visibility = 'visible'
+                break
+              case 'setData':
+                break
+            }
+            dispatch({
+              type: 'item/setItem',
+              payload: {...targetItem}
+            })
+          }
         }
       })
     }

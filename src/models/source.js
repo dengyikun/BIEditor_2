@@ -12,7 +12,10 @@ export default {
     },
     setTableList(state, {payload}) {
       let list = [...state.list]
-      list[list.findIndex(item => item.sourceId === payload.sourceId)].tableList = payload.tableList
+      const index = list.findIndex(item => item.sourceId === payload.sourceId)
+      if (index !== -1) {
+        list[index].tableList = payload.tableList
+      }
       return {...state, list};
     },
   },

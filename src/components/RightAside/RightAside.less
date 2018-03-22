@@ -1,4 +1,4 @@
-
+@import "../../assets/styles/tool";
 .body {
   width: 100%;
   height: 100%;
@@ -74,9 +74,39 @@
     padding: 0 20px;
 
     :global {
-      .ant-tree-switcher {
-        width: 12px;
-        background: transparent!important;
+      .ant-tree-child-tree {
+        .ant-tree-switcher {
+          display: none;
+        }
+
+        .ant-tree-node-content-wrapper {
+          width: 100%;
+          .ant-tree-title > div {
+            padding: 0 24px 0 10px;
+          }
+        }
+      }
+    }
+
+    .node {
+      position: relative;
+
+      > div {
+        .nowrap;
+      }
+
+      .delete {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: none;
+      }
+
+      &:hover .delete {
+        display: inline-block;
       }
     }
   }

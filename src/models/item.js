@@ -26,6 +26,14 @@ export default {
       }
       return {...state, list: newList};
     },
+    deleteItem(state, {payload}) {
+      let newList = state.list.slice()
+      let index = newList.findIndex(item => item.id === payload)
+      if (index !== -1) {
+        newList.splice(index, 1)
+      }
+      return {...state, list: newList};
+    },
     setList(state, {payload}) {
       return {...state, list: payload};
     },
