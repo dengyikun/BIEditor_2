@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import RnD from 'react-rnd'
-import Scrollbar from 'react-custom-scrollbars'
 import classNames from 'classnames'
 import items from '../../data/items'
 import styles from './Item.less'
@@ -153,6 +152,7 @@ const Item = props => {
       },
       className
     )}
+    style={style}
     position={{x, y}}
     size={{width, height}}
     z={((dragItem.id === id) || (activeItemId === id)) ? 9999 : ''}
@@ -164,6 +164,8 @@ const Item = props => {
     resizeHandleWrapperClass={styles.resizeHandle}
     extendsProps={{
       onMouseOver,
+      onClick: onEvent,
+      onDoubleClick: onEvent,
     }}
     disableDragging={!isEdit}
     enableResizing={{
@@ -177,13 +179,7 @@ const Item = props => {
       topLeft: isEdit,
     }}
   >
-    <Scrollbar className={styles.content}
-               onClick={onEvent}
-               onDoubleClick={onEvent}
-      //autoHide
-               style={style}>
       {getContent(type)}
-    </Scrollbar>
   </RnD>
 }
 

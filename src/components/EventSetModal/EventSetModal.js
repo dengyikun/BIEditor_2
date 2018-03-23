@@ -1,25 +1,14 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'dva';
 import {message, Modal, Tabs, Row, Col, Tree, Icon, Select, Input} from 'antd';
-import {TOOL} from '../../utils';
-import ScrollBar from 'react-custom-scrollbars';
+import {TOOL, ENUM} from '../../utils';
 import styles from './EventSetModal.less';
 
 const TabPane = Tabs.TabPane;
 const TreeNode = Tree.TreeNode;
 const Option = Select.Option;
 
-const eventTypes = {
-  click: '单击事件',
-  dblclick: '双击事件'
-}
-
-const actions = {
-  refresh: '刷新',
-  hide: '隐藏',
-  show: '显示',
-  setData: '设置值',
-}
+const {eventTypes, actions} = ENUM
 
 class EventSetModal extends React.Component {
 

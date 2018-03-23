@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import styles from './Container.less'
+import ScrollBar from 'react-custom-scrollbars'
 
 const Container = props => {
 
@@ -7,7 +8,7 @@ const Container = props => {
 
   const {
     item: {
-      id, type, style, // 基础属性
+      id, type, // 基础属性
     },
     list,
     dragItem,
@@ -34,16 +35,16 @@ const Container = props => {
           y = getOverY(dragItem.parentId, id, dragItem.y)
       }
       dispatch({
+        type: 'item/setItem',
+        payload: {...dragItem, x, y, parentId: id}
+      })
+      dispatch({
         type: 'item/setDragItem',
         payload: {}
       })
       dispatch({
         type: 'item/setActiveItemId',
         payload: dragItem.id,
-      })
-      dispatch({
-        type: 'item/setItem',
-        payload: {...dragItem, x, y, parentId: id}
       })
     }
   }
@@ -68,11 +69,11 @@ const Container = props => {
     return formY - toY + dragItemY
   }
 
-  return <div className={styles.body}
-              onMouseUp={onMouseUp}
-              style={style}>
+  return <ScrollBar className={styles.body}
+                    onMouseUp={onMouseUp}
+                    renderTrackHorizontal={() => <div className={styles.horizontal}/>}>
     {children}
-  </div>
+  </ScrollBar>
 }
 
 // Export the wrapped version

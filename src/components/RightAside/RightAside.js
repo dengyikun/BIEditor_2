@@ -60,6 +60,10 @@ function RightAside({dispatch, list, activeItemId}) {
 
   const onItemNodeDelete = id => e => {
     e.stopPropagation()
+    if (list.find(item => item.parentId === id)) {
+      message.error('请先删除容器中控件！')
+      return
+    }
     Modal.confirm({
       title: '确认删除该控件？',
       content: '删除后该控件将无法找回！',
@@ -78,36 +82,22 @@ function RightAside({dispatch, list, activeItemId}) {
     })
   }
 
-  const getItemNodeList = () => {
+  const getItemNodeList = (parentId) => {
 
-    let nodeList = []
+    let filterList = list.filter(item => item.parentId === parentId)
 
-    Object.keys(items).map(type => {
-
-      const filterItemList = list.filter(item => item.type === type)
-
-      if (filterItemList.length) {
-        nodeList.push(<TreeNode
-          key={type}
-          title={<div className={styles.node}>
-            {items[type].icon}&nbsp;&nbsp;
-            {items[type].item.name}&nbsp;[{filterItemList.length}]
-          </div>}>
-          {
-            filterItemList.map(item => <TreeNode
-              key={item.id}
-              title={<div className={styles.node}>
-                {item.name}
-                <Icon className={styles.delete} type="delete"
+    return filterList.length ? filterList.map(item => <TreeNode
+        key={item.id}
+        title={<div className={styles.node}>
+          {items[item.type].icon}&nbsp;&nbsp;
+          {item.name}
+          <Icon className={styles.delete} type="delete"
                 onClick={onItemNodeDelete(item.id)}/>
-              </div>}/>
-            )
-          }
-        </TreeNode>)
-      }
-    })
-
-    return nodeList
+        </div>}>
+        {
+          getItemNodeList(item.id)
+        }
+      </TreeNode>) : null
   }
 
   const onSelect = keys => {
@@ -171,7 +161,7 @@ function RightAside({dispatch, list, activeItemId}) {
             selectedKeys={[activeItemId]}
             onSelect={onSelect}>
         {
-          getItemNodeList()
+          getItemNodeList('list')
         }
       </Tree>
     </div>
