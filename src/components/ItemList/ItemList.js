@@ -27,14 +27,9 @@ const ItemList = ({dispatch, loading, list, activeItemId, hoverItemId, dragItem,
   const getItemList = (list, parentId) => {
 
     return list.map(item => item.parentId === parentId ? <Item
-          key={item.id}
+          key={item.id + item.parentId}
           item={item}
           isEdit={isEdit}
-          list={list}
-          dispatch={dispatch}
-          activeItemId={activeItemId}
-          hoverItemId={hoverItemId}
-          dragItem={dragItem}
         >
           {
             getItemList(list, item.id)
@@ -60,11 +55,6 @@ const ItemList = ({dispatch, loading, list, activeItemId, hoverItemId, dragItem,
     }}
           isEdit={false}
           className={styles.content}
-          list={list}
-          dispatch={dispatch}
-          activeItemId={activeItemId}
-          hoverItemId={hoverItemId}
-          dragItem={dragItem}
     >
       {
         getItemList(list, 'list')

@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {connect} from 'dva'
 import RnD from 'react-rnd'
 import classNames from 'classnames'
 import items from '../../data/items'
@@ -89,7 +90,7 @@ const Item = props => {
         height: height + d.height,
       }
     })
-    chart && chart.resize()
+    chart.resize && chart.resize()
   }
 
   //鼠标移至控件上时
@@ -138,7 +139,7 @@ const Item = props => {
   //获取控件内容
   const getContent = (type) => {
     const Content = items[type].instance
-    return <Content {...props} ref={instance => {
+    return <Content item={props.item} ref={instance => {
       if (!chart) chart = instance
     }}>{children}</Content>
   }
@@ -183,5 +184,14 @@ const Item = props => {
   </RnD>
 }
 
-// Export the wrapped version
-export default Item;
+function mapStateToProps(state) {
+  const {list, activeItemId, hoverItemId, dragItem} = state.item;
+  return {
+    list,
+    activeItemId,
+    hoverItemId,
+    dragItem,
+  };
+}
+
+export default connect(mapStateToProps)(Item)

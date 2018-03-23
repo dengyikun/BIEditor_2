@@ -9,7 +9,6 @@ class LineChart extends React.Component {
 
   static propTypes = {
     item: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
   }//props 类型检查
 
   constructor(props) {

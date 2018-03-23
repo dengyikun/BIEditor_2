@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {connect} from 'dva'
 import styles from './Container.less'
 import ScrollBar from 'react-custom-scrollbars'
 
@@ -17,8 +18,8 @@ const Container = props => {
   } = props
 
   const onMouseUp = e => {
+
     if (dragItem.id && dragItem.id !== id && type === 'container') {
-      e.stopPropagation()
       let x = 0, y = 0;
       switch (dragItem.parentId) {
         case id:
@@ -42,10 +43,7 @@ const Container = props => {
         type: 'item/setDragItem',
         payload: {}
       })
-      dispatch({
-        type: 'item/setActiveItemId',
-        payload: dragItem.id,
-      })
+      e.stopPropagation()
     }
   }
 
@@ -69,12 +67,18 @@ const Container = props => {
     return formY - toY + dragItemY
   }
 
-  return <ScrollBar className={styles.body}
-                    onMouseUp={onMouseUp}
+  return <ScrollBar className={styles.body} onMouseUp={onMouseUp}
                     renderTrackHorizontal={() => <div className={styles.horizontal}/>}>
     {children}
   </ScrollBar>
 }
 
-// Export the wrapped version
-export default Container;
+function mapStateToProps(state) {
+  const {list, dragItem} = state.item;
+  return {
+    list,
+    dragItem,
+  };
+}
+
+export default connect(mapStateToProps)(Container)
