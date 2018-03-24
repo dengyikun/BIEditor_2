@@ -11,13 +11,17 @@ export default {
     dataSetModalVisible: false,
     chartSetModalVisible: false,
     eventSetModalVisible: false,
+    refreshInterval: 0,
+    refreshAt: new Date(),
+    pageWidth: 0,
+    pageHeight: 0,
   },
   reducers: {
     setItem(state, {payload}) {
-      let newList = state.list.slice()
+      let newList = JSON.parse(JSON.stringify(state.list))
       let item = newList.find((item, index) => {
         if (item.id === payload.id) {
-          newList[index] = {...item, ...payload}
+          newList[index] = JSON.parse(JSON.stringify({...item, ...payload}))
           return true
         } else return false
       })
@@ -54,6 +58,18 @@ export default {
     },
     setEventSetModalVisible(state, {payload}) {
       return {...state, eventSetModalVisible: payload};
+    },
+    setRefreshInterval(state, {payload}) {
+      return {...state, refreshInterval: payload};
+    },
+    setRefreshAt(state, {payload}) {
+      return {...state, refreshAt: payload};
+    },
+    setPageWidth(state, {payload}) {
+      return {...state, pageWidth: payload};
+    },
+    setPageHeight(state, {payload}) {
+      return {...state, pageHeight: payload};
     },
   },
   effects: {

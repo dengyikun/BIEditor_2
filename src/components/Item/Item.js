@@ -7,6 +7,8 @@ import styles from './Item.less'
 
 const Item = props => {
 
+  const {clientWidth: listWidth} = document.getElementById('list') || {}
+
   let chart = null
 
   const {
@@ -40,24 +42,29 @@ const Item = props => {
 
   //停止拖拽控件
   const onDragStop = (e, d) => {
+    let {x, y} = d
+    x = x < 0 ? 0 : x
+    x = x > listWidth - width ? listWidth - width : x
+    y = y < 0 ? 0 : y
+    const item = {
+      ...props.item,
+      x,
+      y,
+    }
     dispatch({
-      type: 'item/setDragItem',
-      payload: {
-        ...props.item,
-        x: d.x,
-        y: d.y,
-      }
+      type: 'item/setItem',
+      payload: item
     })
     dispatch({
-      type: 'item/setActiveItemId',
-      payload: id,
+      type: 'item/setDragItem',
+      payload: item
     })
     setTimeout(() => {
       dispatch({
         type: 'item/setDragItem',
         payload: {}
       })
-    }, 300)
+    }, 100)
   }
 
   //开始调整控件大小
@@ -70,18 +77,25 @@ const Item = props => {
 
   //调整控件大小时
   const onResize = (e, direction, ref, d, position) => {
+    let {x, y} = position
+    x = x < 0 ? 0 : x
+    x = x > listWidth - width ? listWidth - width : x
+    y = y < 0 ? 0 : y
     dispatch({
       type: 'item/setItem',
       payload: {
         id,
-        x: position.x,
-        y: position.y,
+        x,
+        y,
       }
     })
   }
 
   //停止调整控件大小
   const onResizeStop = (e, direction, ref, d) => {
+    const {width: dWidth, height: dHeight} = d
+    const {clientWidth: listWidth, clientHeight: listHeight} = document.getElementById('list')
+    const offsetWidth = dWidth
     dispatch({
       type: 'item/setItem',
       payload: {
@@ -96,11 +110,13 @@ const Item = props => {
   //鼠标移至控件上时
   const onMouseOver = e => {
     e.stopPropagation()
-    if (!dragItem.id || (dragItem.id && type === 'container')) {
-      dispatch({
-        type: 'item/setHoverItem',
-        payload: props.item
-      })
+    if (isEdit) {
+      if (!dragItem.id || (dragItem.id && type === 'container')) {
+        dispatch({
+          type: 'item/setHoverItemId',
+          payload: id
+        })
+      }
     }
   }
 
@@ -155,7 +171,7 @@ const Item = props => {
     )}
     style={style}
     position={{x, y}}
-    size={{width, height}}
+    size={{width: width, height: height}}
     z={((dragItem.id === id) || (activeItemId === id)) ? 9999 : ''}
     onDragStart={onDragStart}
     onDragStop={onDragStop}
@@ -164,6 +180,7 @@ const Item = props => {
     onResizeStop={onResizeStop}
     resizeHandleWrapperClass={styles.resizeHandle}
     extendsProps={{
+      id,
       onMouseOver,
       onClick: onEvent,
       onDoubleClick: onEvent,

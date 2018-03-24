@@ -68,15 +68,21 @@ function RightAside({dispatch, list, activeItemId}) {
       title: '确认删除该控件？',
       content: '删除后该控件将无法找回！',
       onOk: () => {
+        // list.map(item => {
+        //   dispatch({
+        //     type: 'item/setItem',
+        //     payload: {id: item.id, parentId: '', parentIdCopy: item.parentId}
+        //   })
+        // })
         dispatch({
           type: 'item/deleteItem',
           payload: id
         })
         if (id === activeItemId) {
-          dispatch({
-            type: 'item/setActiveItemId',
-            payload: ''
-          })
+            dispatch({
+              type: 'item/setActiveItemId',
+              payload: ''
+            })
         }
       }
     })
@@ -157,7 +163,7 @@ function RightAside({dispatch, list, activeItemId}) {
         组件列表
       </div>
       <Tree className={styles.tree}
-            defaultExpandedKeys={Object.keys(items)}
+            defaultExpandedKeys={Array.from(list, item => item.id)}
             selectedKeys={[activeItemId]}
             onSelect={onSelect}>
         {
