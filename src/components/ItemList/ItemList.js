@@ -15,36 +15,6 @@ function mapStateToProps(state) {
 
 const ItemList = ({dispatch, list, refreshInterval, refreshAt, isEdit}) => {
   const onMouseDown = (e) => {
-    dispatch({
-      type: 'item/setItem',
-      payload: {
-        id: 'fe817fc3-f30e-5cc7-3e6c-c7b899896043',
-        parentId: '',
-      }
-    })
-    dispatch({
-      type: 'item/setItem',
-      payload: {
-        id: '21eeae93-63c5-b972-ecd5-574c036d2e15',
-        parentId: '',
-      }
-    })
-    setTimeout(() => {
-      dispatch({
-        type: 'item/setItem',
-        payload: {
-          id: 'fe817fc3-f30e-5cc7-3e6c-c7b899896043',
-          parentId: 'df239a1a-a5d1-a99c-13dc-b13d1a6d4ecc',
-        }
-      })
-      dispatch({
-        type: 'item/setItem',
-        payload: {
-          id: '21eeae93-63c5-b972-ecd5-574c036d2e15',
-          parentId: 'df239a1a-a5d1-a99c-13dc-b13d1a6d4ecc',
-        }
-      })
-    })
     e.stopPropagation()
     dispatch({
       type: 'item/setActiveItemId',

@@ -1,16 +1,21 @@
 .rnd {
-  border: 1px dashed transparent;
+  border: 1px dashed gray;
 
-  &.active {
-    border: 1px dashed gray;
-
-    > .resizeHandle > div:nth-child(+n+5) {
-      background: #f1f1f1;
-      border: 1px solid #cccccc;
-    }
+  > .resizeHandle > div:nth-child(+n+5) {
+    background: #f1f1f1;
+    border: 1px solid #cccccc;
   }
 
   &.noneEvents {
     pointer-events: none;
+  }
+}
+
+.item {
+  border: 1px dashed transparent;
+  position: absolute;
+
+  &.hover {
+    border: 1px dashed gray;
   }
 }

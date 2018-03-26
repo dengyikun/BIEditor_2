@@ -13,6 +13,7 @@ export default {
     eventSetModalVisible: false,
     refreshInterval: 0,
     refreshAt: new Date(),
+    autoResize: true,
     pageWidth: 0,
     pageHeight: 0,
   },

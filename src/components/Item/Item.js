@@ -23,6 +23,9 @@ const Item = props => {
     dispatch,
     children,
     className,
+    autoResize,
+    pageWidth,
+    pageHeight,
   } = props
 
   //开始拖拽控件
@@ -33,10 +36,6 @@ const Item = props => {
       payload: {
         ...props.item,
       }
-    })
-    dispatch({
-      type: 'item/setActiveItemId',
-      payload: id,
     })
   }
 
@@ -52,10 +51,6 @@ const Item = props => {
       y,
     }
     dispatch({
-      type: 'item/setItem',
-      payload: item
-    })
-    dispatch({
       type: 'item/setDragItem',
       payload: item
     })
@@ -64,15 +59,11 @@ const Item = props => {
         type: 'item/setDragItem',
         payload: {}
       })
+      dispatch({
+        type: 'item/setHoverItemId',
+        payload: ''
+      })
     }, 100)
-  }
-
-  //开始调整控件大小
-  const onResizeStart = () => {
-    dispatch({
-      type: 'item/setActiveItemId',
-      payload: id,
-    })
   }
 
   //调整控件大小时
@@ -93,9 +84,6 @@ const Item = props => {
 
   //停止调整控件大小
   const onResizeStop = (e, direction, ref, d) => {
-    const {width: dWidth, height: dHeight} = d
-    const {clientWidth: listWidth, clientHeight: listHeight} = document.getElementById('list')
-    const offsetWidth = dWidth
     dispatch({
       type: 'item/setItem',
       payload: {
@@ -111,7 +99,7 @@ const Item = props => {
   const onMouseOver = e => {
     e.stopPropagation()
     if (isEdit) {
-      if (!dragItem.id || (dragItem.id && type === 'container')) {
+      if (dragItem.id && type === 'container') {
         dispatch({
           type: 'item/setHoverItemId',
           payload: id
@@ -152,6 +140,14 @@ const Item = props => {
     }
   }
 
+  const onMouseDown = e => {
+    e.stopPropagation()
+    dispatch({
+      type: 'item/setActiveItemId',
+      payload: id,
+    })
+  }
+
   //获取控件内容
   const getContent = (type) => {
     const Content = items[type].instance
@@ -160,54 +156,73 @@ const Item = props => {
     }}>{children}</Content>
   }
 
-  return <RnD
-    className={classNames(
-      styles.rnd,
+  return (activeItemId === id) && isEdit ? <RnD
+      className={classNames(
+        styles.rnd,
+        {
+          [styles.noneEvents]: dragItem.id === id,
+        },
+        className
+      )}
+      style={style}
+      position={{x, y}}
+      size={{width: width, height: height}}
+      z={((dragItem.id === id) || (activeItemId === id)) ? 999 : ''}
+      onDragStart={onDragStart}
+      onDragStop={onDragStop}
+      onResize={onResize}
+      onResizeStop={onResizeStop}
+      resizeHandleWrapperClass={styles.resizeHandle}
+      extendsProps={{id}}
+      enableResizing={{
+        top: true,
+        right: true,
+        bottom: true,
+        left: true,
+        topRight: true,
+        bottomRight: true,
+        bottomLeft: true,
+        topLeft: true,
+      }}
+    >
+      {getContent(type)}
+    </RnD> :
+    <div className={classNames(
+      styles.item,
       {
-        [styles.active]: (activeItemId === id) || (hoverItemId === id),
-        [styles.noneEvents]: (dragItem.id === id) || (dragItem.id && type !== 'container'),
+        [styles.hover]: hoverItemId === id,
       },
       className
     )}
-    style={style}
-    position={{x, y}}
-    size={{width: width, height: height}}
-    z={((dragItem.id === id) || (activeItemId === id)) ? 9999 : ''}
-    onDragStart={onDragStart}
-    onDragStop={onDragStop}
-    onResizeStart={onResizeStart}
-    onResize={onResize}
-    onResizeStop={onResizeStop}
-    resizeHandleWrapperClass={styles.resizeHandle}
-    extendsProps={{
-      id,
-      onMouseOver,
-      onClick: onEvent,
-      onDoubleClick: onEvent,
-    }}
-    disableDragging={!isEdit}
-    enableResizing={{
-      top: isEdit,
-      right: isEdit,
-      bottom: isEdit,
-      left: isEdit,
-      topRight: isEdit,
-      bottomRight: isEdit,
-      bottomLeft: isEdit,
-      topLeft: isEdit,
-    }}
-  >
+         id={id}
+         style={{...style, width: width, height: height, left: x, top: y}}
+         onMouseOver={onMouseOver}
+         onClick={onEvent}
+         onDoubleClick={onEvent}
+         onMouseDown={onMouseDown}
+    >
       {getContent(type)}
-  </RnD>
+    </div>
 }
 
 function mapStateToProps(state) {
-  const {list, activeItemId, hoverItemId, dragItem} = state.item;
+  const {
+    list,
+    activeItemId,
+    hoverItemId,
+    dragItem,
+    autoResize,
+    pageWidth,
+    pageHeight,
+  } = state.item;
   return {
     list,
     activeItemId,
     hoverItemId,
     dragItem,
+    autoResize,
+    pageWidth,
+    pageHeight,
   };
 }
 

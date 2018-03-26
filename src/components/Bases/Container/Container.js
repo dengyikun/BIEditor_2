@@ -35,15 +35,21 @@ const Container = props => {
           x = getOverX(dragItem.parentId, id, dragItem.x)
           y = getOverY(dragItem.parentId, id, dragItem.y)
       }
-      setTimeout(() => {
-        dispatch({
-          type: 'item/setItem',
-          payload: {...dragItem, x, y, parentId: id}
-        })
-        dispatch({
-          type: 'item/setDragItem',
-          payload: {}
-        })
+      dispatch({
+        type: 'item/setItem',
+        payload: {...dragItem, x, y, parentId: id}
+      })
+      dispatch({
+        type: 'item/setActiveItemId',
+        payload: dragItem.id,
+      })
+      dispatch({
+        type: 'item/setDragItem',
+        payload: {}
+      })
+      dispatch({
+        type: 'item/setHoverItemId',
+        payload: ''
       })
       e.stopPropagation()
     }
