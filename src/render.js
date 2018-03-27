@@ -3,7 +3,7 @@ import React from 'react';
 import {LocaleProvider} from 'antd';
 import createHistory from 'history/createBrowserHistory';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
-import './render.less';
+import styles from './render.less';
 import ItemList from './components/ItemList/ItemList';
 import createLoading from 'dva-loading';
 
@@ -21,7 +21,9 @@ models.keys().map((key) => { app.model(models(key)) });
 
 // // 4. Router
 app.router(() => <LocaleProvider locale={zhCN}>
-  <ItemList isEdit={false}/>
+  <div className={styles.listContainer} id="listContainer">
+    <ItemList isEdit={false}/>
+  </div>
 </LocaleProvider>);
 
 // 5. Start

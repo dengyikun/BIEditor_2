@@ -32,7 +32,9 @@ app.router(() => <LocaleProvider locale={zhCN}>
       <LeftAside/>
     </aside>
     <main>
-      <ItemList isEdit={true}/>
+      <div className={styles.listContainer} id="listContainer">
+        <ItemList isEdit={true}/>
+      </div>
       <footer>
       </footer>
     </main>

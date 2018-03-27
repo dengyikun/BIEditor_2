@@ -7,8 +7,6 @@ import styles from './Item.less'
 
 const Item = props => {
 
-  const {clientWidth: listWidth} = document.getElementById('list') || {}
-
   let chart = null
 
   const {
@@ -24,9 +22,14 @@ const Item = props => {
     children,
     className,
     autoResize,
-    pageWidth,
-    pageHeight,
   } = props
+
+  const {clientWidth: listWidth} = document.getElementById('list') || {}
+  const ratio = autoResize && listWidth ? listWidth / 1080 : 1
+  // const realWidth = isNaN(width) ? width : width * ratio
+  // const realHeight = isNaN(height) ? height : height * ratio
+  // const realX = x * ratio
+  // const realY = y * ratio
 
   //开始拖拽控件
   const onDragStart = (e) => {
@@ -35,6 +38,8 @@ const Item = props => {
       type: 'item/setDragItem',
       payload: {
         ...props.item,
+        offsetX: e.nativeEvent.offsetX,
+        offsetY: e.nativeEvent.offsetY,
       }
     })
   }
@@ -42,17 +47,19 @@ const Item = props => {
   //停止拖拽控件
   const onDragStop = (e, d) => {
     let {x, y} = d
+    // x = x / ratio
+    // y = y / ratio
     x = x < 0 ? 0 : x
-    x = x > listWidth - width ? listWidth - width : x
     y = y < 0 ? 0 : y
-    const item = {
-      ...props.item,
-      x,
-      y,
-    }
     dispatch({
       type: 'item/setDragItem',
-      payload: item
+      payload: {
+        ...props.item,
+        offsetX: dragItem.offsetX,
+        offsetY: dragItem.offsetY,
+        x,
+        y,
+      }
     })
     setTimeout(() => {
       dispatch({
@@ -69,8 +76,9 @@ const Item = props => {
   //调整控件大小时
   const onResize = (e, direction, ref, d, position) => {
     let {x, y} = position
+    // x = x / ratio
+    // y = y / ratio
     x = x < 0 ? 0 : x
-    x = x > listWidth - width ? listWidth - width : x
     y = y < 0 ? 0 : y
     dispatch({
       type: 'item/setItem',
@@ -165,7 +173,7 @@ const Item = props => {
         className
       )}
       style={style}
-      position={{x, y}}
+      position={{x: x, y: y}}
       size={{width: width, height: height}}
       z={((dragItem.id === id) || (activeItemId === id)) ? 999 : ''}
       onDragStart={onDragStart}
@@ -190,6 +198,7 @@ const Item = props => {
     <div className={classNames(
       styles.item,
       {
+        [styles.noneEvents]: dragItem.id && type !== 'container',
         [styles.hover]: hoverItemId === id,
       },
       className
@@ -212,8 +221,6 @@ function mapStateToProps(state) {
     hoverItemId,
     dragItem,
     autoResize,
-    pageWidth,
-    pageHeight,
   } = state.item;
   return {
     list,
@@ -221,8 +228,6 @@ function mapStateToProps(state) {
     hoverItemId,
     dragItem,
     autoResize,
-    pageWidth,
-    pageHeight,
   };
 }
 

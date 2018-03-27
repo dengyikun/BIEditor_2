@@ -4,16 +4,23 @@ import styles from './ItemList.less';
 import Item from '../Item/Item'
 
 function mapStateToProps(state) {
-  const {list, refreshInterval, refreshAt} = state.item;
+  const {list, autoResize} = state.item;
   return {
     loading: state.loading.models.item,
     list,
-    refreshInterval,
-    refreshAt,
+    autoResize,
   };
 }
 
-const ItemList = ({dispatch, list, refreshInterval, refreshAt, isEdit}) => {
+const ItemList = ({dispatch, list, autoResize, isEdit}) => {
+
+  const {clientWidth: listWidth} = document.getElementById('listContainer') || {}
+  const ratio = listWidth ? listWidth / 1920 : 1
+
+  console.log(listWidth, "listWidth")
+
+  console.log(ratio, "ratio")
+
   const onMouseDown = (e) => {
     e.stopPropagation()
     dispatch({
@@ -49,12 +56,14 @@ const ItemList = ({dispatch, list, refreshInterval, refreshAt, isEdit}) => {
       parentId: null,
       y: 0,
       x: 0,
-      width: '100%',
-      height: '100%',
+      width: isEdit && autoResize ? '100%' : 1920,
+      height: isEdit && autoResize ? '100%' : 100 / ratio + '%',
       type: 'container',
       style: {
         background: 'transparent',
         border: 0,
+        transform: isEdit && autoResize ? '' : `scale(${ratio})`,
+        transformOrigin: '0 0',
       },
       eventList: [],
     }}
