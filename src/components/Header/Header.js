@@ -4,19 +4,25 @@ import {message, Icon} from 'antd'
 import styles from './Header.less';
 
 function mapStateToProps(state) {
-  const {list} = state.item;
+  const {list, pageWidth, pageHeight, autoResize,} = state.item;
   return {
-    list
+    list,
+    pageWidth,
+    pageHeight,
+    autoResize,
   };
 }
 
-function Header({dispatch, list}) {
+function Header({dispatch, list, pageWidth, pageHeight, autoResize,}) {
 
   const upload = () => {
     dispatch({
       type: 'item/savePage',
       payload: {
-        list
+        list,
+        pageWidth,
+        pageHeight,
+        autoResize,
       },
       callback: (data) => {
         if (data.code === 200) {

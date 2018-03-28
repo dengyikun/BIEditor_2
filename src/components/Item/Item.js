@@ -20,16 +20,10 @@ const Item = props => {
     dragItem,
     dispatch,
     children,
+    pageWidth,
+    pageHeight,
     className,
-    autoResize,
   } = props
-
-  const {clientWidth: listWidth} = document.getElementById('list') || {}
-  const ratio = autoResize && listWidth ? listWidth / 1080 : 1
-  // const realWidth = isNaN(width) ? width : width * ratio
-  // const realHeight = isNaN(height) ? height : height * ratio
-  // const realX = x * ratio
-  // const realY = y * ratio
 
   //开始拖拽控件
   const onDragStart = (e) => {
@@ -47,8 +41,10 @@ const Item = props => {
   //停止拖拽控件
   const onDragStop = (e, d) => {
     let {x, y} = d
-    // x = x / ratio
-    // y = y / ratio
+    const totalWidth = width + x
+    const totalHeight = height + y
+    x = totalWidth < pageWidth ? x : pageWidth - width
+    y = totalHeight < pageHeight ? y : pageHeight - height
     x = x < 0 ? 0 : x
     y = y < 0 ? 0 : y
     dispatch({
@@ -76,8 +72,6 @@ const Item = props => {
   //调整控件大小时
   const onResize = (e, direction, ref, d, position) => {
     let {x, y} = position
-    // x = x / ratio
-    // y = y / ratio
     x = x < 0 ? 0 : x
     y = y < 0 ? 0 : y
     dispatch({
@@ -92,12 +86,16 @@ const Item = props => {
 
   //停止调整控件大小
   const onResizeStop = (e, direction, ref, d) => {
+    const newWidth = width + d.width
+    const newHeight = height + d.height
+    const totalWidth = newWidth + x
+    const totalHeight = newHeight + y
     dispatch({
       type: 'item/setItem',
       payload: {
         id,
-        width: width + d.width,
-        height: height + d.height,
+        width: totalWidth < pageWidth ? newWidth : pageWidth - x,
+        height: totalHeight < pageHeight ? newHeight : pageHeight - y,
       }
     })
     chart.resize && chart.resize()
@@ -221,6 +219,8 @@ function mapStateToProps(state) {
     hoverItemId,
     dragItem,
     autoResize,
+    pageWidth,
+    pageHeight,
   } = state.item;
   return {
     list,
@@ -228,6 +228,8 @@ function mapStateToProps(state) {
     hoverItemId,
     dragItem,
     autoResize,
+    pageWidth,
+    pageHeight,
   };
 }
 

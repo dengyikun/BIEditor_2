@@ -13,11 +13,18 @@ export default {
     eventSetModalVisible: false,
     refreshInterval: 0,
     refreshAt: new Date(),
-    autoResize: true,
-    pageWidth: 0,
-    pageHeight: 0,
+    pageWidth: 1200,
+    pageHeight: 700,
+    autoResize: false,
+    style: {
+      background: '#f2f5f7',
+      border: 'none',
+    }
   },
   reducers: {
+    set(state, {payload}) {
+      return {...state, ...payload};
+    },
     setItem(state, {payload}) {
       let newList = JSON.parse(JSON.stringify(state.list))
       let item = newList.find((item, index) => {
@@ -72,11 +79,22 @@ export default {
     setPageHeight(state, {payload}) {
       return {...state, pageHeight: payload};
     },
+    setAutoResize(state, {payload}) {
+      return {...state, autoResize: payload};
+    },
+    setStyle(state, {payload}) {
+      return {...state, style: {...state.style, ...payload}};
+    },
   },
   effects: {
     *getPage({payload}, {call, put}) {
       const {data} = yield call(itemService.getPage, payload);
-      yield put({type: 'setList', payload: data.data.list || []})
+      yield put({type: 'set', payload: {
+        list: data.data.list || [],
+        pageWidth: data.data.pageWidth || 1200,
+        pageHeight: data.data.pageHeight || 700,
+        autoResize: data.data.autoResize || false,
+      }})
     },
     *savePage({payload, callback}, {call}) {
       const {data} = yield call(itemService.patchPage, {pageId: TOOL.getParams('pageId'), data: payload});

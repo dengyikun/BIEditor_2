@@ -6,8 +6,9 @@ import zhCN from 'antd/lib/locale-provider/zh_CN';
 import styles from './editor.less';
 import Header from './components/Header/Header';
 import LeftAside from './components/LeftAside/LeftAside';
-import RightAside from './components/RightAside/RightAside';
 import ItemList from './components/ItemList/ItemList';
+import RightAside from './components/RightAside/RightAside';
+import Footer from './components/Footer/Footer';
 import createLoading from 'dva-loading';
 
 // 1. Initialize
@@ -32,10 +33,9 @@ app.router(() => <LocaleProvider locale={zhCN}>
       <LeftAside/>
     </aside>
     <main>
-      <div className={styles.listContainer} id="listContainer">
         <ItemList isEdit={true}/>
-      </div>
       <footer>
+        <Footer/>
       </footer>
     </main>
     <aside className={styles.right}>

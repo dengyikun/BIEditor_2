@@ -44,8 +44,7 @@ const Container = props => {
     }
   }
 
-  return <ScrollBar className={styles.body} onMouseUp={onMouseUp}
-                    renderTrackHorizontal={() => <div className={styles.horizontal}/>}>
+  return <ScrollBar className={styles.body} onMouseUp={onMouseUp}>
     {children}
   </ScrollBar>
 }
