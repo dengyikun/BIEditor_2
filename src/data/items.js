@@ -12,7 +12,7 @@ export default {
       width: 300,
       height: 200,
       type: 'container',
-      style: {background: '#' + (~~(Math.random() * (1 << 24))).toString(16)},
+      style: {},
       eventList: [],
       refreshTime: new Date(),
     },
@@ -27,20 +27,14 @@ export default {
       width: 300,
       height: 200,
       type: 'lineChart',
-      style: {background: '#' + (~~(Math.random() * (1 << 24))).toString(16)},
+      style: {},
       eventList: [],
       refreshTime: new Date(),
-      sourceId: '2573632338734d5cb24489b06de09659',
-      sql: 'SELECT SUBSTRING(addTime,1,10) as addTime, COUNT(cuId) as total from comment_user where nickname != "${nickname}" and country = "${country}" GROUP BY SUBSTRING(addTime,1,10) ORDER BY addTime asc',
-      conditionList: [
-        {name: 'nickname', value: '匿名用户'}, {name: 'country', value: '中国'},
-      ],
-      dimensionList: [
-        {name: 'addTime', displayName: '日期',}
-      ],
-      valueList: [
-        {name: 'total', displayName: '每天新增人数',}
-      ],
+      sourceId: '',
+      sql: '',
+      conditionList: [],
+      dimensionList: [],
+      valueList: [],
       option: `option = {
         backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {

@@ -49,6 +49,10 @@ class DataSetModal extends React.Component {
     const key = e.node.props.eventKey
     if (this.props.sourceList.findIndex(item => item.sourceId === e.node.props.eventKey) !== -1) {
       this.setState({sourceId: key})
+      this.props.dispatch({
+        type: 'source/getTableList',
+        payload: key
+      })
     }
   }
 

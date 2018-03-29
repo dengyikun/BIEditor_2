@@ -76,7 +76,6 @@ class ChartSetModal extends React.Component {
             <div className={styles.chart}>
               <Item item={{
                 ...this.state,
-                id: 'chartExample',
                 y: 0,
                 x: 0,
                 width: '100%',

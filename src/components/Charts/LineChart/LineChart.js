@@ -18,8 +18,10 @@ class LineChart extends React.Component {
     }
   }//初始化 state
 
+  timer = null
+
   refresh = () => {
-    const {sourceId, sql, conditionList, name, dimensionList, valueList, option} = this.props.item
+    const {sourceId, sql, conditionList, name, id, dimensionList, valueList, option} = this.props.item
     itemService.getChartData(sourceId, sql, conditionList)
       .then(data => {
         const dataList = data.data.data
@@ -64,7 +66,12 @@ class LineChart extends React.Component {
             this.state.chart.setOption(option)
           })
           .catch(error => {
-            message.error(`折线图：${name} 的 option 有误，请仔细检查！`)
+            // if (this.timer) {
+            //   clearTimeout(this.timer)
+            // }
+            // this.timer = setTimeout(() => {
+            //   message.error(`折线图：${name} (${id}) 的数据设置有误，请仔细检查！`)
+            // },300)
           })
       })
   }

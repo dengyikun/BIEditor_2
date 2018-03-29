@@ -11,7 +11,10 @@ import styles from './RightAside.less';
 const TreeNode = Tree.TreeNode;
 
 function RightAside({dispatch, list, activeItemId}) {
-  const activeItem = list.find(item => item.id === activeItemId)
+  const activeItem = {
+    name: '',
+    ...list.find(item => item.id === activeItemId)
+  }
 
   const onCopy = (text, result) => {
     if (text && result) {
@@ -125,14 +128,14 @@ function RightAside({dispatch, list, activeItemId}) {
           <label>
             组件ID<br/>
             <input placeholder="&#xE648;" disabled
-                   value={activeItemId || ''}/>
+                   value={activeItemId}/>
           </label>
         </div>
       </Copy>
       <div className={styles.name}>
         <label>
           组件名称<br/>
-          <input placeholder="&#xE692;" value={activeItem ? activeItem.name : ''}
+          <input placeholder="&#xE692;" value={activeItem.name}
                  onChange={onNameChange}/>
         </label>
       </div>
