@@ -11,7 +11,7 @@ const Item = props => {
 
   const {
     item:{
-      id, x, y, width, height, type, style, eventList, // 基础属性
+      id, x, y, width, height, type, style, css, eventList, // 基础属性
     },
     list,
     isEdit,
@@ -96,9 +96,9 @@ const Item = props => {
         id,
         width: totalWidth < pageWidth ? newWidth : pageWidth - x,
         height: totalHeight < pageHeight ? newHeight : pageHeight - y,
+        refreshAt: new Date(),
       }
     })
-    chart.resize && chart.resize()
   }
 
   //鼠标移至控件上时
@@ -125,7 +125,7 @@ const Item = props => {
             switch (event.action) {
               case 'refresh':
                 targetItem.conditionList = event.conditionList
-                targetItem.refreshTime = new Date()
+                targetItem.refreshAt = new Date()
                 break
               case 'hide':
                 targetItem.style.visibility = 'hidden'
@@ -192,6 +192,9 @@ const Item = props => {
       }}
     >
       {getContent(type)}
+      <style>
+        {css}
+      </style>
     </RnD> :
     <div className={classNames(
       styles.item,
@@ -209,6 +212,9 @@ const Item = props => {
          onMouseDown={onMouseDown}
     >
       {getContent(type)}
+      <style>
+        {css}
+      </style>
     </div>
 }
 

@@ -4,22 +4,24 @@ import {TOOL} from '../utils'
 export default {
   namespace: 'item',
   state: {
-    list: [],
-    activeItemId: '',
-    hoverItemId: '',
-    dragItem: {},
-    dataSetModalVisible: false,
-    chartSetModalVisible: false,
-    eventSetModalVisible: false,
-    refreshInterval: 0,
-    refreshAt: new Date(),
-    pageWidth: 1200,
-    pageHeight: 700,
-    autoResize: false,
+    list: [], // 控件列表
+    activeItemId: '', // 当前活动控件
+    hoverItemId: '', // 鼠标指向控件
+    dragItem: {}, // 当前拖动控件
+    dataSetModalVisible: false, // 数据设置模态窗显示
+    chartSetModalVisible: false, // 图表设置模态窗显示
+    eventSetModalVisible: false, // 事件设置模态窗显示
+    jsSetModalVisible: false, // js 设置模态窗显示
+    cssSetModalVisible: false, // css 设置模态窗显示
+    refreshInterval: 0, // 刷新时间间隔（秒）
+    refreshAt: new Date(), // 上次刷新时间
+    pageWidth: 1200, // 页面宽度
+    pageHeight: 700, // 页面高度
+    autoResize: false, // 自适应
     style: {
       background: '#f2f5f7',
       border: 'none',
-    }
+    },  // 页面样式
   },
   reducers: {
     set(state, {payload}) {
@@ -66,6 +68,12 @@ export default {
     },
     setEventSetModalVisible(state, {payload}) {
       return {...state, eventSetModalVisible: payload};
+    },
+    setJsSetModalVisible(state, {payload}) {
+      return {...state, jsSetModalVisible: payload};
+    },
+    setCssSetModalVisible(state, {payload}) {
+      return {...state, cssSetModalVisible: payload};
     },
     setRefreshInterval(state, {payload}) {
       return {...state, refreshInterval: payload};

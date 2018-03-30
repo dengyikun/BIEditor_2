@@ -29,7 +29,6 @@ const ItemList = ({dispatch, list, autoResize, pageWidth, pageHeight, style, isE
   }
 
   const getItemList = (list, parentId) => {
-
     let itemList = []
     list.map(item => {
         if (item.parentId === parentId) {
@@ -58,7 +57,7 @@ const ItemList = ({dispatch, list, autoResize, pageWidth, pageHeight, style, isE
       height: !isEdit && autoResize ? (pageHeight * ratio || 100 * ratio + '%') : (pageHeight || '100%'),
     }}>
       <Item item={{
-        id: 'list',
+        id: '',
         parentId: null,
         y: 0,
         x: 0,
@@ -76,7 +75,7 @@ const ItemList = ({dispatch, list, autoResize, pageWidth, pageHeight, style, isE
             className={styles.content}
       >
         {
-          getItemList(list, 'list')
+          getItemList(list, '')
         }
       </Item>
     </div>

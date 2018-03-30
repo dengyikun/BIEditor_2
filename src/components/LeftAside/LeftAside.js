@@ -41,7 +41,7 @@ function LeftAside({dispatch, dragItem}) {
     e.stopPropagation()
     dispatch({
       type: 'item/setDragItem',
-      payload: {...item, id: TOOL.getGUID(),}
+      payload: {...item, id: item.type + '-' + new Date().getTime(),}
     })
   }
 

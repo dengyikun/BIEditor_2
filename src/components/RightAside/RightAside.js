@@ -5,6 +5,7 @@ import Copy from 'react-copy-to-clipboard'
 import DataSetModal from '../DataSetModal/DataSetModal'
 import ChartSetModal from '../ChartSetModal/ChartSetModal'
 import EventSetModal from '../EventSetModal/EventSetModal'
+import CssSetModal from '../CssSetModal/CssSetModal'
 import items from '../../data/items'
 import styles from './RightAside.less';
 
@@ -28,7 +29,8 @@ function RightAside({dispatch, list, activeItemId}) {
         type: 'item/setItem',
         payload: {
           id: activeItemId,
-          name: e.target.value
+          name: e.target.value,
+          refreshAt: new Date()
         }
       })
     }
@@ -56,6 +58,15 @@ function RightAside({dispatch, list, activeItemId}) {
     if (activeItemId) {
       dispatch({
         type: 'item/setEventSetModalVisible',
+        payload: true
+      })
+    }
+  }
+
+  const onCssSetClick = () => {
+    if (activeItemId) {
+      dispatch({
+        type: 'item/setCssSetModalVisible',
         payload: true
       })
     }
@@ -158,6 +169,11 @@ function RightAside({dispatch, list, activeItemId}) {
           事件设置
           <EventSetModal/>
         </Button>
+        <Button className={styles.setButton} size={'small'}
+                onClick={onCssSetClick}>
+          css 设置
+          <CssSetModal/>
+        </Button>
       </div>
       <div className={styles.title}>
         事件设置
@@ -170,7 +186,7 @@ function RightAside({dispatch, list, activeItemId}) {
             selectedKeys={[activeItemId]}
             onSelect={onSelect}>
         {
-          getItemNodeList('list')
+          getItemNodeList('')
         }
       </Tree>
     </div>

@@ -64,20 +64,12 @@ class LineChart extends React.Component {
             option.xAxis = option.xAxis || xAxis
             option.series = option.series || series
             this.state.chart.setOption(option)
+            this.state.chart.resize()
           })
           .catch(error => {
-            // if (this.timer) {
-            //   clearTimeout(this.timer)
-            // }
-            // this.timer = setTimeout(() => {
-            //   message.error(`折线图：${name} (${id}) 的数据设置有误，请仔细检查！`)
-            // },300)
+              // message.error(`折线图：${name} (${id}) 的数据设置有误，请仔细检查！`)
           })
       })
-  }
-
-  resize = () => {
-    this.state.chart.resize()
   }
 
   render() {
@@ -86,8 +78,11 @@ class LineChart extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    this.timer && clearTimeout(this.timer)
-    this.timer = setTimeout(this.refresh, 300)
+    if (prevProps.item.refreshAt !== this.props.item.refreshAt) {
+      console.log('refreshAt')
+      this.timer && clearTimeout(this.timer)
+      this.timer = setTimeout(this.refresh, 300)
+    }
   }
 
   componentDidMount() {

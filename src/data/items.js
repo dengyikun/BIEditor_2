@@ -1,23 +1,27 @@
 import {Icon} from 'antd';
 import Container from '../components/Bases/Container/Container'
 import LineChart from '../components/Charts/LineChart/LineChart'
-import styles from '../components/LeftAside/LeftAside.less';
+import styles from './items.less';
 
 export default {
   container: {
-    instance: Container,
-    item: {
-      name: '容器',
-      parentId: 'base',
-      width: 300,
-      height: 200,
-      type: 'container',
-      style: {},
-      eventList: [],
-      refreshTime: new Date(),
+    instance: Container, // 组件实例
+    item: { // 组件数据
+      name: '容器', // 组件名称
+      parentId: 'base', // 组件父级 ID
+      width: 300, // 组件宽度
+      height: 200, // 组件高度
+      type: 'container', // 组件类型
+      style: {}, // 组件样式
+      css: ``, // 组件 css
+      eventList: [], // 组件事件列表
+      refreshAt: new Date(), // 组件上次刷新时间
+      option: ``, // 组件数据
     },
-    icon: <Icon type="layout"/>,
-    node: <div className={styles.widget}><Icon className={styles.icon} type="layout"/>容器组件</div>
+    icon: <Icon type="layout"/>, // 组件图标
+    node: <div className={styles.widget}>
+      <Icon className={styles.icon} type="layout"/>容器组件
+    </div>, // 组件在左侧展示样式
   },
   lineChart: {
     instance: LineChart,
@@ -28,8 +32,9 @@ export default {
       height: 200,
       type: 'lineChart',
       style: {},
+      css: ``,
       eventList: [],
-      refreshTime: new Date(),
+      refreshAt: new Date(),
       sourceId: '',
       sql: '',
       conditionList: [],
