@@ -6,6 +6,7 @@ import DataSetModal from '../DataSetModal/DataSetModal'
 import ChartSetModal from '../ChartSetModal/ChartSetModal'
 import EventSetModal from '../EventSetModal/EventSetModal'
 import CssSetModal from '../CssSetModal/CssSetModal'
+import JsSetModal from '../JsSetModal/JsSetModal'
 import items from '../../data/items'
 import styles from './RightAside.less';
 
@@ -67,6 +68,15 @@ function RightAside({dispatch, list, activeItemId}) {
     if (activeItemId) {
       dispatch({
         type: 'item/setCssSetModalVisible',
+        payload: true
+      })
+    }
+  }
+
+  const onJsSetClick = () => {
+    if (activeItemId) {
+      dispatch({
+        type: 'item/setJsSetModalVisible',
         payload: true
       })
     }
@@ -173,6 +183,11 @@ function RightAside({dispatch, list, activeItemId}) {
                 onClick={onCssSetClick}>
           css 设置
           <CssSetModal/>
+        </Button>
+        <Button className={styles.setButton} size={'small'}
+                onClick={onJsSetClick}>
+          js 设置
+          <JsSetModal/>
         </Button>
       </div>
       <div className={styles.title}>

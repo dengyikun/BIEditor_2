@@ -11,7 +11,7 @@ const Item = props => {
 
   const {
     item:{
-      id, x, y, width, height, type, style, css, eventList, // 基础属性
+      id, x, y, width, height, type, style, eventList, css, js, // 基础属性
     },
     list,
     isEdit,
@@ -24,6 +24,12 @@ const Item = props => {
     pageHeight,
     className,
   } = props
+
+  try {
+    eval(js)
+  } catch (e) {
+
+  }
 
   //开始拖拽控件
   const onDragStart = (e) => {

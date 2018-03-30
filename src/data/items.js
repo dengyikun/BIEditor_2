@@ -14,6 +14,7 @@ export default {
       type: 'container', // 组件类型
       style: {}, // 组件样式
       css: ``, // 组件 css
+      js: ``, // 组件 js
       eventList: [], // 组件事件列表
       refreshAt: new Date(), // 组件上次刷新时间
       option: ``, // 组件数据
@@ -33,6 +34,7 @@ export default {
       type: 'lineChart',
       style: {},
       css: ``,
+      js: ``,
       eventList: [],
       refreshAt: new Date(),
       sourceId: '',
