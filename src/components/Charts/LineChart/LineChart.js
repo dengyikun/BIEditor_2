@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 import {message} from 'antd'
 import ECharts from 'echarts'
-import {TOOL} from '../../../utils'
 import styles from './LineChart.css';
 import * as itemService from '../../../services/item';
 
@@ -21,7 +20,7 @@ class LineChart extends React.Component {
   timer = null
 
   refresh = () => {
-    const {sourceId, sql, conditionList, name, id, dimensionList, valueList, option} = this.props.item
+    const {sourceId, sql, conditionList, name, id, dimensionList, valueList} = this.props.item
     itemService.getChartData(sourceId, sql, conditionList)
       .then(data => {
         const dataList = data.data.data
@@ -57,18 +56,18 @@ class LineChart extends React.Component {
           },
           data: Array.from(dataList, data => data[value.name])
         }))
-        TOOL.getChartOption(option)
-          .then(option => {
-            option.title.text = option.title.text || name
-            option.legend.data = option.legend.data || legendData
-            option.xAxis = option.xAxis || xAxis
-            option.series = option.series || series
-            this.state.chart.setOption(option)
-            this.state.chart.resize()
-          })
-          .catch(error => {
-              // message.error(`折线图：${name} (${id}) 的数据设置有误，请仔细检查！`)
-          })
+        try {
+          let option = {}
+          eval(this.props.item.option)
+          option.title.text = option.title.text || name
+          option.legend.data = option.legend.data || legendData
+          option.xAxis = option.xAxis || xAxis
+          option.series = option.series || series
+          this.state.chart.setOption(option)
+          this.state.chart.resize()
+        } catch (e) {
+          console.error(e)
+        }
       })
   }
 

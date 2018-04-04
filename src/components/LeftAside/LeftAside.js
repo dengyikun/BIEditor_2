@@ -23,7 +23,7 @@ function LeftAside({dispatch, dragItem}) {
         <RnD className={classNames(
           styles.item,
           {
-            [styles.drag]: dragItem.parentId === parentId,
+            [styles.drag]: dragItem.parentId === parentId && dragItem.type === type,
           }
         )}
              onDragStart={onDragStart(items[type].item)}

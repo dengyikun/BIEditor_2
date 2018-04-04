@@ -163,7 +163,7 @@ const Item = props => {
   //获取控件内容
   const getContent = (type) => {
     const Content = items[type].instance
-    return <Content item={props.item} ref={instance => {
+    return <Content item={props.item} isEdit={isEdit} ref={instance => {
       if (!chart) chart = instance
     }}>{children}</Content>
   }
