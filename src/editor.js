@@ -1,7 +1,8 @@
-import dva, {connect} from 'dva';
+import dva from 'dva';
 import React from 'react';
 import {LocaleProvider} from 'antd';
 import createHistory from 'history/createBrowserHistory';
+import createLoading from 'dva-loading';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import styles from './editor.less';
 import Header from './components/Header/Header';
@@ -9,7 +10,6 @@ import LeftAside from './components/LeftAside/LeftAside';
 import ItemList from './components/ItemList/ItemList';
 import RightAside from './components/RightAside/RightAside';
 import Footer from './components/Footer/Footer';
-import createLoading from 'dva-loading';
 
 // 1. Initialize
 const app = dva({

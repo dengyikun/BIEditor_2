@@ -1,8 +1,11 @@
 import {Icon} from 'antd';
+import moment from 'moment'
 import Text from '../components/Bases/Text/Text'
 import Image from '../components/Bases/Image/Image'
 import Button from '../components/Bases/Button/Button'
 import TextArea from '../components/Bases/TextArea/TextArea'
+import Time from '../components/Bases/Time/Time'
+import TimeRange from '../components/Bases/TimeRange/TimeRange'
 import Container from '../components/Bases/Container/Container'
 import IFrame from '../components/Bases/IFrame/IFrame'
 import LineChart from '../components/Charts/LineChart/LineChart'
@@ -99,6 +102,35 @@ export default {
     },
     icon: <Icon type="layout"/>,
     node: <Node type="layout" name="容器"/>,
+  },
+  time: {
+    instance: Time,
+    item: {
+      ...baseItem,
+      name: '时间',
+      type: 'time',
+      option: `option = {
+        time: '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+        format: 'YYYY-MM-DD HH:mm:ss',
+      };`,
+    },
+    icon: <Icon type="clock-circle-o"/>,
+    node: <Node type="clock-circle-o" name="时间"/>,
+  },
+  timeRange: {
+    instance: TimeRange,
+    item: {
+      ...baseItem,
+      name: '时间范围',
+      type: 'timeRange',
+      option: `option = {
+        startTime: '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+        endTime: '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+        format: 'YYYY-MM-DD HH:mm:ss',
+      };`,
+    },
+    icon: <Icon type="calendar"/>,
+    node: <Node type="calendar" name="时间范围"/>,
   },
   iFrame: {
     instance: IFrame,
