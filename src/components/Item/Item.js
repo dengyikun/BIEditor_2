@@ -23,11 +23,21 @@ const Item = props => {
     className,
   } = props
 
-  try {
-    eval(js)
-  } catch (e) {
+  const runJs = () => {
+    setTimeout(() => {
+      if (document.getElementById(id)){
+        try {
+          eval(js)
+        } catch (e) {
 
+        }
+      } else {
+        runJs()
+      }
+    }, 400)
   }
+
+  runJs()
 
   //开始拖拽控件
   const onDragStart = (e) => {

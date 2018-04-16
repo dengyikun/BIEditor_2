@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import ECharts from 'echarts'
 import styles from './EChart.css';
+import * as itemService from '../../../services/item';
 
 class EChart extends React.Component {
 
@@ -17,10 +18,16 @@ class EChart extends React.Component {
   }//初始化 state
 
   refresh = () => {
-    this.props.getOption()
-      .then(option => {
-        this.state.chart.setOption(option)
-        this.state.chart.resize()
+    const {chart} = this.state
+    const {getOption} = this.props
+    const {sourceId, sql, conditionList} = this.props.item
+    itemService.getChartData(sourceId, sql, conditionList)
+      .then(data => {
+        chart.setOption(getOption(data))
+        chart.resize()
+      })
+      .catch(e => {
+        console.log(e)
       })
   }
 
