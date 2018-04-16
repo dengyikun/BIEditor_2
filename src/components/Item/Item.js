@@ -7,8 +7,6 @@ import styles from './Item.less'
 
 const Item = props => {
 
-  let chart = null
-
   const {
     item:{
       id, x, y, width, height, type, style, eventList, css, js, // 基础属性
@@ -163,9 +161,7 @@ const Item = props => {
   //获取控件内容
   const getContent = (type) => {
     const Content = items[type].instance
-    return <Content item={props.item} isEdit={isEdit} ref={instance => {
-      if (!chart) chart = instance
-    }}>{children}</Content>
+    return <Content item={props.item} isEdit={isEdit}>{children}</Content>
   }
 
   return (activeItemId === id) && isEdit ? <RnD

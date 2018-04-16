@@ -1,10 +1,10 @@
 import React, {PropTypes} from 'react';
 import {message} from 'antd'
 import EChart from '../EChart/EChart'
-import styles from './StripChart.css';
+import styles from './StackedLineAreaChart.css';
 import * as itemService from '../../../services/item';
 
-const StripChart = ({item}) => {
+const StackedLineAreaChart = ({item}) => {
 
   const getOption = () => {
     const {sourceId, sql, conditionList, name, dimensionList, valueList} = item
@@ -13,7 +13,7 @@ const StripChart = ({item}) => {
         .then(data => {
           const dataList = data.data.data
           const legendData = Array.from(valueList, value => value.displayName)
-          const yAxis = Array.from(dimensionList, dimension => ({
+          const xAxis = Array.from(dimensionList, dimension => ({
             show: true,//显示或隐藏X轴
             axisLine: {
               lineStyle: {
@@ -34,8 +34,8 @@ const StripChart = ({item}) => {
           }))
           const series = Array.from(valueList, value => ({
             name: value.displayName,
-            type: 'bar',
-            // stack: 'stack',//赋相同的任意值，就变成堆积折线图
+            type: 'line',
+            stack: 'stack',//赋相同的任意值，就变成堆积折线图
             itemStyle: {
               normal: {
                 areaStyle: {type: 'default'},
@@ -48,7 +48,7 @@ const StripChart = ({item}) => {
           eval(item.option)
           option.title.text = option.title.text || name
           option.legend.data = option.legend.data || legendData
-          option.yAxis = option.yAxis || yAxis
+          option.xAxis = option.xAxis || xAxis
           option.series = option.series || series
           resolve(option)
         })
@@ -61,4 +61,4 @@ const StripChart = ({item}) => {
   return <EChart className={styles.body} item={item} getOption={getOption}/>
 }
 
-export default StripChart;
+export default StackedLineAreaChart;

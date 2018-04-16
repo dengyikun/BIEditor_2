@@ -9,8 +9,16 @@ import TimeRange from '../components/Bases/TimeRange/TimeRange'
 import Container from '../components/Bases/Container/Container'
 import IFrame from '../components/Bases/IFrame/IFrame'
 import LineChart from '../components/Charts/LineChart/LineChart'
+import LineAreaChart from '../components/Charts/LineAreaChart/LineAreaChart'
 import BarChart from '../components/Charts/BarChart/BarChart'
 import StripChart from '../components/Charts/StripChart/StripChart'
+import ScatterChart from '../components/Charts/ScatterChart/ScatterChart'
+import StackedLineChart from '../components/Charts/StackedLineChart/StackedLineChart'
+import StackedLineAreaChart from '../components/Charts/StackedLineAreaChart/StackedLineAreaChart'
+import StackedBarChart from '../components/Charts/StackedBarChart/StackedBarChart'
+import StackedStripChart from '../components/Charts/StackedStripChart/StackedStripChart'
+import DoughnutChart from '../components/Charts/DoughnutChart/DoughnutChart'
+import NestedDoughnutChart from '../components/Charts/NestedDoughnutChart/NestedDoughnutChart'
 import styles from './items.less';
 
 // 基础组件属性
@@ -207,11 +215,71 @@ export default {
     icon: <Icon type="line-chart"/>,
     node: <Node type="line-chart" name="折线图"/>,
   },
+  lineAreaChart: {
+    instance: LineAreaChart,
+    item: {
+      ...chartItem,
+      name: '区域图',
+      type: 'lineAreaChart',
+      option: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
+        title: {
+          show: true,//显示隐藏
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
+        },
+        grid: {
+          borderWidth: 0//设置边框大小
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
+        },
+        toolbox: {
+          show: false,
+          feature: {
+            mark: {show: true},
+            dataView: {show: true, readOnly: false},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable: true,
+        yAxis: [
+          {
+            show: true,//显示或隐藏Y轴
+            axisLine: {
+              lineStyle: {
+                color: '#008ACD'//坐标线颜色
+              }
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: 'black',
+                fontSize: '14'
+              }
+            },//设置字体颜色和大小
+            splitLine: {show: false},//隐藏或显示网格线
+            type: 'value'
+          }
+        ],
+      };`
+    },
+    icon: <Icon type="area-chart"/>,
+    node: <Node type="area-chart" name="区域图"/>,
+  },
   barChart: {
     instance: BarChart,
     item: {
       ...chartItem,
-      name: '条形图',
+      name: '柱状图',
       type: 'barChart',
       option: `option = {
         backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
@@ -265,7 +333,7 @@ export default {
       };`
     },
     icon: <Icon type="bar-chart"/>,
-    node: <Node type="bar-chart" name="条形图"/>,
+    node: <Node type="bar-chart" name="柱状图"/>,
   },
   stripChart: {
     instance: StripChart,
@@ -273,6 +341,66 @@ export default {
       ...chartItem,
       name: '条形图',
       type: 'stripChart',
+      option: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
+        title: {
+          show: true,//显示隐藏
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
+        },
+        grid: {
+          borderWidth: 0//设置边框大小
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
+        },
+        toolbox: {
+          show: false,
+          feature: {
+            mark: {show: true},
+            dataView: {show: true, readOnly: false},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable: true,
+        xAxis: [
+          {
+            show: true,//显示或隐藏Y轴
+            axisLine: {
+              lineStyle: {
+                color: '#008ACD'//坐标线颜色
+              }
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: 'black',
+                fontSize: '14'
+              }
+            },//设置字体颜色和大小
+            splitLine: {show: false},//隐藏或显示网格线
+            type: 'value'
+          }
+        ],
+      };`
+    },
+    icon: <Icon type="bars"/>,
+    node: <Node type="bars" name="条形图"/>,
+  },
+  scatterChart: {
+    instance: ScatterChart,
+    item: {
+      ...chartItem,
+      name: '散点图',
+      type: 'scatterChart',
       option: `option = {
         backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
@@ -324,7 +452,324 @@ export default {
         ],
       };`
     },
+    icon: <Icon type="dot-chart"/>,
+    node: <Node type="dot-chart" name="散点图"/>,
+  },
+  stackedLineChart: {
+    instance: StackedLineChart,
+    item: {
+      ...chartItem,
+      name: '堆叠折线图',
+      type: 'stackedLineChart',
+      option: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
+        title: {
+          show: true,//显示隐藏
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
+        },
+        grid: {
+          borderWidth: 0//设置边框大小
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
+        },
+        toolbox: {
+          show: false,
+          feature: {
+            mark: {show: true},
+            dataView: {show: true, readOnly: false},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable: true,
+        yAxis: [
+          {
+            show: true,//显示或隐藏Y轴
+            axisLine: {
+              lineStyle: {
+                color: '#008ACD'//坐标线颜色
+              }
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: 'black',
+                fontSize: '14'
+              }
+            },//设置字体颜色和大小
+            splitLine: {show: false},//隐藏或显示网格线
+            type: 'value'
+          }
+        ],
+      };`
+    },
+    icon: <Icon type="line-chart"/>,
+    node: <Node type="line-chart" name="堆叠折线"/>,
+  },
+  stackedLineAreaChart: {
+    instance: StackedLineAreaChart,
+    item: {
+      ...chartItem,
+      name: '堆叠区域图',
+      type: 'stackedLineAreaChart',
+      option: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
+        title: {
+          show: true,//显示隐藏
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
+        },
+        grid: {
+          borderWidth: 0//设置边框大小
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
+        },
+        toolbox: {
+          show: false,
+          feature: {
+            mark: {show: true},
+            dataView: {show: true, readOnly: false},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable: true,
+        yAxis: [
+          {
+            show: true,//显示或隐藏Y轴
+            axisLine: {
+              lineStyle: {
+                color: '#008ACD'//坐标线颜色
+              }
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: 'black',
+                fontSize: '14'
+              }
+            },//设置字体颜色和大小
+            splitLine: {show: false},//隐藏或显示网格线
+            type: 'value'
+          }
+        ],
+      };`
+    },
+    icon: <Icon type="area-chart"/>,
+    node: <Node type="area-chart" name="堆叠区域"/>,
+
+  },
+  stackedBarChart: {
+    instance: StackedBarChart,
+    item: {
+      ...chartItem,
+      name: '堆叠柱状图',
+      type: 'stackedBarChart',
+      option: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
+        title: {
+          show: true,//显示隐藏
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
+        },
+        grid: {
+          borderWidth: 0//设置边框大小
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
+        },
+        toolbox: {
+          show: false,
+          feature: {
+            mark: {show: true},
+            dataView: {show: true, readOnly: false},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable: true,
+        yAxis: [
+          {
+            show: true,//显示或隐藏Y轴
+            axisLine: {
+              lineStyle: {
+                color: '#008ACD'//坐标线颜色
+              }
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: 'black',
+                fontSize: '14'
+              }
+            },//设置字体颜色和大小
+            splitLine: {show: false},//隐藏或显示网格线
+            type: 'value'
+          }
+        ],
+      };`
+    },
+    icon: <Icon type="bar-chart"/>,
+    node: <Node type="bar-chart" name="堆叠柱状"/>,
+  },
+  stackedStripChart: {
+    instance: StackedStripChart,
+    item: {
+      ...chartItem,
+      name: '堆叠条形图',
+      type: 'stackedStripChart',
+      option: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
+        title: {
+          show: true,//显示隐藏
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
+        },
+        grid: {
+          borderWidth: 0//设置边框大小
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
+        },
+        toolbox: {
+          show: false,
+          feature: {
+            mark: {show: true},
+            dataView: {show: true, readOnly: false},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable: true,
+        xAxis: [
+          {
+            show: true,//显示或隐藏Y轴
+            axisLine: {
+              lineStyle: {
+                color: '#008ACD'//坐标线颜色
+              }
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: 'black',
+                fontSize: '14'
+              }
+            },//设置字体颜色和大小
+            splitLine: {show: false},//隐藏或显示网格线
+            type: 'value'
+          }
+        ],
+      };`
+    },
     icon: <Icon type="bars"/>,
-    node: <Node type="bars" name="条形图"/>,
+    node: <Node type="bars" name="堆叠条形"/>,
+  },
+  doughnutChart: {
+    instance: DoughnutChart,
+    item: {
+      ...chartItem,
+      name: '环形图',
+      type: 'doughnutChart',
+      option: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
+        title: {
+          show: true,//显示隐藏
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
+        },
+        tooltip: {
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        legend: {
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
+        },
+        toolbox: {
+          show: false,
+          feature: {
+            mark: {show: true},
+            dataView: {show: true, readOnly: false},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable: true,
+      };`
+    },
+    icon: <Icon type="pie-chart"/>,
+    node: <Node type="pie-chart" name="环形图"/>,
+  },
+  nestedDoughnutChart: {
+    instance: NestedDoughnutChart,
+    item: {
+      ...chartItem,
+      name: '嵌套环形图',
+      type: 'nestedDoughnutChart',
+      option: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
+        title: {
+          show: true,//显示隐藏
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
+        },
+        tooltip: {
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        legend: {
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
+        },
+        toolbox: {
+          show: false,
+          feature: {
+            mark: {show: true},
+            dataView: {show: true, readOnly: false},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable: true,
+      };`
+    },
+    icon: <Icon type="pie-chart"/>,
+    node: <Node type="pie-chart" name="嵌套环形"/>,
   },
 }

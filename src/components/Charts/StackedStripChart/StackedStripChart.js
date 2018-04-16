@@ -1,10 +1,10 @@
 import React, {PropTypes} from 'react';
 import {message} from 'antd'
 import EChart from '../EChart/EChart'
-import styles from './StripChart.css';
+import styles from './StackedStripChart.css';
 import * as itemService from '../../../services/item';
 
-const StripChart = ({item}) => {
+const StackedStripChart = ({item}) => {
 
   const getOption = () => {
     const {sourceId, sql, conditionList, name, dimensionList, valueList} = item
@@ -35,7 +35,7 @@ const StripChart = ({item}) => {
           const series = Array.from(valueList, value => ({
             name: value.displayName,
             type: 'bar',
-            // stack: 'stack',//赋相同的任意值，就变成堆积折线图
+            stack: 'stack',//赋相同的任意值，就变成堆积折线图
             itemStyle: {
               normal: {
                 areaStyle: {type: 'default'},
@@ -61,4 +61,4 @@ const StripChart = ({item}) => {
   return <EChart className={styles.body} item={item} getOption={getOption}/>
 }
 
-export default StripChart;
+export default StackedStripChart;

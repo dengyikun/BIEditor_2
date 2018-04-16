@@ -71,23 +71,20 @@
   }
 
   .tree {
-    padding: 0 20px;
+    padding: 0 10px 0 5px;
 
     :global {
         .ant-tree-node-content-wrapper {
-          width: calc(100% - 24px);
+          width: calc(~"100% - 24px");
           .ant-tree-title > div {
-            padding: 0 24px 0 10px;
+            padding-right: 24px;
           }
         }
     }
 
     .node {
       position: relative;
-
-      > div {
-        .nowrap;
-      }
+      .nowrap;
 
       .delete {
         width: 24px;
