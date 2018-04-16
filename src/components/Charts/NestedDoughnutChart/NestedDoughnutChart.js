@@ -20,6 +20,16 @@ const NestedDoughnutChart = ({item}) => {
               index === 0 ? 0 : 70 / valueList.length * index + 10 / valueList.length + '%',
               70 / valueList.length * ( index + 1 ) + '%'
             ],
+            itemStyle : index === valueList.length - 1 ? undefined : {
+              normal : {
+                label : {
+                  position : 'inner'
+                },
+                labelLine : {
+                  show : false
+                }
+              }
+            },
             center: ['50%', '60%'],
             data: Array.from(dataList, data => data[value.name])
           }))
