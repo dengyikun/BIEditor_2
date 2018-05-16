@@ -3,19 +3,26 @@ import {connect} from 'dva';
 import ScrollBar from 'react-custom-scrollbars';
 import styles from './ItemList.less';
 import Item from '../Item/Item'
+import {TOOL} from "../../utils";
 
 function mapStateToProps(state) {
-  const {list, autoResize, pageWidth, pageHeight, style,} = state.page;
+  const {list, autoResize, pageWidth, pageHeight, style, refresh,} = state.page;
   return {
     list,
     autoResize,
     pageWidth,
     pageHeight,
     style,
+    refresh,
   };
 }
 
-const ItemList = ({dispatch, list, autoResize, pageWidth, pageHeight, style, isEdit}) => {
+const ItemList = ({dispatch, list, autoResize, pageWidth, pageHeight, style, isEdit, refresh,}) => {
+  if (!isEdit && refresh > 0) {
+    setTimeout(() => {
+      window.location.reload()
+    }, refresh * 1000)
+  }
 
   const {clientWidth: listWidth} = document.getElementById('listContainer') || {}
   const ratio = listWidth ? listWidth / pageWidth : 1

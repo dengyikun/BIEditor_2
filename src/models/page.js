@@ -18,10 +18,8 @@ export default {
     pageWidth: 1200, // 页面宽度
     pageHeight: 700, // 页面高度
     autoResize: false, // 自适应
-    style: {
-      backgroundColor: '#f2f5f7',
-      border: 'none',
-    },  // 页面样式
+    style: {},  // 页面样式
+    refresh: 0, //自动刷新时间，单位为秒，数值为 0 时不刷新
   },
   reducers: {
     set(state, {payload}) {
@@ -95,24 +93,24 @@ export default {
     },
   },
   effects: {
-    *getPage({payload}, {call, put}) {
+    * getPage({payload}, {call, put}) {
       const {data} = yield call(itemService.getPage, payload);
       data.data = data.data || {
-          list: [],
-          pageWidth: 1200,
-          pageHeight: 700,
-          autoResize: false
-        }
+        list: [],
+        pageWidth: 1200,
+        pageHeight: 700,
+        autoResize: false,
+        style: {
+          backgroundColor: '#f2f5f7',
+          border: 'none',
+        },
+        refresh: 0
+      }
       yield put({
-        type: 'set', payload: {
-          list: data.data.list,
-          pageWidth: data.data.pageWidth,
-          pageHeight: data.data.pageHeight,
-          autoResize: data.data.autoResize,
-        }
+        type: 'set', payload: data.data
       })
     },
-    *savePage({payload, callback}, {call}) {
+    * savePage({payload, callback}, {call}) {
       const {data} = yield call(itemService.patchPage, {pageId: TOOL.getParams('pageId'), data: payload});
       yield callback && callback(data)
     },
