@@ -43,7 +43,7 @@ const Item = props => {
   const onDragStart = (e) => {
     e.stopPropagation()
     dispatch({
-      type: 'item/setDragItem',
+      type: 'page/setDragItem',
       payload: {
         ...props.item,
         offsetX: e.nativeEvent.offsetX,
@@ -62,7 +62,7 @@ const Item = props => {
     x = x < 0 ? 0 : x
     y = y < 0 ? 0 : y
     dispatch({
-      type: 'item/setDragItem',
+      type: 'page/setDragItem',
       payload: {
         ...props.item,
         offsetX: dragItem.offsetX,
@@ -73,11 +73,11 @@ const Item = props => {
     })
     setTimeout(() => {
       dispatch({
-        type: 'item/setDragItem',
+        type: 'page/setDragItem',
         payload: {}
       })
       dispatch({
-        type: 'item/setHoverItemId',
+        type: 'page/setHoverItemId',
         payload: ''
       })
     }, 100)
@@ -89,7 +89,7 @@ const Item = props => {
     x = x < 0 ? 0 : x
     y = y < 0 ? 0 : y
     dispatch({
-      type: 'item/setItem',
+      type: 'page/setItem',
       payload: {
         id,
         x,
@@ -105,7 +105,7 @@ const Item = props => {
     const totalWidth = newWidth + x
     const totalHeight = newHeight + y
     dispatch({
-      type: 'item/setItem',
+      type: 'page/setItem',
       payload: {
         id,
         width: totalWidth < pageWidth ? newWidth : pageWidth - x,
@@ -121,7 +121,7 @@ const Item = props => {
     if (isEdit) {
       if (dragItem.id && type === 'container') {
         dispatch({
-          type: 'item/setHoverItemId',
+          type: 'page/setHoverItemId',
           payload: id
         })
       }
@@ -151,7 +151,7 @@ const Item = props => {
                 break
             }
             dispatch({
-              type: 'item/setItem',
+              type: 'page/setItem',
               payload: {...targetItem}
             })
           }
@@ -163,7 +163,7 @@ const Item = props => {
   const onMouseDown = e => {
     e.stopPropagation()
     dispatch({
-      type: 'item/setActiveItemId',
+      type: 'page/setActiveItemId',
       payload: id,
     })
   }
@@ -239,7 +239,7 @@ function mapStateToProps(state) {
     autoResize,
     pageWidth,
     pageHeight,
-  } = state.item;
+  } = state.page;
   return {
     list,
     activeItemId,

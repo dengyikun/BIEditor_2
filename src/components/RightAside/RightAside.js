@@ -27,7 +27,7 @@ function RightAside({dispatch, list, activeItemId}) {
   const onNameChange = e => {
     if (activeItemId) {
       dispatch({
-        type: 'item/setItem',
+        type: 'page/setItem',
         payload: {
           id: activeItemId,
           name: e.target.value,
@@ -40,7 +40,7 @@ function RightAside({dispatch, list, activeItemId}) {
   const onDataSetClick = () => {
     if (activeItemId) {
       dispatch({
-        type: 'item/setDataSetModalVisible',
+        type: 'page/setDataSetModalVisible',
         payload: true
       })
     }
@@ -49,7 +49,7 @@ function RightAside({dispatch, list, activeItemId}) {
   const onChartSetClick = () => {
     if (activeItemId) {
       dispatch({
-        type: 'item/setChartSetModalVisible',
+        type: 'page/setChartSetModalVisible',
         payload: true
       })
     }
@@ -58,7 +58,7 @@ function RightAside({dispatch, list, activeItemId}) {
   const onEventSetClick = () => {
     if (activeItemId) {
       dispatch({
-        type: 'item/setEventSetModalVisible',
+        type: 'page/setEventSetModalVisible',
         payload: true
       })
     }
@@ -67,7 +67,7 @@ function RightAside({dispatch, list, activeItemId}) {
   const onCssSetClick = () => {
     if (activeItemId) {
       dispatch({
-        type: 'item/setCssSetModalVisible',
+        type: 'page/setCssSetModalVisible',
         payload: true
       })
     }
@@ -76,7 +76,7 @@ function RightAside({dispatch, list, activeItemId}) {
   const onJsSetClick = () => {
     if (activeItemId) {
       dispatch({
-        type: 'item/setJsSetModalVisible',
+        type: 'page/setJsSetModalVisible',
         payload: true
       })
     }
@@ -94,17 +94,17 @@ function RightAside({dispatch, list, activeItemId}) {
       onOk: () => {
         // list.map(item => {
         //   dispatch({
-        //     type: 'item/setItem',
+        //     type: 'page/setItem',
         //     payload: {id: item.id, parentId: '', parentIdCopy: item.parentId}
         //   })
         // })
         dispatch({
-          type: 'item/deleteItem',
+          type: 'page/deleteItem',
           payload: id
         })
         if (id === activeItemId) {
             dispatch({
-              type: 'item/setActiveItemId',
+              type: 'page/setActiveItemId',
               payload: ''
             })
         }
@@ -133,7 +133,7 @@ function RightAside({dispatch, list, activeItemId}) {
   const onSelect = keys => {
     if (!items[keys[0]]) {
       dispatch({
-        type: 'item/setActiveItemId',
+        type: 'page/setActiveItemId',
         payload: keys[0]
       })
     }
@@ -209,7 +209,7 @@ function RightAside({dispatch, list, activeItemId}) {
 }
 
 function mapStateToProps(state) {
-  const {list, activeItemId} = state.item;
+  const {list, activeItemId} = state.page;
   return {
     list, activeItemId,
   };

@@ -4,7 +4,7 @@ import {InputNumber, Switch} from 'antd'
 import styles from './Footer.less';
 
 function mapStateToProps(state) {
-  const { list, activeItemId,pageWidth, pageHeight, autoResize,} = state.item;
+  const { list, activeItemId,pageWidth, pageHeight, autoResize,} = state.page;
   return {
     list,
     activeItemId,
@@ -26,21 +26,21 @@ function Footer({dispatch, list, activeItemId, pageWidth, pageHeight, autoResize
 
   const onPageWidthChange = value => {
     dispatch({
-      type: 'item/setPageWidth',
+      type: 'page/setPageWidth',
       payload: value
     })
   }
 
   const onPageHeightChange = value => {
     dispatch({
-      type: 'item/setPageHeight',
+      type: 'page/setPageHeight',
       payload: value
     })
   }
 
   const onAutoResizeChange = value => {
     dispatch({
-      type: 'item/setAutoResize',
+      type: 'page/setAutoResize',
       payload: value
     })
   }
@@ -48,7 +48,7 @@ function Footer({dispatch, list, activeItemId, pageWidth, pageHeight, autoResize
   const onXChange = value => {
     if (activeItemId) {
       dispatch({
-        type: 'item/setItem',
+        type: 'page/setItem',
         payload: {
           id: activeItemId,
           x: value
@@ -60,7 +60,7 @@ function Footer({dispatch, list, activeItemId, pageWidth, pageHeight, autoResize
   const onYChange = value => {
     if (activeItemId) {
       dispatch({
-        type: 'item/setItem',
+        type: 'page/setItem',
         payload: {
           id: activeItemId,
           y: value
@@ -72,7 +72,7 @@ function Footer({dispatch, list, activeItemId, pageWidth, pageHeight, autoResize
   const onWidthChange = value => {
     if (activeItemId) {
       dispatch({
-        type: 'item/setItem',
+        type: 'page/setItem',
         payload: {
           id: activeItemId,
           width: value,
@@ -85,7 +85,7 @@ function Footer({dispatch, list, activeItemId, pageWidth, pageHeight, autoResize
   const onHeightChange = value => {
     if (activeItemId) {
       dispatch({
-        type: 'item/setItem',
+        type: 'page/setItem',
         payload: {
           id: activeItemId,
           height: value,

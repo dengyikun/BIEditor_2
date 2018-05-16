@@ -5,7 +5,7 @@ import styles from './ItemList.less';
 import Item from '../Item/Item'
 
 function mapStateToProps(state) {
-  const {list, autoResize, pageWidth, pageHeight, style,} = state.item;
+  const {list, autoResize, pageWidth, pageHeight, style,} = state.page;
   return {
     list,
     autoResize,
@@ -23,7 +23,7 @@ const ItemList = ({dispatch, list, autoResize, pageWidth, pageHeight, style, isE
   const onMouseDown = (e) => {
     e.stopPropagation()
     dispatch({
-      type: 'item/setActiveItemId',
+      type: 'page/setActiveItemId',
       payload: ''
     })
   }

@@ -37,11 +37,16 @@ const baseItem = {
 const chartItem = {
   ...baseItem,
   parentId: 'chart',
-  sourceId: '2573632338734d5cb24489b06de09659',
-  sql: 'SELECT SUBSTRING(addTime,1,10) as addTime, COUNT(cuId) as total from comment_user where nickname != "${nickname}" and country = "${country}" GROUP BY SUBSTRING(addTime,1,10) ORDER BY addTime asc',
-  conditionList: [{name: "nickname", value: "匿名用户"}, {name: "country", value: "中国"}],
-  dimensionList: [{displayName: "日期", name: "addTime"}],
-  valueList: [{displayName: "每天新增人数", name: "total"}],
+  sourceId: '',
+  sql: '',
+  conditionList: [],
+  dimensionList: [],
+  valueList: [],
+  // sourceId: '2573632338734d5cb24489b06de09659',
+  // sql: 'SELECT SUBSTRING(addTime,1,10) as addTime, COUNT(cuId) as total from comment_user where nickname != "${nickname}" and country = "${country}" GROUP BY SUBSTRING(addTime,1,10) ORDER BY addTime asc',
+  // conditionList: [{name: "nickname", value: "匿名用户"}, {name: "country", value: "中国"}],
+  // dimensionList: [{displayName: "日期", name: "addTime"}],
+  // valueList: [{displayName: "每天新增人数", name: "total"}],
 }
 
 // 组件在左侧展示样式

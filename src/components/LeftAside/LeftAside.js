@@ -8,7 +8,7 @@ import items from '../../data/items'
 import styles from './LeftAside.less';
 
 function mapStateToProps(state) {
-  const {dragItem} = state.item;
+  const {dragItem} = state.page;
   return {
     dragItem,
   };
@@ -40,7 +40,7 @@ function LeftAside({dispatch, dragItem}) {
   const onDragStart = (item) => (e) => {
     e.stopPropagation()
     dispatch({
-      type: 'item/setDragItem',
+      type: 'page/setDragItem',
       payload: {...item, id: item.type + '-' + new Date().getTime(),}
     })
   }
@@ -48,7 +48,7 @@ function LeftAside({dispatch, dragItem}) {
   const onDragStop = () => {
     setTimeout(() => {
       dispatch({
-        type: 'item/setDragItem',
+        type: 'page/setDragItem',
         payload: {}
       })
     }, 300)

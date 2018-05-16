@@ -25,14 +25,14 @@ class EventSetModal extends React.Component {
 
   onCancel = () => {
     this.props.dispatch({
-      type: 'item/setEventSetModalVisible',
+      type: 'page/setEventSetModalVisible',
       payload: false
     })
   }
 
   onOk = () => {
     this.props.dispatch({
-      type: 'item/setItem',
+      type: 'page/setItem',
       payload: {
         id: this.props.activeItemId,
         eventList: this.state.eventList
@@ -252,7 +252,7 @@ class EventSetModal extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {eventSetModalVisible, activeItemId, list} = state.item;
+  const {eventSetModalVisible, activeItemId, list} = state.page;
   return {
     eventSetModalVisible, activeItemId, list
   };

@@ -25,19 +25,19 @@ const Container = props => {
         y = dragItem.y
       }
       dispatch({
-        type: 'item/setItem',
+        type: 'page/setItem',
         payload: {...dragItem, x, y, parentId: id}
       })
       dispatch({
-        type: 'item/setActiveItemId',
+        type: 'page/setActiveItemId',
         payload: dragItem.id,
       })
       dispatch({
-        type: 'item/setDragItem',
+        type: 'page/setDragItem',
         payload: {}
       })
       dispatch({
-        type: 'item/setHoverItemId',
+        type: 'page/setHoverItemId',
         payload: ''
       })
       e.stopPropagation()
@@ -50,7 +50,7 @@ const Container = props => {
 }
 
 function mapStateToProps(state) {
-  const {list, dragItem} = state.item;
+  const {list, dragItem} = state.page;
   return {
     list,
     dragItem,

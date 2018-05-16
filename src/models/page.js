@@ -2,7 +2,7 @@ import itemService from '../services/item'
 import {TOOL} from '../utils'
 
 export default {
-  namespace: 'item',
+  namespace: 'page',
   state: {
     list: [], // 控件列表
     activeItemId: '', // 当前活动控件
@@ -19,7 +19,7 @@ export default {
     pageHeight: 700, // 页面高度
     autoResize: false, // 自适应
     style: {
-      background: '#f2f5f7',
+      backgroundColor: '#f2f5f7',
       border: 'none',
     },  // 页面样式
   },
@@ -28,17 +28,17 @@ export default {
       return {...state, ...payload};
     },
     setItem(state, {payload}) {
-      let newList = JSON.parse(JSON.stringify(state.list))
-      let item = newList.find((item, index) => {
+      let list = JSON.parse(JSON.stringify(state.list))
+      let item = list.find((item, index) => {
         if (item.id === payload.id) {
-          newList[index] = JSON.parse(JSON.stringify({...item, ...payload}))
+          list[index] = JSON.parse(JSON.stringify({...item, ...payload}))
           return true
         } else return false
       })
       if (!item) {
-        newList.push({...payload})
+        list.push({...payload})
       }
-      return {...state, list: newList};
+      return {...state, list};
     },
     deleteItem(state, {payload}) {
       let newList = state.list.slice()
@@ -97,12 +97,20 @@ export default {
   effects: {
     *getPage({payload}, {call, put}) {
       const {data} = yield call(itemService.getPage, payload);
-      yield put({type: 'set', payload: {
-        list: data.data.list || [],
-        pageWidth: data.data.pageWidth || 1200,
-        pageHeight: data.data.pageHeight || 700,
-        autoResize: data.data.autoResize || false,
-      }})
+      data.data = data.data || {
+          list: [],
+          pageWidth: 1200,
+          pageHeight: 700,
+          autoResize: false
+        }
+      yield put({
+        type: 'set', payload: {
+          list: data.data.list,
+          pageWidth: data.data.pageWidth,
+          pageHeight: data.data.pageHeight,
+          autoResize: data.data.autoResize,
+        }
+      })
     },
     *savePage({payload, callback}, {call}) {
       const {data} = yield call(itemService.patchPage, {pageId: TOOL.getParams('pageId'), data: payload});

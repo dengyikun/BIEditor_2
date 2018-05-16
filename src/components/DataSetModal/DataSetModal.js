@@ -30,14 +30,14 @@ class DataSetModal extends React.Component {
 
   onCancel = () => {
     this.props.dispatch({
-      type: 'item/setDataSetModalVisible',
+      type: 'page/setDataSetModalVisible',
       payload: false
     })
   }
 
   onOk = () => {
     this.props.dispatch({
-      type: 'item/setItem',
+      type: 'page/setItem',
       payload: {
         ...this.state,
         refreshAt: new Date()
@@ -258,7 +258,7 @@ class DataSetModal extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {dataSetModalVisible, activeItemId, list} = state.item;
+  const {dataSetModalVisible, activeItemId, list} = state.page;
   const {list: sourceList} = state.source;
   return {
     dataSetModalVisible, activeItemId, sourceList, list

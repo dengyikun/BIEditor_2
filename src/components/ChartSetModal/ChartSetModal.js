@@ -26,14 +26,14 @@ class ChartSetModal extends React.Component {
 
   onCancel = () => {
     this.props.dispatch({
-      type: 'item/setChartSetModalVisible',
+      type: 'page/setChartSetModalVisible',
       payload: false
     })
   }
 
   onOk = () => {
     this.props.dispatch({
-      type: 'item/setItem',
+      type: 'page/setItem',
       payload: {
         ...this.state,
         refreshAt: new Date(),
@@ -100,7 +100,7 @@ class ChartSetModal extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {chartSetModalVisible, activeItemId, list} = state.item;
+  const {chartSetModalVisible, activeItemId, list} = state.page;
   return {
     chartSetModalVisible, activeItemId, list
   };

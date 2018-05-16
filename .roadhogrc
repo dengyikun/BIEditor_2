@@ -6,7 +6,7 @@
       "import",
       {
         "libraryName": "antd",
-        "style": "css"
+        "style": true
       }
     ],
     "transform-runtime"
@@ -24,6 +24,9 @@
     "> 1%",
     "last 2 versions"
   ],
+  "theme": {
+    "primary-color": "#5290de"
+  },
   "proxy": {
     "/api": {
       "target": "http://222.85.161.174:8081/",

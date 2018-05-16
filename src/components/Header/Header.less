@@ -12,6 +12,16 @@
     flex: 1 1 auto;
   }
 
+  .setting {
+    float: right;
+    color: #5290de;
+    flex: 0 0 auto;
+    font-size: 18px;
+    padding: 10px;
+    cursor: pointer;
+    margin: 0 10px;
+  }
+
   .upload {
     float: right;
     color: #b5dc7a;
@@ -19,5 +29,30 @@
     font-size: 18px;
     padding: 10px;
     cursor: pointer;
+  }
+}
+
+.settingPopover :global(.ant-popover-inner-content) {
+  padding: 0;
+
+  .settingMenu > li{
+    width: 230px;
+    margin: 0;
+    color: #666666;
+    font-size: 13px;
+
+    .paramSetting {
+      width: 84px;
+      float: right;
+      margin: 8px 0;
+    }
+
+    .bgColorSetting {
+      width: 84px;
+      height: 24px;
+      float: right;
+      margin: 8px 0;
+      box-shadow: 0 0 5px 1px #dddddd;
+    }
   }
 }

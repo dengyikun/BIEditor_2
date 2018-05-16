@@ -23,14 +23,14 @@ class CssSetModal extends React.Component {
   onCancel = () => {
     this.setState({css: ''})
     this.props.dispatch({
-      type: 'item/setCssSetModalVisible',
+      type: 'page/setCssSetModalVisible',
       payload: false
     })
   }
 
   onOk = () => {
     this.props.dispatch({
-      type: 'item/setItem',
+      type: 'page/setItem',
       payload: {
         ...this.state
       }
@@ -99,7 +99,7 @@ class CssSetModal extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {cssSetModalVisible, activeItemId, list} = state.item;
+  const {cssSetModalVisible, activeItemId, list} = state.page;
   return {
     cssSetModalVisible, activeItemId, list
   };
