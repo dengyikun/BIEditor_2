@@ -49,7 +49,7 @@ class EventSetModal extends React.Component {
     if (keys[0] === 'add') {
       let newEventList = this.state.eventList.slice()
       const newEvent = {
-        id: TOOL.getGUID(),
+        id: TOOL.GUID(),
         type: this.state.type,
         name: eventTypes[this.state.type],
         targetId: '',

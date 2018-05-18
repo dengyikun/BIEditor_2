@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'dva';
 import {Modal, Table, Icon, Input} from 'antd';
+import {TOOL} from '../../utils';
 import styles from './ParamSetModal.less';
 
 class ParamSetModal extends React.Component {
@@ -14,20 +15,41 @@ class ParamSetModal extends React.Component {
     }
   }
 
+  isDuplicate = () => {
+    const paramList = this.state.paramList.filter(item => item.key)
+    const keys = Array.from(paramList, param => param.key)
+    if (keys.length !== new Set(keys).size) {
+      Modal.warn({
+        title: '存在重复的参数名！'
+      })
+      return true
+    } else {
+      return false
+    }
+  }
+
   add = () => {
     let paramList = this.state.paramList.slice()
     paramList.push({
+      id: TOOL.GUID(),
       key: '',
       value: '',
     })
     this.setState({paramList})
   }
 
-  onChange = (key, index) => e => {
+  onBlur = (key, record) => e => {
     let paramList = this.state.paramList.slice()
+    const index = paramList.findIndex(param => record.id === param.id)
     paramList[index][key] = e.target.value
-    this.setState({paramList})
+    this.setState({paramList}, this.isDuplicate)
+  }
 
+  onDelete = (record) => () => {
+    let paramList = this.state.paramList.slice()
+    const index = paramList.findIndex(param => record.id === param.id)
+    paramList.splice(index, 1)
+    this.setState({paramList}, this.isDuplicate)
   }
 
   onCancel = () => {
@@ -41,14 +63,16 @@ class ParamSetModal extends React.Component {
   }
 
   onOk = () => {
-    const paramList = this.state.paramList.filter(item => item.key)
-    this.props.dispatch({
-      type: 'page/set',
-      payload: {
-        paramList
-      }
-    })
-    this.onCancel()
+    if (!this.isDuplicate()) {
+      const paramList = this.state.paramList.filter(item => item.key)
+      this.props.dispatch({
+        type: 'page/set',
+        payload: {
+          paramList
+        }
+      })
+      this.onCancel()
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,16 +88,27 @@ class ParamSetModal extends React.Component {
     const {paramList} = this.state
     const columns = [
       {
+        title: '#',
+        dataIndex: '#',
+        render: (text, record) => paramList.findIndex(param => record === param) + 1
+      },
+      {
         title: '参数名',
         dataIndex: 'key',
-        render: (text, record, index) =>
-          <Input size={'small'} value={text} onChange={this.onChange('key', index)}/>
+        render: (text, record) =>
+          <Input size={'small'} defaultValue={text} onBlur={this.onBlur('key', record)}/>
       },
       {
         title: '默认值',
         dataIndex: 'value',
-        render: (text, record, index) =>
-          <Input size={'small'} value={text} onChange={this.onChange('value', index)}/>
+        render: (text, record) =>
+          <Input size={'small'} defaultValue={text} onBlur={this.onBlur('value', record)}/>
+      },
+      {
+        title: '删除',
+        dataIndex: 'delete',
+        render: (text, record) =>
+          <Icon className={styles.delete} type={'delete'} onClick={this.onDelete(record)}/>
       },
     ]
 
@@ -82,7 +117,7 @@ class ParamSetModal extends React.Component {
              visible={paramSetModalVisible} width={500}
              onCancel={this.onCancel} onOk={this.onOk}>
 
-        <Table className={styles.table} size={'small'} rowKey={(record, index) => index}
+        <Table className={styles.table} size={'small'} rowKey={'id'}
                title={() => <span className={styles.add} onClick={this.add}><Icon type={'plus'}/> 添加参数</span>}
                dataSource={paramList} columns={columns}/>
       </Modal>
