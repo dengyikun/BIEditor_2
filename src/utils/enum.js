@@ -10,6 +10,5 @@ export default {
     refresh: '刷新',
     hide: '隐藏',
     show: '显示',
-    setData: '设置值',
   },
 }

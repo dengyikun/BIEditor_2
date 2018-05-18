@@ -147,8 +147,6 @@ const Item = props => {
               case 'show':
                 targetItem.style.visibility = 'visible'
                 break
-              case 'setData':
-                break
             }
             dispatch({
               type: 'page/setItem',

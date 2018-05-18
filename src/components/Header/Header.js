@@ -2,21 +2,28 @@ import React from 'react';
 import {connect} from 'dva';
 import {message, Icon, Popover, Menu, Button, Input, Switch} from 'antd'
 import {ChromePicker} from 'react-color'
+import ParamSetModal from '../ParamSetModal/ParamSetModal'
 import styles from './Header.less';
 
 function mapStateToProps(state) {
-  const {list, pageWidth, pageHeight, autoResize, style, refresh,} = state.page;
+  const {autoResize, style, refreshInterval,} = state.page;
   return {
-    list,
-    pageWidth,
-    pageHeight,
     autoResize,
     style,
-    refresh,
+    refreshInterval,
   };
 }
 
-function Header({dispatch, list, pageWidth, pageHeight, autoResize, style, refresh}) {
+function Header({dispatch, autoResize, style, refreshInterval}) {
+
+  const onParamSetClick = () => {
+    dispatch({
+      type: 'page/set',
+      payload: {
+        paramSetModalVisible: true
+      }
+    })
+  }
 
   const onChangeComplete = color => {
     const rgba = color.rgb
@@ -34,7 +41,7 @@ function Header({dispatch, list, pageWidth, pageHeight, autoResize, style, refre
     dispatch({
       type: 'page/set',
       payload: {
-        refresh: value,
+        refreshInterval: value,
       }
     })
   }
@@ -46,10 +53,11 @@ function Header({dispatch, list, pageWidth, pageHeight, autoResize, style, refre
     })
   }
 
-  const settingContent = <Menu className={styles.settingMenu}>
+  const settingContent = <Menu className={styles.settingMenu} selectedKeys={[]}>
     <Menu.Item>
       页面参数
-      <Button className={styles.paramSetting} size={'small'} type={'primary'}>设置</Button>
+      <Button className={styles.paramSetting} size={'small'} type={'primary'}
+              onClick={onParamSetClick}>设置</Button>
     </Menu.Item>
     <Menu.Divider/>
     <Menu.Item>
@@ -65,7 +73,7 @@ function Header({dispatch, list, pageWidth, pageHeight, autoResize, style, refre
       刷新频率
       <div className={styles.refreshSetting}>
         <Input size={'small'} addonAfter={'秒'}
-               value={refresh} onChange={onRefreshChange}/>
+               value={refreshInterval} onChange={onRefreshChange}/>
       </div>
     </Menu.Item>
     <Menu.Divider/>
@@ -79,14 +87,6 @@ function Header({dispatch, list, pageWidth, pageHeight, autoResize, style, refre
   const upload = () => {
     dispatch({
       type: 'page/savePage',
-      payload: {
-        list,
-        pageWidth,
-        pageHeight,
-        autoResize,
-        style,
-        refresh,
-      },
       callback: (data) => {
         if (data.code === 200) {
           message.success(data.data)
@@ -104,6 +104,7 @@ function Header({dispatch, list, pageWidth, pageHeight, autoResize, style, refre
       <Popover placement="bottom" content={settingContent} trigger={'click'}
                overlayClassName={styles.settingPopover}>
         <Icon type="setting" className={styles.setting}/>
+        <ParamSetModal/>
       </Popover>
       <Icon type="upload" className={styles.upload} onClick={upload}/>
     </div>

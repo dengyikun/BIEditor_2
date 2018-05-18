@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'dva';
-import {message, Modal, Tabs, Row, Col, Tree, Icon, Select, Input} from 'antd';
+import {message, Modal, Tabs, Row, Col, Tree, Icon, Select, Input, Table} from 'antd';
 import {TOOL, ENUM} from '../../utils';
 import styles from './EventSetModal.less';
 
@@ -217,6 +217,9 @@ class EventSetModal extends React.Component {
                             </Option>)
                           }
                         </Select>
+                      </Col>
+                      <Col span={24}>
+
                       </Col>
                       {
                         conditionList && conditionList.length > 0 && action === 'refresh' &&

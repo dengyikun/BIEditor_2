@@ -13,13 +13,17 @@ export default {
     eventSetModalVisible: false, // 事件设置模态窗显示
     jsSetModalVisible: false, // js 设置模态窗显示
     cssSetModalVisible: false, // css 设置模态窗显示
-    refreshInterval: 0, // 刷新时间间隔（秒）
+    paramSetModalVisible: false, // 页面参数设置模态窗显示
+    paramList: [], // 页面参数
+    refreshInterval: 0, // 刷新时间间隔（秒），数值为 0 时不刷新
     refreshAt: new Date(), // 上次刷新时间
     pageWidth: 1200, // 页面宽度
-    pageHeight: 700, // 页面高度
+    pageHeight: 800, // 页面高度
     autoResize: false, // 自适应
-    style: {},  // 页面样式
-    refresh: 0, //自动刷新时间，单位为秒，数值为 0 时不刷新
+    style: {
+      backgroundColor: '#f2f5f7',
+      border: 'none',
+    }, // 页面样式
   },
   reducers: {
     set(state, {payload}) {
@@ -95,23 +99,29 @@ export default {
   effects: {
     * getPage({payload}, {call, put}) {
       const {data} = yield call(itemService.getPage, payload);
-      data.data = data.data || {
-        list: [],
-        pageWidth: 1200,
-        pageHeight: 700,
-        autoResize: false,
-        style: {
-          backgroundColor: '#f2f5f7',
-          border: 'none',
-        },
-        refresh: 0
-      }
       yield put({
         type: 'set', payload: data.data
       })
     },
-    * savePage({payload, callback}, {call}) {
-      const {data} = yield call(itemService.patchPage, {pageId: TOOL.getParams('pageId'), data: payload});
+    * savePage({callback}, {call, select}) {
+      const {
+        list,
+        pageWidth,
+        pageHeight,
+        autoResize,
+        style,
+        paramList,
+        refreshInterval,
+      } = yield select(state => state.page);
+      const {data} = yield call(itemService.patchPage, {pageId: TOOL.getParams('pageId'), data: {
+          list,
+          pageWidth,
+          pageHeight,
+          autoResize,
+          style,
+          paramList,
+          refreshInterval,
+        }});
       yield callback && callback(data)
     },
   },
