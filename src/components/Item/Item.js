@@ -169,7 +169,7 @@ const Item = props => {
   //获取控件内容
   const getContent = (type) => {
     const Content = items[type].instance
-    return <Content item={props.item} isEdit={isEdit}>{children}</Content>
+    return <Content item={props.item} isEdit={isEdit} onEvent={onEvent}>{children}</Content>
   }
 
   return (activeItemId === id) && isEdit ? <RnD
@@ -217,8 +217,6 @@ const Item = props => {
          id={id}
          style={{...style, width: width, height: height, left: x, top: y}}
          onMouseOver={onMouseOver}
-         onClick={onEvent}
-         onDoubleClick={onEvent}
          onMouseDown={onMouseDown}
     >
       {getContent(type)}

@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {connect} from 'dva';
 import {message, Modal, Tabs, Row, Col, Tree, Icon, Select, Input, Table} from 'antd';
 import {TOOL, ENUM} from '../../utils';
+import ValueSelect from '../ValueSelect/ValueSelect';
 import styles from './EventSetModal.less';
 
 const TabPane = Tabs.TabPane;
@@ -145,14 +146,17 @@ class EventSetModal extends React.Component {
     if (nextProps.eventSetModalVisible &&
       nextProps.eventSetModalVisible !== this.props.eventSetModalVisible) {
       const activeItem = nextProps.list.find(item => item.id === nextProps.activeItemId)
-      this.setState({eventList: JSON.parse(JSON.stringify(activeItem.eventList))})
+      this.setState({
+        eventList: JSON.parse(JSON.stringify(activeItem.eventList)),
+        activeItem: JSON.parse(JSON.stringify(activeItem))
+      })
     }
   }
 
   render() {
 
     const {eventSetModalVisible, list} = this.props
-    const {eventList, id, type} = this.state
+    const {eventList, id, type, activeItem} = this.state
     const {name, action, targetId, conditionList} = eventList.find(event => event.id === id) || {}
 
     return (
@@ -234,8 +238,9 @@ class EventSetModal extends React.Component {
                                   {condition.name}
                                 </Col>),
                                 (<Col span={6} className={styles.value}>
-                                  <Input value={condition.value}
-                                         onChange={this.onConditionChange(condition.name)}/>
+                                  <ValueSelect activeItem={activeItem}/>
+                                  {/*<Input value={condition.value}*/}
+                                         {/*onChange={this.onConditionChange(condition.name)}/>*/}
                                 </Col>)
                               ])
                             }

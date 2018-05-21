@@ -65,6 +65,9 @@ export default {
         text: '文字',
       };`, // 组件数据
     },
+    values: {
+      text: '当前值',
+    },
     icon: <Icon type="file-text"/>, // 组件图标
     node: <Node type="file-text" name="文字"/>,
   },
@@ -129,6 +132,9 @@ export default {
         format: 'YYYY-MM-DD HH:mm:ss',
       };`,
     },
+    values: {
+      time: '当前值',
+    },
     icon: <Icon type="clock-circle-o"/>,
     node: <Node type="clock-circle-o" name="时间"/>,
   },
@@ -143,6 +149,10 @@ export default {
         endTime: '${moment().format('YYYY-MM-DD HH:mm:ss')}',
         format: 'YYYY-MM-DD HH:mm:ss',
       };`,
+    },
+    values: {
+      startTime: '起始时间',
+      endTime: '结束时间',
     },
     icon: <Icon type="calendar"/>,
     node: <Node type="calendar" name="时间范围"/>,
@@ -217,6 +227,10 @@ export default {
         ],
       };`
     },
+    values: {
+      dimension: '维度值',
+      value: '指标值',
+    },
     icon: <Icon type="line-chart"/>,
     node: <Node type="line-chart" name="折线图"/>,
   },
@@ -276,6 +290,10 @@ export default {
           }
         ],
       };`
+    },
+    values: {
+      dimension: '维度值',
+      value: '指标值',
     },
     icon: <Icon type="area-chart"/>,
     node: <Node type="area-chart" name="区域图"/>,
@@ -337,6 +355,10 @@ export default {
         ],
       };`
     },
+    values: {
+      dimension: '维度值',
+      value: '指标值',
+    },
     icon: <Icon type="bar-chart"/>,
     node: <Node type="bar-chart" name="柱状图"/>,
   },
@@ -396,6 +418,10 @@ export default {
           }
         ],
       };`
+    },
+    values: {
+      dimension: '维度值',
+      value: '指标值',
     },
     icon: <Icon type="bars"/>,
     node: <Node type="bars" name="条形图"/>,
@@ -457,6 +483,10 @@ export default {
         ],
       };`
     },
+    values: {
+      dimension: '维度值',
+      value: '指标值',
+    },
     icon: <Icon type="dot-chart"/>,
     node: <Node type="dot-chart" name="散点图"/>,
   },
@@ -517,6 +547,10 @@ export default {
         ],
       };`
     },
+    values: {
+      dimension: '维度值',
+      value: '指标值',
+    },
     icon: <Icon type="line-chart"/>,
     node: <Node type="line-chart" name="堆叠折线"/>,
   },
@@ -576,6 +610,10 @@ export default {
           }
         ],
       };`
+    },
+    values: {
+      dimension: '维度值',
+      value: '指标值',
     },
     icon: <Icon type="area-chart"/>,
     node: <Node type="area-chart" name="堆叠区域"/>,
@@ -638,6 +676,10 @@ export default {
         ],
       };`
     },
+    values: {
+      dimension: '维度值',
+      value: '指标值',
+    },
     icon: <Icon type="bar-chart"/>,
     node: <Node type="bar-chart" name="堆叠柱状"/>,
   },
@@ -698,6 +740,10 @@ export default {
         ],
       };`
     },
+    values: {
+      dimension: '维度值',
+      value: '指标值',
+    },
     icon: <Icon type="bars"/>,
     node: <Node type="bars" name="堆叠条形"/>,
   },
@@ -736,6 +782,10 @@ export default {
         calculable: true,
       };`
     },
+    values: {
+      dimension: '维度值',
+      value: '指标值',
+    },
     icon: <Icon type="pie-chart"/>,
     node: <Node type="pie-chart" name="环形图"/>,
   },
@@ -773,6 +823,10 @@ export default {
         },
         calculable: true,
       };`
+    },
+    values: {
+      dimension: '维度值',
+      value: '指标值',
     },
     icon: <Icon type="pie-chart"/>,
     node: <Node type="pie-chart" name="嵌套环形"/>,
