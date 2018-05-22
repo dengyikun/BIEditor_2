@@ -8,14 +8,29 @@ const TimeRange = props => {
   let option = {}
   try {
     eval(props.item.option)
-    option.startTime = option.startTime ? moment(option.startTime) : null
-    option.endTime = option.endTime ? moment(option.endTime) : null
+    option.value = [moment(option.startTime), moment(option.endTime)]
   } catch (e) {
     console.error(e)
   }
-  return <div className={styles.body}>
+
+  const onChange = (time, timeString) => {
+    const {item, onChange} = props
+    item.option = item.option.replace(/startTime: ["|'|`].*?["|'|`],/, `startTime: "${timeString[0]}",`)
+    item.option = item.option.replace(/endTime: ["|'|`].*?["|'|`],/, `endTime: "${timeString[1]}",`)
+    onChange(item)
+  }
+
+  const onEvent = e => {
+    props.onEvent(e, {
+      startTime: option.startTime,
+      endTime: option.endTime,
+    })
+  }
+
+  return <div className={styles.body} onClick={onEvent} onDoubleClick={onEvent}>
     <RangePicker
-      defaultValue={[option.startTime, option.endTime]}
+      value={option.value}
+      onChange={onChange}
       showTime
       format={option.format}/>
   </div>

@@ -8,7 +8,14 @@ const Text = props => {
   } catch (e) {
     console.error(e)
   }
-  return <div className={styles.body}>
+
+  const onEvent = e => {
+    props.onEvent(e, {
+      text: option.text
+    })
+  }
+
+  return <div className={styles.body} onClick={onEvent} onDoubleClick={onEvent}>
     {option.text}
   </div>
 }

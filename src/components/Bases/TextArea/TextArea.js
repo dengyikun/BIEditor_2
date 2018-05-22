@@ -8,7 +8,22 @@ const TextArea = props => {
   } catch (e) {
     console.error(e)
   }
-  return <textarea className={styles.body} defaultValue={option.text} key={option.text}
+
+  const onChange = e => {
+    const {item, onChange} = props
+    let value = JSON.stringify(e.target.value)
+    item.option = item.option.replace(/text: ["|'|`].*?["|'|`],/, `text: ${value},`)
+    onChange(item)
+  }
+
+  const onEvent = e => {
+    props.onEvent(e, {
+      text: option.text
+    })
+  }
+
+  return <textarea className={styles.body} onClick={onEvent} onDoubleClick={onEvent}
+                   value={option.text} onChange={onChange}
                    style={{pointerEvents: props.isEdit ? 'none' : 'auto'}}>
   </textarea>
 }

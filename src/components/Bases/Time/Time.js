@@ -7,13 +7,27 @@ const Time = props => {
   let option = {}
   try {
     eval(props.item.option)
-    option.time = moment(option.time)
+    option.value = moment(option.time)
   } catch (e) {
     console.error(e)
   }
-  return <div className={styles.body}>
+
+  const onChange = (time, timeString) => {
+    const {item, onChange} = props
+    item.option = item.option.replace(/time: ["|'|`].*?["|'|`],/, `time: "${timeString}",`)
+    onChange(item)
+  }
+
+  const onEvent = e => {
+    props.onEvent(e, {
+      time: option.time
+    })
+  }
+
+  return <div className={styles.body} onClick={onEvent} onDoubleClick={onEvent}>
     <DatePicker
-      defaultValue={option.time}
+      value={option.value}
+      onChange={onChange}
       showTime
       format={option.format}/>
   </div>
