@@ -126,13 +126,13 @@ class EventSetModal extends React.Component {
     })
   }
 
-  onConditionChange = name => e => {
+  onConditionChange = name => value => {
     let newEventList = this.state.eventList.slice()
     newEventList.find(event => {
       if (event.id === this.state.id) {
         event.conditionList.find(condition => {
           if (condition.name === name) {
-            condition.value = e.target.value
+            condition.value = value
             this.setState({eventList: newEventList})
             return true
           }
@@ -238,9 +238,10 @@ class EventSetModal extends React.Component {
                                   {condition.name}
                                 </Col>),
                                 (<Col span={6} className={styles.value}>
-                                  <ValueSelect activeItem={activeItem}/>
-                                  {/*<Input value={condition.value}*/}
-                                         {/*onChange={this.onConditionChange(condition.name)}/>*/}
+                                  <ValueSelect value={condition.value}
+                                               onChange={this.onConditionChange(condition.name)}
+                                               activeItem={activeItem}
+                                               mode="combobox"/>
                                 </Col>)
                               ])
                             }

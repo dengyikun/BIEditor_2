@@ -129,7 +129,7 @@ const Item = props => {
   }
 
   //控件事件
-  const onEvent = e => {
+  const onEvent = (e, eventValue) => {
     e.stopPropagation()
     if (!isEdit) {
       eventList.map(event => {
@@ -137,15 +137,15 @@ const Item = props => {
           let targetItem = list.find(item => item.id === event.targetId)
           if (targetItem) {
             switch (event.action) {
-              case 'refresh':
-                targetItem.conditionList = event.conditionList
-                targetItem.refreshAt = new Date()
-                break
               case 'hide':
                 targetItem.style.visibility = 'hidden'
                 break
               case 'show':
                 targetItem.style.visibility = 'visible'
+                break
+              case 'refresh':
+                targetItem.conditionList = event.conditionList
+                targetItem.refreshAt = new Date()
                 break
             }
             dispatch({

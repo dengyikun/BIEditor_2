@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from 'dva';
 import {Select} from 'antd'
+import {TOOL} from '../../utils'
 import items from '../../data/items'
 import styles from './ValueSelect.less';
 
-const OptGroup = Select.OptGroup
-const Option = Select.Option
+const {Option, OptGroup} = Select
 
 function mapStateToProps(state) {
-  const { list, paramList, } = state.page;
+  const {list, paramList,} = state.page;
   return {
     list,
     paramList,
@@ -17,67 +17,90 @@ function mapStateToProps(state) {
 
 function ValueSelect(props) {
 
-  const {dispatch, list, paramList, activeItem, value, onChange} = props
+  const {list, paramList, activeItem, value, onChange} = props
 
-  let selectValue = value ? value.value || '' : ''
-  let selectKey = 0
+  let selectValue = ''
   let optGroups = []
   let values = items[activeItem.type].values
 
-
-  if (paramList.length > 0) {
-    optGroups.push(<OptGroup label="页面参数" key="param">
-      {
-        paramList.map(param => {
-          selectKey++
-          return <Option key={selectKey} value={selectKey}
-          type={'param'}>{param.key}</Option>
-        })
-      }
-    </OptGroup>)
+  if (value.type === 'value') {
+    selectValue = value.value
   }
 
-  if (values) {
-    optGroups.push(<OptGroup label="事件参数" key="event">
-      {
-        Object.keys(values).map(key => {
-          selectKey++
-          return <Option key={selectKey} value={selectKey}>{values[key]}</Option>
-        })
-      }
-    </OptGroup>)
-  }
+  //加入页面参数
+  optGroups.push(<OptGroup label="页面参数" key="param">
+    {
+      paramList.map(param => {
+        const selectKey = TOOL.GUID()
+        if (value.type === 'param' && value.key === param.key) {
+          selectValue = param.key
+        }
+        return <Option key={selectKey} value={selectKey}
+                       data-type={'param'} data-key={param.key}>
+          {param.key}
+        </Option>
+      })
+    }
+  </OptGroup>)
 
+  //加入事件参数
+  optGroups.push(<OptGroup label="事件参数" key="event">
+    {
+      Object.keys(values).map(key => {
+        const selectKey = TOOL.GUID()
+        if (value.type === 'event' && value.key === key) {
+          selectValue = values[key]
+        }
+        return <Option key={selectKey} value={selectKey}
+                       data-type={'event'} data-key={key}>
+          {values[key]}
+        </Option>
+      })
+    }
+  </OptGroup>)
+
+  //加入组件参数
   list.map(item => {
     let values = items[item.type].values
-    if (values && item.id !== activeItem.id) {
+    if (values && item.id !== activeItem.id && !item.conditionList) {
       optGroups.push(<OptGroup label={item.name} key={item.id}>
         {
           Object.keys(values).map(key => {
-            selectKey++
-            return <Option key={selectKey} value={selectKey}>{item.name + ' - ' + values[key]}</Option>
+            const selectKey = TOOL.GUID()
+            if (value.type === 'item' && value.id === item.id && value.key === key) {
+              selectValue = item.name + ' - ' + values[key]
+            }
+            return <Option key={selectKey} value={selectKey}
+                           data-type={'item'} data-id={item.id}
+                           data-key={key}>
+              {item.name + ' - ' + values[key]}
+            </Option>
           })
         }
       </OptGroup>)
     }
   })
 
-  const onSelectChange = (value, option) => {
-    debugger
+  const onSelect = (value, option) => {
+    onChange({
+      type: option.props['data-type'],
+      key: option.props['data-key'],
+      id: option.props['data-id']
+    })
   }
 
   const onSearch = (value) => {
-    props.onChange({
+    onChange({
       type: 'value',
       value
     })
-    debugger
   }
 
   return (
-    <Select className={styles.body} showSearch {...props}
-            optionFilterProp={'children'} value={selectValue}
-            onChange={onSelectChange} onSearch={onSearch}>
+    <Select className={styles.body} allowClear
+            optionFilterProp={'children'} {...props}
+            value={selectValue} onChange={() => {}}
+            onSelect={onSelect} onSearch={onSearch}>
       {optGroups}
     </Select>
   );
