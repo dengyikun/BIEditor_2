@@ -7,7 +7,7 @@ const Time = props => {
   let option = {}
   try {
     eval(props.item.option)
-    option.value = moment(option.time)
+    option.value = option.time ? moment(option.time) : null
   } catch (e) {
     console.error(e)
   }

@@ -8,7 +8,10 @@ const TimeRange = props => {
   let option = {}
   try {
     eval(props.item.option)
-    option.value = [moment(option.startTime), moment(option.endTime)]
+    option.value = [
+      option.startTime ? moment(option.startTime) : null,
+      option.endTime ? moment(option.endTime) : null,
+    ]
   } catch (e) {
     console.error(e)
   }

@@ -3,7 +3,6 @@ import {connect} from 'dva';
 import ScrollBar from 'react-custom-scrollbars';
 import styles from './ItemList.less';
 import Item from '../Item/Item'
-import {TOOL} from "../../utils";
 
 function mapStateToProps(state) {
   const {list, autoResize, pageWidth, pageHeight, style, refreshInterval,} = state.page;
@@ -23,10 +22,12 @@ const ItemList = ({dispatch, list, autoResize, pageWidth, pageHeight, style, isE
   if (!isEdit && !refreshTimer && refreshInterval > 0) {
     refreshTimer = setInterval(() => {
       list.map(item => {
-        dispatch({
-          type: 'page/setItem',
-          payload: {...item}
-        })
+        if (item.baseType === 'chart') {
+          dispatch({
+            type: 'page/setItem',
+            payload: {...item}
+          })
+        }
       })
     }, refreshInterval * 1000)
   }

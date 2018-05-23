@@ -24,6 +24,7 @@ import styles from './items.less';
 // 基础组件属性
 const baseItem = {
   parentId: 'base', // 组件父级 ID
+  baseType: 'base', // 组件基础类型
   width: 300, // 组件宽度
   height: 200, // 组件高度
   style: {}, // 组件样式
@@ -37,6 +38,7 @@ const baseItem = {
 const chartItem = {
   ...baseItem,
   parentId: 'chart',
+  baseType: 'chart', // 组件基础类型
   // sourceId: '',
   // sql: '',
   // conditionList: [],
