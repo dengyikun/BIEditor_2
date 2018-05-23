@@ -44,20 +44,22 @@ function ValueSelect(props) {
   </OptGroup>)
 
   //加入事件参数
-  optGroups.push(<OptGroup label="事件参数" key="event">
-    {
-      Object.keys(values).map(key => {
-        const selectKey = TOOL.GUID()
-        if (value.type === 'event' && value.key === key) {
-          selectValue = values[key]
-        }
-        return <Option key={selectKey} value={selectKey}
-                       data-type={'event'} data-key={key}>
-          {values[key]}
-        </Option>
-      })
-    }
-  </OptGroup>)
+  if (values){
+    optGroups.push(<OptGroup label="事件参数" key="event">
+      {
+        Object.keys(values).map(key => {
+          const selectKey = TOOL.GUID()
+          if (value.type === 'event' && value.key === key) {
+            selectValue = values[key]
+          }
+          return <Option key={selectKey} value={selectKey}
+                         data-type={'event'} data-key={key}>
+            {values[key]}
+          </Option>
+        })
+      }
+    </OptGroup>)
+  }
 
   //加入组件参数
   list.map(item => {

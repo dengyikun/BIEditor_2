@@ -61,7 +61,7 @@ export default {
       ...baseItem,
       name: '文字', // 组件名称
       type: 'text', // 组件类型
-      option: `option = {
+      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
         text: "文字",
       };`, // 组件数据
     },
@@ -90,7 +90,7 @@ export default {
       ...baseItem,
       name: '按钮',
       type: 'button',
-      option: `option = {
+      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
         text: "按钮",
       };`,
     },
@@ -130,7 +130,7 @@ export default {
       ...baseItem,
       name: '时间',
       type: 'time',
-      option: `option = {
+      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
         time: "${moment().format('YYYY-MM-DD HH:mm:ss')}",
         format: "YYYY-MM-DD HH:mm:ss",
       };`,
@@ -147,7 +147,7 @@ export default {
       ...baseItem,
       name: '时间范围',
       type: 'timeRange',
-      option: `option = {
+      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
         startTime: "${moment().format('YYYY-MM-DD HH:mm:ss')}",
         endTime: "${moment().format('YYYY-MM-DD HH:mm:ss')}",
         format: "YYYY-MM-DD HH:mm:ss",
@@ -166,7 +166,7 @@ export default {
       ...baseItem,
       name: '网页',
       type: 'iFrame',
-      option: `option = {
+      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
         url: "",
       };`,
     },

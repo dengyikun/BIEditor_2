@@ -4,11 +4,12 @@ import RnD from 'react-rnd'
 import classNames from 'classnames'
 import items from '../../data/items'
 import styles from './Item.less'
+import {TOOL} from "../../utils";
 
 const Item = props => {
 
   const {
-    item:{
+    item: {
       id, x, y, width, height, type, style, eventList, css, js, // 基础属性
     },
     list,
@@ -21,11 +22,12 @@ const Item = props => {
     pageWidth,
     pageHeight,
     className,
+    paramList,
   } = props
 
   const runJs = () => {
     setTimeout(() => {
-      if (document.getElementById(id)){
+      if (document.getElementById(id)) {
         try {
           eval(js)
         } catch (e) {
@@ -145,14 +147,14 @@ const Item = props => {
           let targetItem = list.find(item => item.id === event.targetId)
           if (targetItem) {
             switch (event.action) {
+              case 'refresh':
+                targetItem.conditionList = getConditionList(event.conditionList, eventValue)
+                break
               case 'hide':
                 targetItem.style.visibility = 'hidden'
                 break
               case 'show':
                 targetItem.style.visibility = 'visible'
-                break
-              case 'refresh':
-                targetItem.conditionList = event.conditionList
                 break
             }
             dispatch({
@@ -163,6 +165,47 @@ const Item = props => {
         }
       })
     }
+  }
+
+  //根据事件设置获取值
+  const getConditionList = (eventConditionList, eventValue) => {
+    let newConditionList = []
+    eventConditionList.map(eventCondition => {
+      let condition = {
+        name: eventCondition.name,
+        value: ''
+      }
+      const value = eventCondition.value
+      switch (value.type) {
+        case 'value':
+          condition.value = value.value
+          break
+        case 'param':
+          let param = paramList.find(param => param.key === value.key)
+          if (param) {
+            param.value = TOOL.getParams(param.key) || param.value
+            condition.value = param.value
+          }
+          break
+        case 'event':
+          condition.value = eventValue[value.key]
+          break
+        case 'item':
+          let item = list.find(item => item.id === value.id)
+          if (item) {
+            let option = {}
+            try {
+              eval(item.option)
+            } catch (e) {
+              console.error(e)
+            }
+            condition.value = option[value.key]
+          }
+          break
+      }
+      newConditionList.push(condition)
+    })
+    return newConditionList
   }
 
   const onMouseDown = e => {
@@ -245,6 +288,7 @@ function mapStateToProps(state) {
     autoResize,
     pageWidth,
     pageHeight,
+    paramList,
   } = state.page;
   return {
     list,
@@ -254,6 +298,7 @@ function mapStateToProps(state) {
     autoResize,
     pageWidth,
     pageHeight,
+    paramList,
   };
 }
 
