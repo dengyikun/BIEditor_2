@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'dva';
 import {message, Modal, Tabs, Row, Col, Tree, Icon, Select, Input, Table} from 'antd';
+import items from '../../data/items';
 import {TOOL, ENUM} from '../../utils';
 import ValueSelect from '../ValueSelect/ValueSelect';
 import styles from './EventSetModal.less';
@@ -104,11 +105,15 @@ class EventSetModal extends React.Component {
   }
 
   onTargetIdSelect = (value, option) => {
+    const item = option.props.item
     let newEventList = this.state.eventList.slice()
     newEventList.find(event => {
       if (event.id === this.state.id) {
         event.targetId = value
-        event.conditionList = JSON.parse(JSON.stringify(option.props.item.conditionList || []))
+        event.targetType = item.type
+        if (items[item.type].item.parentId === 'chart') {
+          event.conditionList = JSON.parse(JSON.stringify(item.conditionList))
+        }
         this.setState({eventList: newEventList})
         return true
       }

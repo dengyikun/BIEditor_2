@@ -6,22 +6,29 @@ import Item from '../Item/Item'
 import {TOOL} from "../../utils";
 
 function mapStateToProps(state) {
-  const {list, autoResize, pageWidth, pageHeight, style, refresh,} = state.page;
+  const {list, autoResize, pageWidth, pageHeight, style, refreshInterval,} = state.page;
   return {
     list,
     autoResize,
     pageWidth,
     pageHeight,
     style,
-    refresh,
+    refreshInterval,
   };
 }
 
-const ItemList = ({dispatch, list, autoResize, pageWidth, pageHeight, style, isEdit, refresh,}) => {
-  if (!isEdit && refresh > 0) {
-    setTimeout(() => {
-      window.location.reload()
-    }, refresh * 1000)
+let refreshTimer = null
+
+const ItemList = ({dispatch, list, autoResize, pageWidth, pageHeight, style, isEdit, refreshInterval,}) => {
+  if (!isEdit && !refreshTimer && refreshInterval > 0) {
+    refreshTimer = setInterval(() => {
+      list.map(item => {
+        dispatch({
+          type: 'page/setItem',
+          payload: {...item}
+        })
+      })
+    }, refreshInterval * 1000)
   }
 
   const {clientWidth: listWidth} = document.getElementById('listContainer') || {}

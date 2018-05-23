@@ -16,12 +16,11 @@ export default {
     paramSetModalVisible: false, // 页面参数设置模态窗显示
     paramList: [], // 页面参数
     refreshInterval: 0, // 刷新时间间隔（秒），数值为 0 时不刷新
-    refreshAt: new Date(), // 上次刷新时间
     pageWidth: 1200, // 页面宽度
     pageHeight: 800, // 页面高度
     autoResize: false, // 自适应
     style: {
-      backgroundColor: '#f2f5f7',
+      backgroundColor: '#ffffff',
       border: 'none',
     }, // 页面样式
   },
@@ -76,12 +75,6 @@ export default {
     },
     setCssSetModalVisible(state, {payload}) {
       return {...state, cssSetModalVisible: payload};
-    },
-    setRefreshInterval(state, {payload}) {
-      return {...state, refreshInterval: payload};
-    },
-    setRefreshAt(state, {payload}) {
-      return {...state, refreshAt: payload};
     },
     setPageWidth(state, {payload}) {
       return {...state, pageWidth: payload};

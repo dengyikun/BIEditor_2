@@ -8,6 +8,7 @@ export default {
   },
   actions: {
     refresh: '刷新',
+    setData: '设置值',
     hide: '隐藏',
     show: '显示',
   },

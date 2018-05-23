@@ -99,7 +99,7 @@ function ValueSelect(props) {
   }
 
   return (
-    <Select className={styles.body} allowClear
+    <Select className={styles.body} allowClear defaultActiveFirstOption={false}
             optionFilterProp={'children'} {...props}
             value={selectValue} onChange={() => {}}
             onSelect={onSelect} onSearch={onSearch}>
