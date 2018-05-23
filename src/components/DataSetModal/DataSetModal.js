@@ -39,8 +39,7 @@ class DataSetModal extends React.Component {
     this.props.dispatch({
       type: 'page/setItem',
       payload: {
-        ...this.state,
-        refreshAt: new Date()
+        ...this.state
       }
     })
     this.onCancel()

@@ -33,7 +33,7 @@ export default {
       let list = JSON.parse(JSON.stringify(state.list))
       let item = list.find((item, index) => {
         if (item.id === payload.id) {
-          list[index] = JSON.parse(JSON.stringify({...item, ...payload}))
+          list[index] = JSON.parse(JSON.stringify({...item, ...payload, refreshAt: new Date()}))
           return true
         } else return false
       })

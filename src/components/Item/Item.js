@@ -110,7 +110,6 @@ const Item = props => {
         id,
         width: totalWidth < pageWidth ? newWidth : pageWidth - x,
         height: totalHeight < pageHeight ? newHeight : pageHeight - y,
-        refreshAt: new Date(),
       }
     })
   }
@@ -154,7 +153,6 @@ const Item = props => {
                 break
               case 'refresh':
                 targetItem.conditionList = event.conditionList
-                targetItem.refreshAt = new Date()
                 break
             }
             dispatch({

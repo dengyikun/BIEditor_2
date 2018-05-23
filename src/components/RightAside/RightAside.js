@@ -30,8 +30,7 @@ function RightAside({dispatch, list, activeItemId}) {
         type: 'page/setItem',
         payload: {
           id: activeItemId,
-          name: e.target.value,
-          refreshAt: new Date()
+          name: e.target.value
         }
       })
     }

@@ -67,8 +67,7 @@ function Footer({dispatch, list, activeItemId, pageWidth, pageHeight,}) {
         type: 'page/setItem',
         payload: {
           id: activeItemId,
-          width: value,
-          refreshAt: new Date()
+          width: value
         }
       })
     }
@@ -80,8 +79,7 @@ function Footer({dispatch, list, activeItemId, pageWidth, pageHeight,}) {
         type: 'page/setItem',
         payload: {
           id: activeItemId,
-          height: value,
-          refreshAt: new Date()
+          height: value
         }
       })
     }
