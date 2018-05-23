@@ -1,15 +1,15 @@
 import React, {Component, PropTypes} from 'react'
 import styles from './IFrame.less'
 
-const IFrame = props => {
+const IFrame = ({item, isEdit}) => {
   let option = {}
   try {
-    eval(props.item.option)
+    eval(item.option)
   } catch (e) {
     console.error(e)
   }
   return <iframe className={styles.body} src={option.url}
-                 style={{pointerEvents: props.isEdit ? 'none' : 'auto'}}/>
+                 style={{pointerEvents: isEdit ? 'none' : 'auto'}}/>
 }
 
 export default IFrame

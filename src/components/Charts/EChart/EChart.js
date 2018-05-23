@@ -31,8 +31,13 @@ class EChart extends React.Component {
       })
   }
 
+  onEvent = e => {
+    e.stopPropagation()
+  }
+
   render() {
-    return <div className={styles.body} ref={'chart'}>
+    return <div className={styles.body} ref={'chart'}
+                onClick={this.onEvent} onDoubleClick={this.onEvent}>
     </div>
   }
 
@@ -44,7 +49,21 @@ class EChart extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({chart: ECharts.init(this.refs.chart)}, this.refresh)
+    const chart = ECharts.init(this.refs.chart)
+    const that = this
+    chart.on('click', (params) => {
+      that.props.onEvent(params.event.event, {
+        dimension: params.name,
+        value: params.data,
+      })
+    })
+    chart.on('dblclick', params => {
+      that.props.onEvent(params.event.event, {
+        dimension: params.name,
+        value: params.data,
+      })
+    })
+    this.setState({chart}, this.refresh)
   }
 }
 

@@ -1,10 +1,7 @@
-import React, {PropTypes} from 'react';
-import {message} from 'antd'
+import React from 'react';
 import EChart from '../EChart/EChart'
-import styles from './DoughnutChart.css';
-import * as itemService from '../../../services/item';
 
-const DoughnutChart = ({item}) => {
+const DoughnutChart = ({item, onEvent}) => {
 
   const getOption = data => {
     const {name, valueList} = item
@@ -25,7 +22,11 @@ const DoughnutChart = ({item}) => {
     return option
   }
 
-  return <EChart className={styles.body} item={item} getOption={getOption}/>
+  const onChartEvent = (e, params) => {
+    onEvent(e, params)
+  }
+
+  return <EChart item={item} getOption={getOption} onEvent={onChartEvent}/>
 }
 
 export default DoughnutChart;

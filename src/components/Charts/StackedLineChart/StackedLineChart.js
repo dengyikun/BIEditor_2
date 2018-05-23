@@ -1,10 +1,7 @@
-import React, {PropTypes} from 'react';
-import {message} from 'antd'
+import React from 'react';
 import EChart from '../EChart/EChart'
-import styles from './StackedLineChart.css';
-import * as itemService from '../../../services/item';
 
-const StackedLineChart = ({item}) => {
+const StackedLineChart = ({item, onEvent}) => {
 
   const getOption = data => {
     const {name, dimensionList, valueList} = item
@@ -49,7 +46,11 @@ const StackedLineChart = ({item}) => {
     return option
   }
 
-  return <EChart className={styles.body} item={item} getOption={getOption}/>
+  const onChartEvent = (e, params) => {
+    onEvent(e, params)
+  }
+
+  return <EChart item={item} getOption={getOption} onEvent={onChartEvent}/>
 }
 
 export default StackedLineChart;
