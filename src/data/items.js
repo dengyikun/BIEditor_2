@@ -7,6 +7,7 @@ import TextArea from '../components/Bases/TextArea/TextArea'
 import Time from '../components/Bases/Time/Time'
 import TimeRange from '../components/Bases/TimeRange/TimeRange'
 import Container from '../components/Bases/Container/Container'
+import Select from '../components/Bases/Select/Select'
 import IFrame from '../components/Bases/IFrame/IFrame'
 import LineChart from '../components/Charts/LineChart/LineChart'
 import LineAreaChart from '../components/Charts/LineAreaChart/LineAreaChart'
@@ -161,6 +162,28 @@ export default {
     },
     icon: <Icon type="calendar"/>,
     node: <Node type="calendar" name="时间范围"/>,
+  },
+  select: {
+    instance: Select,
+    item: {
+      ...baseItem,
+      name: '下拉选框',
+      type: 'select',
+      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
+        value: "",
+        text: "",
+        options: [{
+          value: "值",
+          text: "文字",
+        }],
+      };`,
+    },
+    values: {
+      value: '选中值',
+      text: '选中文字',
+    },
+    icon: <Icon type="select"/>,
+    node: <Node type="select" name="下拉选框"/>,
   },
   iFrame: {
     instance: IFrame,

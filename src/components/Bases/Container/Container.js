@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React from 'react'
 import {connect} from 'dva'
 import styles from './Container.less'
 import ScrollBar from 'react-custom-scrollbars'

@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React from 'react'
 import styles from './IFrame.less'
 
 const IFrame = ({item, isEdit}) => {

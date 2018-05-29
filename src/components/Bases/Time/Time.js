@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React from 'react'
 import {DatePicker} from 'antd'
 import moment from 'moment'
 import styles from './Time.less'
@@ -14,7 +14,7 @@ const Time = props => {
 
   const onChange = (time, timeString) => {
     const {item, onChange} = props
-    item.option = item.option.replace(/time: ["|'|`].*?["|'|`],/, `time: "${timeString}",`)
+    item.option = item.option.replace(/time: ".*?",/, `time: "${timeString}",`)
     onChange(item)
   }
 
@@ -26,6 +26,7 @@ const Time = props => {
 
   return <div className={styles.body} onClick={onEvent} onDoubleClick={onEvent}>
     <DatePicker
+      className={styles.time}
       value={option.value}
       onChange={onChange}
       showTime

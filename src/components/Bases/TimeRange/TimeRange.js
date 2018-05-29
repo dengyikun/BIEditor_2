@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React from 'react'
 import {DatePicker} from 'antd'
 import moment from 'moment'
 import styles from './TimeRange.less'
@@ -18,8 +18,8 @@ const TimeRange = props => {
 
   const onChange = (time, timeString) => {
     const {item, onChange} = props
-    item.option = item.option.replace(/startTime: ["|'|`].*?["|'|`],/, `startTime: "${timeString[0]}",`)
-    item.option = item.option.replace(/endTime: ["|'|`].*?["|'|`],/, `endTime: "${timeString[1]}",`)
+    item.option = item.option.replace(/startTime: ".*?",/, `startTime: "${timeString[0]}",`)
+    item.option = item.option.replace(/endTime: ".*?",/, `endTime: "${timeString[1]}",`)
     onChange(item)
   }
 
@@ -32,6 +32,7 @@ const TimeRange = props => {
 
   return <div className={styles.body} onClick={onEvent} onDoubleClick={onEvent}>
     <RangePicker
+      className={styles.time}
       value={option.value}
       onChange={onChange}
       showTime
