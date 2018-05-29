@@ -157,14 +157,7 @@ const Item = props => {
                 break
               case 'setData':
                 event.dataList.map(data => {
-                  const value = JSON.stringify(getValue(data.value, eventValue))
-                  let reg = ''
-                  try {
-                    eval(`reg = /${data.name}: ".*?",/`)
-                  } catch (e) {
-                    console.error(e)
-                  }
-                  targetItem.option = targetItem.option.replace(reg, `${data.name}: ${value},`)
+                  targetItem.option = targetItem.option[data.name] = getValue(data.value, eventValue)
                 })
                 break
               case 'hide':
