@@ -29,10 +29,10 @@ export default {
       return {...state, ...payload};
     },
     setItem(state, {payload}) {
-      let list = JSON.parse(JSON.stringify(state.list))
+      let list = TOOL.deepCopy(state.list)
       let item = list.find((item, index) => {
         if (item.id === payload.id) {
-          list[index] = JSON.parse(JSON.stringify({...item, ...payload, refreshAt: new Date()}))
+          list[index] = TOOL.deepCopy({...item, ...payload, refreshAt: new Date()})
           return true
         } else return false
       })

@@ -1,6 +1,7 @@
 import React from 'react'
 import {DatePicker} from 'antd'
 import moment from 'moment'
+import {TOOL} from '../../../utils'
 import styles from './Time.less'
 
 const Time = props => {
@@ -9,7 +10,7 @@ const Time = props => {
 
   const onChange = (time, timeString) => {
     const {onChange} = props
-    const item = JSON.parse(JSON.stringify(props.item))
+    const item = TOOL.deepCopy(props.item)
     item.option.time = timeString
     onChange(item)
   }

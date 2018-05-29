@@ -7,6 +7,7 @@ import 'brace/mode/javascript';
 import 'brace/theme/tomorrow';
 import Item from '../Item/Item';
 import styles from './JsSetModal.less';
+import {TOOL} from "../../utils";
 
 class JsSetModal extends React.Component {
 
@@ -51,7 +52,7 @@ class JsSetModal extends React.Component {
     if (nextProps.jsSetModalVisible &&
       nextProps.jsSetModalVisible !== this.props.jsSetModalVisible) {
       const activeItem = nextProps.list.find(item => item.id === nextProps.activeItemId)
-      this.setState({...JSON.parse(JSON.stringify(activeItem))})
+      this.setState({...TOOL.deepCopy(activeItem)})
     }
   }
 

@@ -6,6 +6,7 @@ import 'brace/ext/language_tools';
 import 'brace/mode/javascript';
 import 'brace/theme/tomorrow';
 import Item from '../Item/Item';
+import {TOOL} from '../../utils'
 import styles from './ChartSetModal.less';
 
 class ChartSetModal extends React.Component {
@@ -61,7 +62,7 @@ class ChartSetModal extends React.Component {
     if (nextProps.chartSetModalVisible &&
       nextProps.chartSetModalVisible !== this.props.chartSetModalVisible) {
       const activeItem = nextProps.list.find(item => item.id === nextProps.activeItemId)
-      this.setState({...JSON.parse(JSON.stringify(activeItem))})
+      this.setState({...TOOL.deepCopy(activeItem)})
     }
   }
 

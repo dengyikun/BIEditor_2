@@ -1,5 +1,6 @@
 import React from 'react'
 import {Select} from 'antd'
+import {TOOL} from '../../../utils'
 import styles from './Select.less'
 
 const Option = Select.Option
@@ -16,7 +17,7 @@ const CustomSelect = props => {
 
   const onSelect = (value, option) => {
     const {onChange} = props
-    const item = JSON.parse(JSON.stringify(props.item))
+    const item = TOOL.deepCopy(props.item)
     item.option.value = value
     item.option.text = option.props.children
     onChange(item)

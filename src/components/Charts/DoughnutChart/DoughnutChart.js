@@ -1,5 +1,6 @@
 import React from 'react';
 import EChart from '../EChart/EChart'
+import {TOOL} from '../../../utils'
 
 const DoughnutChart = ({item, onEvent}) => {
 
@@ -14,7 +15,7 @@ const DoughnutChart = ({item, onEvent}) => {
       center: ['50%', '60%'],
       data: Array.from(dataList, data => data[value.name])
     }))
-    const option = JSON.parse(JSON.stringify(item.option))
+    const option = TOOL.deepCopy(item.option)
     option.title.text = option.title.text || name
     option.legend.data = option.legend.data || legendData
     option.series = option.series || series

@@ -6,6 +6,7 @@ import 'brace/ext/language_tools';
 import 'brace/mode/css';
 import 'brace/theme/tomorrow';
 import Item from '../Item/Item';
+import {TOOL} from '../../utils'
 import styles from './CssSetModal.less';
 
 class CssSetModal extends React.Component {
@@ -51,7 +52,7 @@ class CssSetModal extends React.Component {
     if (nextProps.cssSetModalVisible &&
       nextProps.cssSetModalVisible !== this.props.cssSetModalVisible) {
       const activeItem = nextProps.list.find(item => item.id === nextProps.activeItemId)
-      this.setState({...JSON.parse(JSON.stringify(activeItem))})
+      this.setState({...TOOL.deepCopy(activeItem)})
     }
   }
 

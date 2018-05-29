@@ -157,7 +157,7 @@ const Item = props => {
                 break
               case 'setData':
                 event.dataList.map(data => {
-                  targetItem.option = targetItem.option[data.name] = getValue(data.value, eventValue)
+                  targetItem.option[data.name] = getValue(data.value, eventValue)
                 })
                 break
               case 'hide':

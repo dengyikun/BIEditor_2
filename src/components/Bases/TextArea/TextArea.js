@@ -1,4 +1,5 @@
 import React from 'react'
+import {TOOL} from '../../../utils'
 import styles from './TextArea.less'
 
 const TextArea = props => {
@@ -6,7 +7,7 @@ const TextArea = props => {
 
   const onChange = e => {
     const {onChange} = props
-    const item = JSON.parse(JSON.stringify(props.item))
+    const item = TOOL.deepCopy(props.item)
     item.option.text = e.target.value
     onChange(item)
   }

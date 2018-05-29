@@ -78,7 +78,7 @@ class ParamSetModal extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.paramSetModalVisible &&
       nextProps.paramSetModalVisible !== this.props.paramSetModalVisible) {
-      this.setState({paramList: JSON.parse(JSON.stringify(nextProps.paramList))})
+      this.setState({paramList: TOOL.deepCopy(nextProps.paramList)})
     }
   }
 

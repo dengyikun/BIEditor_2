@@ -1,5 +1,6 @@
 import React from 'react';
 import EChart from '../EChart/EChart'
+import {TOOL} from '../../../utils'
 
 const LineChart = ({item, onEvent}) => {
 
@@ -37,7 +38,7 @@ const LineChart = ({item, onEvent}) => {
       },
       data: Array.from(dataList, data => data[value.name])
     }))
-    const option = JSON.parse(JSON.stringify(item.option))
+    const option = TOOL.deepCopy(item.option)
     option.title.text = option.title.text || name
     option.legend.data = option.legend.data || legendData
     option.xAxis = option.xAxis || xAxis

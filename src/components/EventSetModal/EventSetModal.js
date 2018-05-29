@@ -167,8 +167,8 @@ class EventSetModal extends React.Component {
       nextProps.eventSetModalVisible !== this.props.eventSetModalVisible) {
       const activeItem = nextProps.list.find(item => item.id === nextProps.activeItemId)
       this.setState({
-        eventList: JSON.parse(JSON.stringify(activeItem.eventList)),
-        activeItem: JSON.parse(JSON.stringify(activeItem))
+        eventList: TOOL.deepCopy(activeItem.eventList),
+        activeItem: TOOL.deepCopy(activeItem)
       })
     }
   }

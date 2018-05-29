@@ -7,6 +7,7 @@ import AceEditor from 'react-ace';
 import 'brace/ext/language_tools';
 import 'brace/mode/mysql';
 import 'brace/theme/tomorrow';
+import {TOOL} from '../../utils'
 import styles from './DataSetModal.less';
 
 const TabPane = Tabs.TabPane;
@@ -146,7 +147,7 @@ class DataSetModal extends React.Component {
     if (nextProps.dataSetModalVisible &&
       nextProps.dataSetModalVisible !== this.props.dataSetModalVisible) {
       const activeItem = nextProps.list.find(item => item.id === nextProps.activeItemId)
-      this.setState({...JSON.parse(JSON.stringify(activeItem))})
+      this.setState({...TOOL.deepCopy(activeItem)})
       nextProps.dispatch({
         type: 'source/getTableList',
         payload: activeItem.sourceId
