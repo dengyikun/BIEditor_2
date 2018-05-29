@@ -4,17 +4,13 @@ import moment from 'moment'
 import styles from './Time.less'
 
 const Time = props => {
-  let option = {}
-  try {
-    eval(props.item.option)
-    option.value = option.time ? moment(option.time) : null
-  } catch (e) {
-    console.error(e)
-  }
+  const option = props.item.option
+  const value = option.time ? moment(option.time) : null
 
   const onChange = (time, timeString) => {
-    const {item, onChange} = props
-    item.option = item.option.replace(/time: ".*?",/, `time: "${timeString}",`)
+    const {onChange} = props
+    const item = JSON.parse(JSON.stringify(props.item))
+    item.option.time = timeString
     onChange(item)
   }
 
@@ -27,7 +23,7 @@ const Time = props => {
   return <div className={styles.body} onClick={onEvent} onDoubleClick={onEvent}>
     <DatePicker
       className={styles.time}
-      value={option.value}
+      value={value}
       onChange={onChange}
       showTime
       format={option.format}/>

@@ -2,12 +2,7 @@ import React from 'react'
 import styles from './Text.less'
 
 const Text = props => {
-  let option = {}
-  try {
-    eval(props.item.option)
-  } catch (e) {
-    console.error(e)
-  }
+  const option = props.item.option
 
   const onEvent = e => {
     props.onEvent(e, {

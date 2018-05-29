@@ -37,8 +37,7 @@ const StackedLineChart = ({item, onEvent}) => {
       },
       data: Array.from(dataList, data => data[value.name])
     }))
-    let option = {}
-    eval(item.option)
+    let option = JSON.parse(JSON.stringify(item.option))
     option.title.text = option.title.text || name
     option.legend.data = option.legend.data || legendData
     option.xAxis = option.xAxis || xAxis

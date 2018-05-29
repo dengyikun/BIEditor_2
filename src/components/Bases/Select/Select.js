@@ -5,14 +5,7 @@ import styles from './Select.less'
 const Option = Select.Option
 
 const CustomSelect = props => {
-  let option = {
-    options: []
-  }
-  try {
-    eval(props.item.option)
-  } catch (e) {
-    console.error(e)
-  }
+  const option = props.item.option
 
   const onEvent = e => {
     props.onEvent(e, {
@@ -22,9 +15,10 @@ const CustomSelect = props => {
   }
 
   const onSelect = (value, option) => {
-    const {item, onChange} = props
-    item.option = item.option.replace(/value: ".*?",/, `value: "${value}",`)
-    item.option = item.option.replace(/text: ".*?",/, `text: "${option.props.children}",`)
+    const {onChange} = props
+    const item = JSON.parse(JSON.stringify(props.item))
+    item.option.value = value
+    item.option.text = option.props.children
     onChange(item)
   }
 

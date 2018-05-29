@@ -2,17 +2,12 @@ import React from 'react'
 import styles from './TextArea.less'
 
 const TextArea = props => {
-  let option = {}
-  try {
-    eval(props.item.option)
-  } catch (e) {
-    console.error(e)
-  }
+  const option = props.item.option
 
   const onChange = e => {
-    const {item, onChange} = props
-    let value = JSON.stringify(e.target.value)
-    item.option = item.option.replace(/text: ".*?",/, `text: ${value},`)
+    const {onChange} = props
+    const item = JSON.parse(JSON.stringify(props.item))
+    item.option.text = e.target.value
     onChange(item)
   }
 

@@ -2,12 +2,7 @@ import React from 'react'
 import styles from './Image.less'
 
 const Image = props => {
-  let option = {}
-  try {
-    eval(props.item.option)
-  } catch (e) {
-    console.error(e)
-  }
+  const option = props.item.option
   return <img className={styles.body} src={option.image}/>
 }
 

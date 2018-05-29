@@ -204,13 +204,7 @@ const Item = props => {
       case 'item':
         let item = list.find(item => item.id === dataValue.id)
         if (item) {
-          let option = {}
-          try {
-            eval(item.option)
-          } catch (e) {
-            console.error(e)
-          }
-          value = option[dataValue.key]
+          value = item.option[dataValue.key]
         }
         break
     }

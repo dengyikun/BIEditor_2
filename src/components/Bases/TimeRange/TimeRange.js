@@ -5,21 +5,17 @@ import styles from './TimeRange.less'
 const {RangePicker} = DatePicker;
 
 const TimeRange = props => {
-  let option = {}
-  try {
-    eval(props.item.option)
-    option.value = [
-      option.startTime ? moment(option.startTime) : null,
-      option.endTime ? moment(option.endTime) : null,
-    ]
-  } catch (e) {
-    console.error(e)
-  }
+  const option = props.item.option
+  const value = [
+    option.startTime ? moment(option.startTime) : null,
+    option.endTime ? moment(option.endTime) : null,
+  ]
 
   const onChange = (time, timeString) => {
-    const {item, onChange} = props
-    item.option = item.option.replace(/startTime: ".*?",/, `startTime: "${timeString[0]}",`)
-    item.option = item.option.replace(/endTime: ".*?",/, `endTime: "${timeString[1]}",`)
+    const {onChange} = props
+    const item = JSON.parse(JSON.stringify(props.item))
+    item.option.startTime = timeString[0]
+    item.option.endTime = timeString[1]
     onChange(item)
   }
 
@@ -33,7 +29,7 @@ const TimeRange = props => {
   return <div className={styles.body} onClick={onEvent} onDoubleClick={onEvent}>
     <RangePicker
       className={styles.time}
-      value={option.value}
+      value={value}
       onChange={onChange}
       showTime
       format={option.format}/>

@@ -111,12 +111,6 @@ class EventSetModal extends React.Component {
         event.targetId = value
         event.targetType = item.type
         event.dataList = []
-        let option = {}
-        try {
-          eval(item.option)
-        } catch (e) {
-          console.error(e)
-        }
         if (item.baseType === 'chart') {
           event.dataList = Array.from(item.conditionList, condition => ({
             name: condition.name,
@@ -131,7 +125,7 @@ class EventSetModal extends React.Component {
             name: 'text',
             value: {
               type: 'value',
-              value: option.text
+              value: item.option.text
             }
           }]
         }
