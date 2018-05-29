@@ -55,7 +55,7 @@ class EventSetModal extends React.Component {
         name: eventTypes[this.state.type],
         targetId: '',
         action: '',
-        conditionList: [],
+        dataList: [],
       }
       newEventList.push({
         ...newEvent
@@ -103,15 +103,37 @@ class EventSetModal extends React.Component {
     })
   }
 
-  onTargetIdSelect = (value, option) => {
-    const item = option.props.item
+  onTargetIdSelect = (value, select) => {
+    const item = select.props['data-item']
     let newEventList = this.state.eventList.slice()
     newEventList.find(event => {
       if (event.id === this.state.id) {
         event.targetId = value
         event.targetType = item.type
+        event.dataList = []
+        let option = {}
+        try {
+          eval(item.option)
+        } catch (e) {
+          console.error(e)
+        }
         if (item.baseType === 'chart') {
-          event.conditionList = JSON.parse(JSON.stringify(item.conditionList))
+          event.dataList = Array.from(item.conditionList, condition => ({
+            name: condition.name,
+            value: {
+              type: 'value',
+              value: condition.value
+            }
+          }))
+        }
+        if (item.type === 'text') {
+          event.dataList = [{
+            name: 'text',
+            value: {
+              type: 'value',
+              value: option.text
+            }
+          }]
         }
         this.setState({eventList: newEventList})
         return true
@@ -130,13 +152,13 @@ class EventSetModal extends React.Component {
     })
   }
 
-  onConditionChange = name => value => {
+  onDataChange = name => value => {
     let newEventList = this.state.eventList.slice()
     newEventList.find(event => {
       if (event.id === this.state.id) {
-        event.conditionList.find(condition => {
-          if (condition.name === name) {
-            condition.value = value
+        event.dataList.find(data => {
+          if (data.name === name) {
+            data.value = value
             this.setState({eventList: newEventList})
             return true
           }
@@ -161,7 +183,7 @@ class EventSetModal extends React.Component {
 
     const {eventSetModalVisible, list} = this.props
     const {eventList, id, type, activeItem} = this.state
-    const {name, action, targetId, conditionList} = eventList.find(event => event.id === id) || {}
+    const {name, action, targetId, dataList} = eventList.find(event => event.id === id) || {}
 
     return (
       <Modal className={styles.body} title={'事件设置'} maskClosable={false}
@@ -207,7 +229,7 @@ class EventSetModal extends React.Component {
                         <Select value={targetId}
                                 onSelect={this.onTargetIdSelect}>
                           {
-                            list.map(item => <Option key={item.id} item={item}>
+                            list.map(item => <Option key={item.id} data-item={item}>
                               {item.name}
                             </Option>)
                           }
@@ -226,24 +248,21 @@ class EventSetModal extends React.Component {
                           }
                         </Select>
                       </Col>
-                      <Col span={24}>
-
-                      </Col>
                       {
-                        conditionList && conditionList.length > 0 && action === 'refresh' &&
+                        ['refresh', 'setData'].includes(action) && dataList.length > 0 &&
                         <Col span={24}>
                           <Row gutter={20}>
                             <Col span={24}>
                               <hr/>
                             </Col>
                             {
-                              conditionList.map(condition => [
+                              dataList.map(data => [
                                 (<Col span={5} className={styles.label}>
-                                  {condition.name}
+                                  {data.name}
                                 </Col>),
                                 (<Col span={6} className={styles.value}>
-                                  <ValueSelect value={condition.value}
-                                               onChange={this.onConditionChange(condition.name)}
+                                  <ValueSelect value={data.value}
+                                               onChange={this.onDataChange(data.name)}
                                                activeItem={activeItem}
                                                mode="combobox"/>
                                 </Col>)

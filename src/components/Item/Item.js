@@ -148,7 +148,22 @@ const Item = props => {
           if (targetItem) {
             switch (event.action) {
               case 'refresh':
-                targetItem.conditionList = getConditionList(event.conditionList, eventValue)
+                targetItem.conditionList = Array.from(event.dataList, data => ({
+                  name: data.name,
+                  value: getValue(data.value, eventValue)
+                }))
+                break
+              case 'setData':
+                event.dataList.map(data => {
+                  const value = JSON.stringify(getValue(data.value, eventValue))
+                  let reg = ''
+                  try {
+                    eval(`reg = /${data.name}: ".*?",/`)
+                  } catch (e) {
+                    console.error(e)
+                  }
+                  targetItem.option = targetItem.option.replace(reg, `${data.name}: ${value},`)
+                })
                 break
               case 'hide':
                 targetItem.style.visibility = 'hidden'
@@ -167,45 +182,37 @@ const Item = props => {
     }
   }
 
-  //根据事件设置获取值
-  const getConditionList = (eventConditionList, eventValue) => {
-    let newConditionList = []
-    eventConditionList.map(eventCondition => {
-      let condition = {
-        name: eventCondition.name,
-        value: ''
-      }
-      const value = eventCondition.value
-      switch (value.type) {
-        case 'value':
-          condition.value = value.value
-          break
-        case 'param':
-          let param = paramList.find(param => param.key === value.key)
-          if (param) {
-            param.value = TOOL.getParams(param.key) || param.value
-            condition.value = param.value
+  //获取事件完成后的值
+  const getValue = (dataValue, eventValue) => {
+    let value = ''
+    switch (dataValue.type) {
+      case 'value':
+        value = dataValue.value
+        break
+      case 'param':
+        let param = paramList.find(param => param.key === dataValue.key)
+        if (param) {
+          param.value = TOOL.getParams(param.key) || param.value
+          value = param.value
+        }
+        break
+      case 'event':
+        value = eventValue[dataValue.key]
+        break
+      case 'item':
+        let item = list.find(item => item.id === dataValue.id)
+        if (item) {
+          let option = {}
+          try {
+            eval(item.option)
+          } catch (e) {
+            console.error(e)
           }
-          break
-        case 'event':
-          condition.value = eventValue[value.key]
-          break
-        case 'item':
-          let item = list.find(item => item.id === value.id)
-          if (item) {
-            let option = {}
-            try {
-              eval(item.option)
-            } catch (e) {
-              console.error(e)
-            }
-            condition.value = option[value.key]
-          }
-          break
-      }
-      newConditionList.push(condition)
-    })
-    return newConditionList
+          value = option[dataValue.key]
+        }
+        break
+    }
+    return value
   }
 
   const onMouseDown = e => {
