@@ -39,9 +39,19 @@ function LeftAside({dispatch, dragItem}) {
 
   const onDragStart = (item) => (e) => {
     e.stopPropagation()
+    let option = {}
+    try {
+      eval(item.optionText)
+    } catch (e) {
+      console.error(e)
+    }
     dispatch({
       type: 'page/setDragItem',
-      payload: {...item, id: item.type + '-' + new Date().getTime(),}
+      payload: {
+        ...item,
+        id: item.type + '-' + new Date().getTime(),
+        option,
+      }
     })
   }
 

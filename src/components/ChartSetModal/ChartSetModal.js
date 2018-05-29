@@ -32,10 +32,17 @@ class ChartSetModal extends React.Component {
   }
 
   onOk = () => {
+    let option = {}
+    try {
+      eval(this.state.optionText)
+    } catch (e) {
+      console.error(e)
+    }
     this.props.dispatch({
       type: 'page/setItem',
       payload: {
-        ...this.state
+        ...this.state,
+        option
       }
     })
     this.onCancel()
@@ -46,7 +53,7 @@ class ChartSetModal extends React.Component {
       clearTimeout(this.timer)
     }
     this.timer = setTimeout(() => {
-      this.setState({option: value, refreshAt: new Date(),})
+      this.setState({optionText: value, refreshAt: new Date(),})
     }, 300)
   }
 
@@ -61,7 +68,7 @@ class ChartSetModal extends React.Component {
   render() {
 
     const {chartSetModalVisible, list, dispatch} = this.props
-    const {option} = this.state
+    const {optionText} = this.state
 
     return (
       <Modal className={styles.body} title={'图表设置'} maskClosable={false}
@@ -70,7 +77,7 @@ class ChartSetModal extends React.Component {
         <Row gutter={20}>
           <Col span={12}>
             <AceEditor width="100%" height="400px" mode="javascript" theme="tomorrow"
-                       onChange={this.onOptionChange} value={option}
+                       onChange={this.onOptionChange} value={optionText}
                        enableLiveAutocompletion={chartSetModalVisible}/>
           </Col>
           <Col span={12}>

@@ -131,10 +131,12 @@ const Item = props => {
 
   //控件值变化
   const onChange = newItem => {
-    dispatch({
-      type: 'page/setItem',
-      payload: {...newItem}
-    })
+    if (!isEdit) {
+      dispatch({
+        type: 'page/setItem',
+        payload: {...newItem}
+      })
+    }
   }
 
   //控件事件

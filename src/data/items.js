@@ -24,15 +24,16 @@ import styles from './items.less';
 
 // 基础组件属性
 const baseItem = {
-  parentId: 'base', // 组件父级 ID
-  baseType: 'base', // 组件基础类型
-  width: 300, // 组件宽度
-  height: 200, // 组件高度
-  style: {}, // 组件样式
-  css: ``, // 组件 css
-  js: ``, // 组件 js
-  eventList: [], // 组件事件列表
-  refreshAt: new Date(), // 组件上次刷新时间
+  parentId: 'base', // 父级 ID
+  baseType: 'base', // 基础类型
+  width: 300, // 宽度
+  height: 200, // 高度
+  style: {}, // 样式
+  option: {}, //数据
+  css: ``, // css
+  js: ``, // js
+  eventList: [], // 事件列表
+  refreshAt: new Date(), // 上次刷新时间
 }
 
 // 图表组件属性
@@ -47,9 +48,9 @@ const chartItem = {
   // valueList: [],
   sourceId: '2573632338734d5cb24489b06de09659',
   sql: 'SELECT SUBSTRING(addTime,1,10) as addTime, COUNT(cuId) as total from comment_user where nickname != "${nickname}" and country = "${country}" GROUP BY SUBSTRING(addTime,1,10) ORDER BY addTime asc',
-  conditionList: [{name: "nickname", value: "匿名用户"}, {name: "country", value: "中国"}],
-  dimensionList: [{displayName: "日期", name: "addTime"}],
-  valueList: [{displayName: "每天新增人数", name: "total"}],
+  conditionList: [{name: 'nickname', value: '匿名用户'}, {name: 'country', value: '中国'}],
+  dimensionList: [{displayName: '日期', name: 'addTime'}],
+  valueList: [{displayName: '每天新增人数', name: 'total'}],
 }
 
 // 组件在左侧展示样式
@@ -64,9 +65,9 @@ export default {
       ...baseItem,
       name: '文字', // 组件名称
       type: 'text', // 组件类型
-      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
-        text: "文字",
-      };`, // 组件数据
+      optionText: `option = {
+        text: '文字',
+      };`, // 数据文本
     },
     values: {
       text: '当前值',
@@ -80,8 +81,8 @@ export default {
       ...baseItem,
       name: '图片',
       type: 'image',
-      option: `option = {
-        image: "",
+      optionText: `option = {
+        image: '',
       };`,
     },
     icon: <Icon type="picture"/>,
@@ -93,8 +94,8 @@ export default {
       ...baseItem,
       name: '按钮',
       type: 'button',
-      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
-        text: "按钮",
+      optionText: `option = {
+        text: '按钮',
       };`,
     },
     icon: <Icon type="laptop"/>,
@@ -106,8 +107,8 @@ export default {
       ...baseItem,
       name: '文本',
       type: 'textArea',
-      option: `option = {
-        text: "文本",
+      optionText: `option = {
+        text: '文本',
       };`,
     },
     values: {
@@ -122,7 +123,7 @@ export default {
       ...baseItem,
       name: '容器',
       type: 'container',
-      option: ``,
+      optionText: ``,
     },
     icon: <Icon type="layout"/>,
     node: <Node type="layout" name="容器"/>,
@@ -133,9 +134,9 @@ export default {
       ...baseItem,
       name: '时间',
       type: 'time',
-      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
-        time: "${moment().format('YYYY-MM-DD HH:mm:ss')}",
-        format: "YYYY-MM-DD HH:mm:ss",
+      optionText: `option = {
+        time: '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+        format: 'YYYY-MM-DD HH:mm:ss',
       };`,
     },
     values: {
@@ -150,10 +151,10 @@ export default {
       ...baseItem,
       name: '时间范围',
       type: 'timeRange',
-      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
-        startTime: "${moment().format('YYYY-MM-DD HH:mm:ss')}",
-        endTime: "${moment().format('YYYY-MM-DD HH:mm:ss')}",
-        format: "YYYY-MM-DD HH:mm:ss",
+      optionText: `option = {
+        startTime: '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+        endTime: '${moment().format('YYYY-MM-DD HH:mm:ss')}',
+        format: 'YYYY-MM-DD HH:mm:ss',
       };`,
     },
     values: {
@@ -169,12 +170,12 @@ export default {
       ...baseItem,
       name: '下拉选框',
       type: 'select',
-      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
-        value: "",
-        text: "",
+      optionText: `option = {
+        value: '',
+        text: '',
         options: [{
-          value: "值",
-          text: "文字",
+          value: '值',
+          text: '文字',
         }],
       };`,
     },
@@ -191,8 +192,8 @@ export default {
       ...baseItem,
       name: '网页',
       type: 'iFrame',
-      option: `option = {//值末尾必须以双引号逗号（",）结尾以保证正确解析
-        url: "",
+      optionText: `option = {
+        url: '',
       };`,
     },
     icon: <Icon type="ie"/>,
@@ -204,25 +205,25 @@ export default {
       ...chartItem,
       name: '折线图',
       type: 'lineChart',
-      option: `option = {
-        backgroundColor: "rgba(0,0,0,0)",//背景色,透明rgba(0,0,0,0)
+      optionText: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
-          x: "left", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "18"}//字体颜色
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
         },
         grid: {
           borderWidth: 0//设置边框大小
         },
         tooltip: {
-          trigger: "axis"
+          trigger: 'axis'
         },
         legend: {
-          orient: "horizontal", // "vertical"标题横向或纵向排列
-          x: "right", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "14"},//字体颜色
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
           show: false,
@@ -239,18 +240,18 @@ export default {
             show: true,//显示或隐藏Y轴
             axisLine: {
               lineStyle: {
-                color: "#008ACD"//坐标线颜色
+                color: '#008ACD'//坐标线颜色
               }
             },
             axisLabel: {
               show: true,
               textStyle: {
-                color: "black",
-                fontSize: "14"
+                color: 'black',
+                fontSize: '14'
               }
             },//设置字体颜色和大小
             splitLine: {show: false},//隐藏或显示网格线
-            type: "value"
+            type: 'value'
           }
         ],
       };`
@@ -268,25 +269,25 @@ export default {
       ...chartItem,
       name: '区域图',
       type: 'lineAreaChart',
-      option: `option = {
-        backgroundColor: "rgba(0,0,0,0)",//背景色,透明rgba(0,0,0,0)
+      optionText: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
-          x: "left", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "18"}//字体颜色
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
         },
         grid: {
           borderWidth: 0//设置边框大小
         },
         tooltip: {
-          trigger: "axis"
+          trigger: 'axis'
         },
         legend: {
-          orient: "horizontal", // "vertical"标题横向或纵向排列
-          x: "right", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "14"},//字体颜色
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
           show: false,
@@ -303,18 +304,18 @@ export default {
             show: true,//显示或隐藏Y轴
             axisLine: {
               lineStyle: {
-                color: "#008ACD"//坐标线颜色
+                color: '#008ACD'//坐标线颜色
               }
             },
             axisLabel: {
               show: true,
               textStyle: {
-                color: "black",
-                fontSize: "14"
+                color: 'black',
+                fontSize: '14'
               }
             },//设置字体颜色和大小
             splitLine: {show: false},//隐藏或显示网格线
-            type: "value"
+            type: 'value'
           }
         ],
       };`
@@ -332,25 +333,25 @@ export default {
       ...chartItem,
       name: '柱状图',
       type: 'barChart',
-      option: `option = {
-        backgroundColor: "rgba(0,0,0,0)",//背景色,透明rgba(0,0,0,0)
+      optionText: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
-          x: "left", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "18"}//字体颜色
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
         },
         grid: {
           borderWidth: 0//设置边框大小
         },
         tooltip: {
-          trigger: "axis"
+          trigger: 'axis'
         },
         legend: {
-          orient: "horizontal", // "vertical"标题横向或纵向排列
-          x: "right", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "14"},//字体颜色
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
           show: false,
@@ -367,18 +368,18 @@ export default {
             show: true,//显示或隐藏Y轴
             axisLine: {
               lineStyle: {
-                color: "#008ACD"//坐标线颜色
+                color: '#008ACD'//坐标线颜色
               }
             },
             axisLabel: {
               show: true,
               textStyle: {
-                color: "black",
-                fontSize: "14"
+                color: 'black',
+                fontSize: '14'
               }
             },//设置字体颜色和大小
             splitLine: {show: false},//隐藏或显示网格线
-            type: "value"
+            type: 'value'
           }
         ],
       };`
@@ -396,25 +397,25 @@ export default {
       ...chartItem,
       name: '条形图',
       type: 'stripChart',
-      option: `option = {
-        backgroundColor: "rgba(0,0,0,0)",//背景色,透明rgba(0,0,0,0)
+      optionText: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
-          x: "left", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "18"}//字体颜色
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
         },
         grid: {
           borderWidth: 0//设置边框大小
         },
         tooltip: {
-          trigger: "axis"
+          trigger: 'axis'
         },
         legend: {
-          orient: "horizontal", // "vertical"标题横向或纵向排列
-          x: "right", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "14"},//字体颜色
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
           show: false,
@@ -431,18 +432,18 @@ export default {
             show: true,//显示或隐藏Y轴
             axisLine: {
               lineStyle: {
-                color: "#008ACD"//坐标线颜色
+                color: '#008ACD'//坐标线颜色
               }
             },
             axisLabel: {
               show: true,
               textStyle: {
-                color: "black",
-                fontSize: "14"
+                color: 'black',
+                fontSize: '14'
               }
             },//设置字体颜色和大小
             splitLine: {show: false},//隐藏或显示网格线
-            type: "value"
+            type: 'value'
           }
         ],
       };`
@@ -460,25 +461,25 @@ export default {
       ...chartItem,
       name: '散点图',
       type: 'scatterChart',
-      option: `option = {
-        backgroundColor: "rgba(0,0,0,0)",//背景色,透明rgba(0,0,0,0)
+      optionText: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
-          x: "left", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "18"}//字体颜色
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
         },
         grid: {
           borderWidth: 0//设置边框大小
         },
         tooltip: {
-          trigger: "axis"
+          trigger: 'axis'
         },
         legend: {
-          orient: "horizontal", // "vertical"标题横向或纵向排列
-          x: "right", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "14"},//字体颜色
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
           show: false,
@@ -495,18 +496,18 @@ export default {
             show: true,//显示或隐藏Y轴
             axisLine: {
               lineStyle: {
-                color: "#008ACD"//坐标线颜色
+                color: '#008ACD'//坐标线颜色
               }
             },
             axisLabel: {
               show: true,
               textStyle: {
-                color: "black",
-                fontSize: "14"
+                color: 'black',
+                fontSize: '14'
               }
             },//设置字体颜色和大小
             splitLine: {show: false},//隐藏或显示网格线
-            type: "value"
+            type: 'value'
           }
         ],
       };`
@@ -524,25 +525,25 @@ export default {
       ...chartItem,
       name: '堆叠折线图',
       type: 'stackedLineChart',
-      option: `option = {
-        backgroundColor: "rgba(0,0,0,0)",//背景色,透明rgba(0,0,0,0)
+      optionText: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
-          x: "left", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "18"}//字体颜色
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
         },
         grid: {
           borderWidth: 0//设置边框大小
         },
         tooltip: {
-          trigger: "axis"
+          trigger: 'axis'
         },
         legend: {
-          orient: "horizontal", // "vertical"标题横向或纵向排列
-          x: "right", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "14"},//字体颜色
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
           show: false,
@@ -559,18 +560,18 @@ export default {
             show: true,//显示或隐藏Y轴
             axisLine: {
               lineStyle: {
-                color: "#008ACD"//坐标线颜色
+                color: '#008ACD'//坐标线颜色
               }
             },
             axisLabel: {
               show: true,
               textStyle: {
-                color: "black",
-                fontSize: "14"
+                color: 'black',
+                fontSize: '14'
               }
             },//设置字体颜色和大小
             splitLine: {show: false},//隐藏或显示网格线
-            type: "value"
+            type: 'value'
           }
         ],
       };`
@@ -588,25 +589,25 @@ export default {
       ...chartItem,
       name: '堆叠区域图',
       type: 'stackedLineAreaChart',
-      option: `option = {
-        backgroundColor: "rgba(0,0,0,0)",//背景色,透明rgba(0,0,0,0)
+      optionText: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
-          x: "left", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "18"}//字体颜色
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
         },
         grid: {
           borderWidth: 0//设置边框大小
         },
         tooltip: {
-          trigger: "axis"
+          trigger: 'axis'
         },
         legend: {
-          orient: "horizontal", // "vertical"标题横向或纵向排列
-          x: "right", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "14"},//字体颜色
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
           show: false,
@@ -623,18 +624,18 @@ export default {
             show: true,//显示或隐藏Y轴
             axisLine: {
               lineStyle: {
-                color: "#008ACD"//坐标线颜色
+                color: '#008ACD'//坐标线颜色
               }
             },
             axisLabel: {
               show: true,
               textStyle: {
-                color: "black",
-                fontSize: "14"
+                color: 'black',
+                fontSize: '14'
               }
             },//设置字体颜色和大小
             splitLine: {show: false},//隐藏或显示网格线
-            type: "value"
+            type: 'value'
           }
         ],
       };`
@@ -653,25 +654,25 @@ export default {
       ...chartItem,
       name: '堆叠柱状图',
       type: 'stackedBarChart',
-      option: `option = {
-        backgroundColor: "rgba(0,0,0,0)",//背景色,透明rgba(0,0,0,0)
+      optionText: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
-          x: "left", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "18"}//字体颜色
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
         },
         grid: {
           borderWidth: 0//设置边框大小
         },
         tooltip: {
-          trigger: "axis"
+          trigger: 'axis'
         },
         legend: {
-          orient: "horizontal", // "vertical"标题横向或纵向排列
-          x: "right", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "14"},//字体颜色
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
           show: false,
@@ -688,18 +689,18 @@ export default {
             show: true,//显示或隐藏Y轴
             axisLine: {
               lineStyle: {
-                color: "#008ACD"//坐标线颜色
+                color: '#008ACD'//坐标线颜色
               }
             },
             axisLabel: {
               show: true,
               textStyle: {
-                color: "black",
-                fontSize: "14"
+                color: 'black',
+                fontSize: '14'
               }
             },//设置字体颜色和大小
             splitLine: {show: false},//隐藏或显示网格线
-            type: "value"
+            type: 'value'
           }
         ],
       };`
@@ -717,25 +718,25 @@ export default {
       ...chartItem,
       name: '堆叠条形图',
       type: 'stackedStripChart',
-      option: `option = {
-        backgroundColor: "rgba(0,0,0,0)",//背景色,透明rgba(0,0,0,0)
+      optionText: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
-          x: "left", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "18"}//字体颜色
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
         },
         grid: {
           borderWidth: 0//设置边框大小
         },
         tooltip: {
-          trigger: "axis"
+          trigger: 'axis'
         },
         legend: {
-          orient: "horizontal", // "vertical"标题横向或纵向排列
-          x: "right", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "14"},//字体颜色
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
           show: false,
@@ -752,18 +753,18 @@ export default {
             show: true,//显示或隐藏Y轴
             axisLine: {
               lineStyle: {
-                color: "#008ACD"//坐标线颜色
+                color: '#008ACD'//坐标线颜色
               }
             },
             axisLabel: {
               show: true,
               textStyle: {
-                color: "black",
-                fontSize: "14"
+                color: 'black',
+                fontSize: '14'
               }
             },//设置字体颜色和大小
             splitLine: {show: false},//隐藏或显示网格线
-            type: "value"
+            type: 'value'
           }
         ],
       };`
@@ -781,22 +782,22 @@ export default {
       ...chartItem,
       name: '环形图',
       type: 'doughnutChart',
-      option: `option = {
-        backgroundColor: "rgba(0,0,0,0)",//背景色,透明rgba(0,0,0,0)
+      optionText: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
-          x: "left", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "18"}//字体颜色
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
         },
         tooltip: {
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
         legend: {
-          orient: "horizontal", // "vertical"标题横向或纵向排列
-          x: "right", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "14"},//字体颜色
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
           show: false,
@@ -823,22 +824,22 @@ export default {
       ...chartItem,
       name: '嵌套环形图',
       type: 'nestedDoughnutChart',
-      option: `option = {
-        backgroundColor: "rgba(0,0,0,0)",//背景色,透明rgba(0,0,0,0)
+      optionText: `option = {
+        backgroundColor: 'rgba(0,0,0,0)',//背景色,透明rgba(0,0,0,0)
         title: {
           show: true,//显示隐藏
-          x: "left", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "18"}//字体颜色
+          x: 'left', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '18'}//字体颜色
         },
         tooltip: {
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
         legend: {
-          orient: "horizontal", // "vertical"标题横向或纵向排列
-          x: "right", // "center" | "left" | {number},标题左右位置
-          y: "top", // "center" | "bottom" | {number}标题上下位置
-          textStyle: {color: "black", fontSize: "14"},//字体颜色
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
           show: false,

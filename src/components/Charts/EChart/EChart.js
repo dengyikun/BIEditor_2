@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import ECharts from 'echarts'
 import 'echarts/map/js/china'
 import styles from './EChart.css';
-import * as itemService from '../../../services/item';
+import * as pageService from '../../../services/page';
 
 class EChart extends React.Component {
 
@@ -22,7 +22,7 @@ class EChart extends React.Component {
     const {chart} = this.state
     const {getOption} = this.props
     const {sourceId, sql, conditionList} = this.props.item
-    itemService.getChartData(sourceId, sql, conditionList)
+    pageService.getChartData(sourceId, sql, conditionList)
       .then(data => {
         chart.setOption(getOption(data))
         chart.resize()

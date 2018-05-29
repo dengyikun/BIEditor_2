@@ -1,4 +1,4 @@
-import itemService from '../services/item'
+import pageService from '../services/page'
 import {TOOL} from '../utils'
 
 export default {
@@ -91,7 +91,7 @@ export default {
   },
   effects: {
     * getPage({payload}, {call, put}) {
-      const {data} = yield call(itemService.getPage, payload);
+      const {data} = yield call(pageService.getPage, payload);
       yield put({
         type: 'set', payload: data.data
       })
@@ -106,7 +106,7 @@ export default {
         paramList,
         refreshInterval,
       } = yield select(state => state.page);
-      const {data} = yield call(itemService.patchPage, {pageId: TOOL.getParams('pageId'), data: {
+      const {data} = yield call(pageService.patchPage, {pageId: TOOL.getParams('pageId'), data: {
           list,
           pageWidth,
           pageHeight,
