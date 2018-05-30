@@ -47,9 +47,6 @@ class SQLTable extends React.Component {
   }
 
   onEvent = e => {
-    this.props.onEvent(e, {
-      text: this.state.text
-    })
   }
 
   render() {

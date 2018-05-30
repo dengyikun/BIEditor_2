@@ -73,9 +73,9 @@ export default {
         text: '文字',
       };`,
     },
-    values: {
+    eventValues: {
       text: '当前值',
-    },
+    }, // 发生事件时需要传出的值
     icon: <Icon type="file-text"/>, // 组件图标
     node: <Node type="file-text" name="文字"/>,
   },
@@ -115,7 +115,7 @@ export default {
         text: '文本',
       };`,
     },
-    values: {
+    eventValues: {
       text: '当前值',
     },
     icon: <Icon type="code-o"/>,
@@ -142,7 +142,7 @@ export default {
         format: 'YYYY-MM-DD HH:mm:ss',
       };`,
     },
-    values: {
+    eventValues: {
       time: '当前值',
     },
     icon: <Icon type="clock-circle-o"/>,
@@ -160,7 +160,7 @@ export default {
         format: 'YYYY-MM-DD HH:mm:ss',
       };`,
     },
-    values: {
+    eventValues: {
       startTime: '起始时间',
       endTime: '结束时间',
     },
@@ -182,7 +182,7 @@ export default {
         }],
       };`,
     },
-    values: {
+    eventValues: {
       value: '选中值',
       text: '选中文字',
     },
@@ -259,7 +259,7 @@ export default {
         ],
       };`
     },
-    values: {
+    eventValues: {
       dimension: '维度值',
       value: '指标值',
     },
@@ -323,7 +323,7 @@ export default {
         ],
       };`
     },
-    values: {
+    eventValues: {
       dimension: '维度值',
       value: '指标值',
     },
@@ -387,7 +387,7 @@ export default {
         ],
       };`
     },
-    values: {
+    eventValues: {
       dimension: '维度值',
       value: '指标值',
     },
@@ -451,7 +451,7 @@ export default {
         ],
       };`
     },
-    values: {
+    eventValues: {
       dimension: '维度值',
       value: '指标值',
     },
@@ -515,7 +515,7 @@ export default {
         ],
       };`
     },
-    values: {
+    eventValues: {
       dimension: '维度值',
       value: '指标值',
     },
@@ -579,7 +579,7 @@ export default {
         ],
       };`
     },
-    values: {
+    eventValues: {
       dimension: '维度值',
       value: '指标值',
     },
@@ -643,7 +643,7 @@ export default {
         ],
       };`
     },
-    values: {
+    eventValues: {
       dimension: '维度值',
       value: '指标值',
     },
@@ -708,7 +708,7 @@ export default {
         ],
       };`
     },
-    values: {
+    eventValues: {
       dimension: '维度值',
       value: '指标值',
     },
@@ -772,7 +772,7 @@ export default {
         ],
       };`
     },
-    values: {
+    eventValues: {
       dimension: '维度值',
       value: '指标值',
     },
@@ -814,7 +814,7 @@ export default {
         calculable: true,
       };`
     },
-    values: {
+    eventValues: {
       dimension: '维度值',
       value: '指标值',
     },
@@ -856,7 +856,7 @@ export default {
         calculable: true,
       };`
     },
-    values: {
+    eventValues: {
       dimension: '维度值',
       value: '指标值',
     },
@@ -870,7 +870,7 @@ export default {
       name: 'SQL 下拉',
       type: 'SQLSelect',
     },
-    values: {
+    eventValues: {
       value: '选中值',
       text: '选中文字',
     },
@@ -894,7 +894,7 @@ export default {
       name: 'SQL 文字',
       type: 'SQLText',
     },
-    values: {
+    eventValues: {
       text: '当前值',
     },
     icon: <Icon type="file-text"/>,

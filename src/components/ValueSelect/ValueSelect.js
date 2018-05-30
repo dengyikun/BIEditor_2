@@ -21,7 +21,7 @@ function ValueSelect(props) {
 
   let selectValue = ''
   let optGroups = []
-  let values = items[activeItem.type].values
+  let eventValues = items[activeItem.type].eventValues
 
   if (value.type === 'value') {
     selectValue = value.value
@@ -44,17 +44,17 @@ function ValueSelect(props) {
   </OptGroup>)
 
   //加入事件参数
-  if (values){
+  if (eventValues){
     optGroups.push(<OptGroup label="事件参数" key="event">
       {
-        Object.keys(values).map(key => {
+        Object.keys(eventValues).map(key => {
           const selectKey = TOOL.GUID()
           if (value.type === 'event' && value.key === key) {
-            selectValue = values[key]
+            selectValue = eventValues[key]
           }
           return <Option key={selectKey} value={selectKey}
                          data-type={'event'} data-key={key}>
-            {values[key]}
+            {eventValues[key]}
           </Option>
         })
       }
@@ -63,19 +63,19 @@ function ValueSelect(props) {
 
   //加入组件参数
   list.map(item => {
-    let values = items[item.type].values
-    if (values && item.id !== activeItem.id && !item.conditionList) {
+    let eventValues = items[item.type].eventValues
+    if (eventValues && item.id !== activeItem.id && !item.conditionList) {
       optGroups.push(<OptGroup label={item.name} key={item.id}>
         {
-          Object.keys(values).map(key => {
+          Object.keys(eventValues).map(key => {
             const selectKey = TOOL.GUID()
             if (value.type === 'item' && value.id === item.id && value.key === key) {
-              selectValue = item.name + ' - ' + values[key]
+              selectValue = item.name + ' - ' + eventValues[key]
             }
             return <Option key={selectKey} value={selectKey}
                            data-type={'item'} data-id={item.id}
                            data-key={key}>
-              {item.name + ' - ' + values[key]}
+              {item.name + ' - ' + eventValues[key]}
             </Option>
           })
         }
