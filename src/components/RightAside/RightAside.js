@@ -164,11 +164,6 @@ function RightAside({dispatch, list, activeItemId}) {
       </div>
       <div className={styles.set}>
         <Button className={styles.setButton} size={'small'}
-                onClick={onDataSetClick}>
-          数据设置
-          <DataSetModal/>
-        </Button>
-        <Button className={styles.setButton} size={'small'}
                 onClick={onChartSetClick}>
           图表设置
           <ChartSetModal/>
@@ -188,9 +183,14 @@ function RightAside({dispatch, list, activeItemId}) {
           js 设置
           <JsSetModal/>
         </Button>
-      </div>
-      <div className={styles.title}>
-        事件设置
+        {
+          activeItem.baseType === 'chart' &&
+          <Button className={styles.setButton} size={'small'}
+                  onClick={onDataSetClick}>
+            数据设置
+            <DataSetModal/>
+          </Button>
+        }
       </div>
       <div className={styles.title}>
         组件列表

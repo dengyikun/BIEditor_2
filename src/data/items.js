@@ -20,6 +20,9 @@ import StackedBarChart from '../components/Charts/StackedBarChart/StackedBarChar
 import StackedStripChart from '../components/Charts/StackedStripChart/StackedStripChart'
 import DoughnutChart from '../components/Charts/DoughnutChart/DoughnutChart'
 import NestedDoughnutChart from '../components/Charts/NestedDoughnutChart/NestedDoughnutChart'
+import SQLSelect from '../components/Charts/SQLSelect/SQLSelect'
+import SQLTable from '../components/Charts/SQLTable/SQLTable'
+import SQLText from '../components/Charts/SQLText/SQLText'
 import styles from './items.less';
 
 // 基础组件属性
@@ -30,6 +33,7 @@ const baseItem = {
   height: 200, // 高度
   style: {}, // 样式
   option: {}, //数据
+  optionText: ``, // 数据文本
   css: ``, // css
   js: ``, // js
   eventList: [], // 事件列表
@@ -40,7 +44,7 @@ const baseItem = {
 const chartItem = {
   ...baseItem,
   parentId: 'chart',
-  baseType: 'chart', // 组件基础类型
+  baseType: 'chart',
   // sourceId: '',
   // sql: '',
   // conditionList: [],
@@ -60,14 +64,14 @@ const Node = props => <div className={styles.widget}>
 
 export default {
   text: {
-    instance: Text, // 组件实例
+    instance: Text, // 实例
     item: { // 组件属性
       ...baseItem,
-      name: '文字', // 组件名称
-      type: 'text', // 组件类型
+      name: '文字', // 名称
+      type: 'text', // 类型
       optionText: `option = {
         text: '文字',
-      };`, // 数据文本
+      };`,
     },
     values: {
       text: '当前值',
@@ -123,7 +127,6 @@ export default {
       ...baseItem,
       name: '容器',
       type: 'container',
-      optionText: ``,
     },
     icon: <Icon type="layout"/>,
     node: <Node type="layout" name="容器"/>,
@@ -859,5 +862,42 @@ export default {
     },
     icon: <Icon type="pie-chart"/>,
     node: <Node type="pie-chart" name="嵌套环形"/>,
+  },
+  SQLSelect: {
+    instance: SQLSelect,
+    item: {
+      ...chartItem,
+      name: 'SQL 下拉',
+      type: 'SQLSelect',
+    },
+    values: {
+      value: '选中值',
+      text: '选中文字',
+    },
+    icon: <Icon type="select"/>,
+    node: <Node type="select" name="SQL 下拉"/>,
+  },
+  SQLTable: {
+    instance: SQLTable,
+    item: {
+      ...chartItem,
+      name: 'SQL 表格',
+      type: 'SQLTable',
+    },
+    icon: <Icon type="table"/>,
+    node: <Node type="table" name="SQL 表格"/>,
+  },
+  SQLText: {
+    instance: SQLText,
+    item: {
+      ...chartItem,
+      name: 'SQL 文字',
+      type: 'SQLText',
+    },
+    values: {
+      text: '当前值',
+    },
+    icon: <Icon type="file-text"/>,
+    node: <Node type="file-text" name="SQL 文字"/>,
   },
 }

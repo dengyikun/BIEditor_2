@@ -18,17 +18,18 @@ const CustomSelect = props => {
   const onSelect = (value, option) => {
     const {onChange} = props
     const item = TOOL.deepCopy(props.item)
-    item.option.value = value
+    item.option.selectValue = value
+    item.option.value = option.props['data-value']
     item.option.text = option.props.children
     onChange(item)
   }
 
   return <div className={styles.body} onClick={onEvent} onDoubleClick={onEvent}>
-    <Select className={styles.select} value={option.value} onSelect={onSelect}
+    <Select className={styles.select} value={option.selectValue} onSelect={onSelect}
             showSearch optionFilterProp="children">
       {
         option.options.map((option, index) =>
-        <Option key={index} value={option.value}>{option.text}</Option>)
+        <Option key={index} data-value={option.value}>{option.text}</Option>)
       }
     </Select>
   </div>
