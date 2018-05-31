@@ -21,6 +21,7 @@ import StackedStripChart from '../components/Charts/StackedStripChart/StackedStr
 import DoughnutChart from '../components/Charts/DoughnutChart/DoughnutChart'
 import NestedDoughnutChart from '../components/Charts/NestedDoughnutChart/NestedDoughnutChart'
 import MapChart from '../components/Charts/MapChart/MapChart'
+import WordCloudChart from '../components/Charts/WordCloudChart/WordCloudChart'
 import SQLSelect from '../components/Charts/SQLSelect/SQLSelect'
 import SQLTable from '../components/Charts/SQLTable/SQLTable'
 import SQLText from '../components/Charts/SQLText/SQLText'
@@ -885,7 +886,7 @@ export default {
           textStyle: {color: 'black', fontSize: '14'},//字体颜色
         },
         toolbox: {
-          show: true,
+          show: false,
           orient: 'vertical',
           left: 'right',
           top: 'center',
@@ -910,6 +911,28 @@ export default {
     },
     icon: <Icon type="environment"/>,
     node: <Node type="environment" name="地图"/>,
+  },
+  wordCloudChart: {
+    instance: WordCloudChart,
+    item: {
+      ...chartItem,
+      name: '词云',
+      type: 'wordCloudChart',
+      optionText: `option = {
+        title: {
+          text: '词云',
+        },
+        tooltip: {
+          show: true
+        },
+      };`
+    },
+    eventValues: {
+      dimension: '维度值',
+      value: '指标值',
+    },
+    icon: <Icon type="cloud"/>,
+    node: <Node type="cloud" name="词云"/>,
   },
   SQLSelect: {
     instance: SQLSelect,

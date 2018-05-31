@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import ECharts from 'echarts'
 import 'echarts/map/js/china'
+import 'echarts-wordcloud'
 import styles from './EChart.css';
 import * as pageService from '../../../services/page';
 
