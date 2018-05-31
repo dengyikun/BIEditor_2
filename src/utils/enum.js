@@ -1,7 +1,4 @@
 export default {
-  itemTypes: {
-    container: '容器控件'
-  },
   eventTypes: {
     click: '单击事件',
     dblclick: '双击事件'

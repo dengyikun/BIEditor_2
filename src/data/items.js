@@ -20,6 +20,7 @@ import StackedBarChart from '../components/Charts/StackedBarChart/StackedBarChar
 import StackedStripChart from '../components/Charts/StackedStripChart/StackedStripChart'
 import DoughnutChart from '../components/Charts/DoughnutChart/DoughnutChart'
 import NestedDoughnutChart from '../components/Charts/NestedDoughnutChart/NestedDoughnutChart'
+import MapChart from '../components/Charts/MapChart/MapChart'
 import SQLSelect from '../components/Charts/SQLSelect/SQLSelect'
 import SQLTable from '../components/Charts/SQLTable/SQLTable'
 import SQLText from '../components/Charts/SQLText/SQLText'
@@ -862,6 +863,53 @@ export default {
     },
     icon: <Icon type="pie-chart"/>,
     node: <Node type="pie-chart" name="嵌套环形"/>,
+  },
+  mapChart: {
+    instance: MapChart,
+    item: {
+      ...chartItem,
+      name: '地图',
+      type: 'mapChart',
+      optionText: `option = {
+        title: {
+          text: '地图',
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}<br/>{c}'//单位{b}<br/>{c}（个）
+        },
+        legend: {
+          orient: 'horizontal', // 'vertical'标题横向或纵向排列
+          x: 'right', // 'center' | 'left' | {number},标题左右位置
+          y: 'top', // 'center' | 'bottom' | {number}标题上下位置
+          textStyle: {color: 'black', fontSize: '14'},//字体颜色
+        },
+        toolbox: {
+          show: true,
+          orient: 'vertical',
+          left: 'right',
+          top: 'center',
+          feature: {
+            dataView: {readOnly: false},
+            restore: {},
+            saveAsImage: {}
+          }
+        },
+        visualMap: {
+          realtime: false,
+          calculable: true,
+          inRange: {
+            color: ['lightskyblue','yellow', 'orangered']
+          }
+        },
+      };`
+    },
+    eventValues: {
+      dimension: '维度值',
+      value: '指标值',
+    },
+    icon: <Icon type="environment"/>,
+    node: <Node type="environment" name="地图"/>,
   },
   SQLSelect: {
     instance: SQLSelect,

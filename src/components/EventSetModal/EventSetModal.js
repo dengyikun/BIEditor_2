@@ -177,7 +177,7 @@ class EventSetModal extends React.Component {
 
     const {eventSetModalVisible, list} = this.props
     const {eventList, id, type, activeItem} = this.state
-    const {name, action, targetId, dataList} = eventList.find(event => event.id === id) || {}
+    const {name, action, targetId, targetType, dataList} = eventList.find(event => event.id === id) || {}
 
     return (
       <Modal className={styles.body} title={'事件设置'} maskClosable={false}
@@ -243,7 +243,10 @@ class EventSetModal extends React.Component {
                         </Select>
                       </Col>
                       {
-                        ['refresh', 'setData'].includes(action) && dataList.length > 0 &&
+                        (
+                          action === 'refresh' ||
+                          (action === 'setData' && ['text'].includes(targetType))
+                        )  && dataList.length > 0 &&
                         <Col span={24}>
                           <Row gutter={20}>
                             <Col span={24}>

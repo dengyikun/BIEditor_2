@@ -22,10 +22,10 @@ class SQLText extends React.Component {
   }
 
   refresh = () => {
-    const {sourceId, sql, conditionList} = this.props.item
+    const {sourceId, sql, conditionList, valueList} = this.props.item
     pageService.getChartData(sourceId, sql, conditionList)
       .then(data => {
-        this.setState({text: JSON.stringify(data.data.data)})
+        this.setState({text: JSON.stringify(data.data.data[0][valueList[0].name])})
       })
       .catch(e => {
         console.log(e)
