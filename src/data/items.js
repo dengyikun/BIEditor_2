@@ -39,7 +39,7 @@ const baseItem = {
   css: ``, // css
   js: ``, // js
   eventList: [], // 事件列表
-  refreshAt: new Date(), // 上次刷新时间
+  refreshAt: new Date(), // 上次刷新时间（避免脏检查）
 }
 
 // 图表组件属性
@@ -79,7 +79,7 @@ export default {
       text: '当前值',
     }, // 发生事件时需要传出的值
     icon: <Icon type="file-text"/>, // 组件图标
-    node: <Node type="file-text" name="文字"/>,
+    node: <Node type="file-text" name="文字"/>,// 组件在左侧组建列表样式
   },
   image: {
     instance: Image,
