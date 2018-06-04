@@ -21,11 +21,7 @@ const WordCloudChart = ({item, onEvent}) => {
           fontFamily: 'sans-serif',
           fontWeight: 'bold',
           // Color can be a callback function or a color string
-          color: () => 'rgb(' + [
-            Math.round(Math.random() * 160),
-            Math.round(Math.random() * 160),
-            Math.round(Math.random() * 160)
-          ].join(',') + ')'
+          color: () => '#' + (~~(Math.random() * (1 << 24))).toString(16)
         },
         emphasis: {
           shadowBlur: 10,

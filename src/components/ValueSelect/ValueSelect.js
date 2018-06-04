@@ -44,7 +44,7 @@ function ValueSelect(props) {
   </OptGroup>)
 
   //加入事件参数
-  if (eventValues){
+  if (eventValues) {
     optGroups.push(<OptGroup label="事件参数" key="event">
       {
         Object.keys(eventValues).map(key => {
@@ -64,7 +64,8 @@ function ValueSelect(props) {
   //加入组件参数
   list.map(item => {
     let eventValues = items[item.type].eventValues
-    if (eventValues && item.id !== activeItem.id && !item.conditionList) {
+    if (eventValues && item.id !== activeItem.id &&
+      (item.baseType === 'base' || ['SQLSelect', 'SQLText'].includes(item.type))) {
       optGroups.push(<OptGroup label={item.name} key={item.id}>
         {
           Object.keys(eventValues).map(key => {
@@ -101,7 +102,8 @@ function ValueSelect(props) {
   return (
     <Select className={styles.body} allowClear defaultActiveFirstOption={false}
             optionFilterProp={'children'} {...props}
-            value={selectValue} onChange={() => {}}
+            value={selectValue} onChange={() => {
+    }}
             onSelect={onSelect} onSearch={onSearch}>
       {optGroups}
     </Select>

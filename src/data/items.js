@@ -940,6 +940,10 @@ export default {
       ...chartItem,
       name: 'SQL 下拉',
       type: 'SQLSelect',
+      optionText: `option = {
+        value: '',
+        text: '',
+      };`,
     },
     eventValues: {
       value: '选中值',
@@ -964,6 +968,9 @@ export default {
       ...chartItem,
       name: 'SQL 文字',
       type: 'SQLText',
+      optionText: `option = {
+        text: '文字',
+      };`,
     },
     eventValues: {
       text: '当前值',

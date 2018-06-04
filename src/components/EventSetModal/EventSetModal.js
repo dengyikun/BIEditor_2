@@ -109,6 +109,7 @@ class EventSetModal extends React.Component {
     newEventList.find(event => {
       if (event.id === this.state.id) {
         event.targetId = value
+        event.targetBaseType = item.baseType
         event.targetType = item.type
         event.dataList = []
         if (item.baseType === 'chart') {
@@ -177,7 +178,8 @@ class EventSetModal extends React.Component {
 
     const {eventSetModalVisible, list} = this.props
     const {eventList, id, type, activeItem} = this.state
-    const {name, action, targetId, targetType, dataList} = eventList.find(event => event.id === id) || {}
+    const {name, action, targetId, targetBaseType,
+      targetType, dataList} = eventList.find(event => event.id === id) || {}
 
     return (
       <Modal className={styles.body} title={'事件设置'} maskClosable={false}
@@ -244,7 +246,7 @@ class EventSetModal extends React.Component {
                       </Col>
                       {
                         (
-                          action === 'refresh' ||
+                          (action === 'refresh' && targetBaseType === 'chart') ||
                           (action === 'setData' && ['text'].includes(targetType))
                         )  && dataList.length > 0 &&
                         <Col span={24}>

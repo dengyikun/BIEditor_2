@@ -25,7 +25,7 @@ const CustomSelect = props => {
   }
 
   return <div className={styles.body} onClick={onEvent} onDoubleClick={onEvent}>
-    <Select className={styles.select} value={option.selectValue} onSelect={onSelect}
+    <Select className={styles.select} value={option.selectValue || '0'} onSelect={onSelect}
             showSearch optionFilterProp="children">
       {
         option.options.map((option, index) =>
